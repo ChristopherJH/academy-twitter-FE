@@ -25,6 +25,7 @@ function App(): JSX.Element {
   //const [studyList, setStudyList] = useState<CommentType[]>([])
 
   const [searchText, setSearchText] = useState("");
+  const [dropDownValue, setDropDownValue] = useState("");
 
   useEffect(() => {
     getAllData();
@@ -49,7 +50,13 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      <NavigationBar searchText={searchText} setSearchText={setSearchText} />
+      <NavigationBar
+        searchText={searchText}
+        setSearchText={setSearchText}
+        tags={tags}
+        dropDownValue={dropDownValue}
+        setDropDownValue={setDropDownValue}
+      />
       {recommendations.length > 0 && (
         <Recommendations
           recommendations={recommendations}
@@ -57,6 +64,7 @@ function App(): JSX.Element {
           stages={stages}
           users={users}
           searchText={searchText}
+          dropDownValue={dropDownValue}
         />
       )}
     </div>

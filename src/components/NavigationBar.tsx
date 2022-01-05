@@ -1,6 +1,11 @@
+import TagType from "../types/TagType";
+
 interface NavigationBarProps {
   searchText: string;
   setSearchText: (input: string) => void;
+  tags: TagType[];
+  dropDownValue: string;
+  setDropDownValue: (input: string) => void;
 }
 
 export default function NavigationBar(props: NavigationBarProps): JSX.Element {
@@ -10,6 +15,11 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
       <SearchBar
         searchText={props.searchText}
         setSearchText={props.setSearchText}
+      />
+      <TagsDropDown
+        tags={props.tags}
+        dropDownValue={props.dropDownValue}
+        setDropDownValue={props.setDropDownValue}
       />
     </div>
   );
@@ -31,6 +41,31 @@ function SearchBar(props: SearchBarProps): JSX.Element {
         value={props.searchText}
         onChange={(e) => props.setSearchText(e.target.value)}
       ></input>
+    </div>
+  );
+}
+
+interface TagsDropDownProps {
+  tags: TagType[];
+  dropDownValue: string;
+  setDropDownValue: (input: string) => void;
+}
+
+function TagsDropDown(props: TagsDropDownProps): JSX.Element {
+  const tagNamesArray = props.tags.map((tag) => tag.name);
+  const filteredTagNames = Array.from(new Set(tagNamesArray));
+  return (
+    <div className="tag-dropdown">
+      <label htmlFor="tags-picker">Filter by tag</label>
+      <select
+        value={props.dropDownValue}
+        onChange={(e) => props.setDropDownValue(e.target.value)}
+      >
+        <option value="">tag example</option>
+        {filteredTagNames.map((name, index) => (
+          <option key={index}>{name}</option>
+        ))}
+      </select>
     </div>
   );
 }
