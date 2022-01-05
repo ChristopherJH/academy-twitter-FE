@@ -17,12 +17,16 @@ export default function Recommendations(
 ): JSX.Element {
   return (
     <div>
-      <Recommendation
-        recommendation={props.recommendations[0]}
-        tags={props.tags}
-        stages={props.stages}
-        users={props.users}
-      />
+      {props.recommendations.map((recommendation) => (
+        <Recommendation
+          key={recommendation.recommendation_id}
+          recommendation={recommendation}
+          tags={props.tags}
+          stages={props.stages}
+          users={props.users}
+        />
+      ))}
+      ;
     </div>
   );
 }
