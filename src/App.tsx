@@ -7,6 +7,7 @@ import StageType from "./types/StageType";
 import { config } from "dotenv";
 import UserType from "./types/UserType";
 //import CommentType from "./types/CommentType";
+import "./App.css";
 
 config();
 
