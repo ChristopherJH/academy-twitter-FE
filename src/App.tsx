@@ -6,7 +6,7 @@ import TagType from "./types/TagType";
 import StageType from "./types/StageType";
 import { config } from "dotenv";
 import UserType from "./types/UserType";
-import CommentType from "./types/CommentType";
+//import CommentType from "./types/CommentType";
 
 config();
 
@@ -19,7 +19,7 @@ function App(): JSX.Element {
   const [tags, setTags] = useState<TagType[]>([]);
   const [users, setUsers] = useState<UserType[]>([]);
   const [stages, setStages] = useState<StageType[]>([]);
-  const [comments, setComments] = useState<CommentType[]>([]);
+  //const [comments, setComments] = useState<CommentType[]>([]);
   //const [studyList, setStudyList] = useState<CommentType[]>([])
 
   useEffect(() => {
@@ -34,12 +34,12 @@ function App(): JSX.Element {
       const tagsResponse = await axios.get(`${apiBaseURL}tags`);
       const userResponse = await axios.get(`${apiBaseURL}users`);
       const stageResponse = await axios.get(`${apiBaseURL}stages`);
-      const commentResponse = await axios.get(`${apiBaseURL}comments`);
+      //const commentResponse = await axios.get(`${apiBaseURL}comments`);
       setRecommendations(recommendationsResponse.data.data);
       setTags(tagsResponse.data.data);
       setUsers(userResponse.data.data);
       setStages(stageResponse.data.data);
-      setComments(commentResponse.data.data);
+      //setComments(commentResponse.data.data);
     }
   }
 
