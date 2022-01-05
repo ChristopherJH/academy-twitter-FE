@@ -10,14 +10,28 @@ interface recommendationListProps {
   users: UserType[];
   stages: StageType[];
   // comments: CommentType[]
+  searchText: string;
 }
 
 export default function Recommendations(
   props: recommendationListProps
 ): JSX.Element {
+  const filteredRecommendations: RecommendationType[] =
+    props.recommendations.filter(
+      (recommendation) =>
+        recommendation.title
+          .toLowerCase()
+          .includes(props.searchText.toLowerCase()) ||
+        recommendation.author
+          .toLowerCase()
+          .includes(props.searchText.toLowerCase()) ||
+        recommendation.description
+          .toLowerCase()
+          .includes(props.searchText.toLowerCase())
+    );
   return (
     <div>
-      {props.recommendations.map((recommendation) => (
+      {filteredRecommendations.map((recommendation) => (
         <Recommendation
           key={recommendation.recommendation_id}
           recommendation={recommendation}

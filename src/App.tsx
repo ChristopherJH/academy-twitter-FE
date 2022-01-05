@@ -8,6 +8,7 @@ import { config } from "dotenv";
 import UserType from "./types/UserType";
 //import CommentType from "./types/CommentType";
 import "./App.css";
+import NavigationBar from "./components/NavigationBar";
 
 config();
 
@@ -22,6 +23,8 @@ function App(): JSX.Element {
   const [stages, setStages] = useState<StageType[]>([]);
   //const [comments, setComments] = useState<CommentType[]>([]);
   //const [studyList, setStudyList] = useState<CommentType[]>([])
+
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     getAllData();
@@ -46,13 +49,14 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      <h1>Academy Twitter</h1>
+      <NavigationBar searchText={searchText} setSearchText={setSearchText} />
       {recommendations.length > 0 && (
         <Recommendations
           recommendations={recommendations}
           tags={tags}
           stages={stages}
           users={users}
+          searchText={searchText}
         />
       )}
     </div>
