@@ -7,8 +7,8 @@ import Recommendation from "./Recommendation";
 interface recommendationListProps {
   recommendations: RecommendationType[];
   tags: TagType[];
-  // user: UserType
-  // stages: StageType[]
+  users: UserType[];
+  stages: StageType[];
   // comments: CommentType[]
 }
 
@@ -20,6 +20,8 @@ export default function Recommendations(
       <Recommendation
         recommendation={props.recommendations[0]}
         tags={props.tags}
+        stages={props.stages}
+        users={props.users}
       />
     </div>
   );

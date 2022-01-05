@@ -47,7 +47,12 @@ function App(): JSX.Element {
     <div className="main">
       <h1>Academy Twitter</h1>
       {recommendations.length > 0 && (
-        <Recommendations recommendations={recommendations} tags={tags} />
+        <Recommendations
+          recommendations={recommendations}
+          tags={tags}
+          stages={stages}
+          users={users}
+        />
       )}
     </div>
   );
