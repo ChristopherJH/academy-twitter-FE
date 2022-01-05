@@ -56,12 +56,13 @@ function TagsDropDown(props: TagsDropDownProps): JSX.Element {
   const filteredTagNames = Array.from(new Set(tagNamesArray));
   return (
     <div className="tag-dropdown">
-      <label htmlFor="tags-picker">Filter by tag</label>
       <select
+        className="form-select form-select-lg mb-3"
+        aria-label="default"
         value={props.dropDownValue}
         onChange={(e) => props.setDropDownValue(e.target.value)}
       >
-        <option value="">tag example</option>
+        <option selected>Filter by tag</option>
         {filteredTagNames.map((name, index) => (
           <option key={index}>{name}</option>
         ))}
