@@ -68,9 +68,7 @@ export default function Recommendation(
         <p className="offset-1 col-2">{props.recommendation.time}</p>
       </div>
       <div className="row">
-        <a href="#" className="col-2">
-          See comments
-        </a>
+        <button className="col-2">See comments</button>
         <p className="offset-8 col-1">{props.recommendation.likes} likes</p>
         <p className="col-1">{props.recommendation.dislikes} dislikes</p>
       </div>
