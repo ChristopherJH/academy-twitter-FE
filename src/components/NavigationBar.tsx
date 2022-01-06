@@ -1,4 +1,7 @@
+import RecommendationType from "../types/RecommendationType";
+import StudyListType from "../types/StudyListType";
 import TagType from "../types/TagType";
+import studyListFilter from "../utils/filters/studyListFilter";
 
 interface NavigationBarProps {
   searchText: string;
@@ -6,12 +9,14 @@ interface NavigationBarProps {
   tags: TagType[];
   dropDownValue: string;
   setDropDownValue: (input: string) => void;
+  recommendations: RecommendationType[];
+  studyList: StudyListType[];
+  setRecommendations: (input: RecommendationType[]) => void;
 }
 
 export default function NavigationBar(props: NavigationBarProps): JSX.Element {
   return (
     <div className="navbar">
-      <h1>Academy Twitter</h1>
       <SearchBar
         searchText={props.searchText}
         setSearchText={props.setSearchText}
@@ -21,6 +26,19 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
         dropDownValue={props.dropDownValue}
         setDropDownValue={props.setDropDownValue}
       />
+
+      <button
+        onClick={() =>
+          props.setRecommendations(
+            studyListFilter(props.studyList, props.recommendations)
+          )
+        }
+      >
+        View study List
+      </button>
+      <button onClick={() => props.setRecommendations(props.recommendations)}>
+        View all
+      </button>
     </div>
   );
 }
@@ -34,7 +52,7 @@ function SearchBar(props: SearchBarProps): JSX.Element {
   return (
     <div className="searchbar">
       <input
-        className="search"
+        className="search form-control"
         type="text"
         placeholder="Search recommendations"
         name="search"
@@ -57,7 +75,7 @@ function TagsDropDown(props: TagsDropDownProps): JSX.Element {
   return (
     <div className="tag-dropdown">
       <select
-        className="form-select form-select-lg mb-3"
+        className="form-select form-control"
         aria-label="default"
         value={props.dropDownValue}
         onChange={(e) => props.setDropDownValue(e.target.value)}

@@ -1,14 +1,58 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserType from "../types/UserType";
+import axios from "axios";
+import StudyListType from "../types/StudyListType";
+import { config } from "dotenv";
+
+config();
 
 interface SignInProps {
   users: UserType[];
   signedInUser: UserType;
   setSignedInUser: (input: UserType) => void;
+  studyList: StudyListType[];
+  setStudyList: (input: StudyListType[]) => void;
 }
 
+const apiBaseURL = process.env.REACT_APP_API_BASE;
+
 export default function SignIn(props: SignInProps): JSX.Element {
-  const [selectedUser, setSelectedUser] = useState<string>("");
+  const [selectedUser, setSelectedUser] = useState<string>("guest");
+
+  useEffect(() => {
+    async function getStudyList() {
+      if (typeof apiBaseURL === "string") {
+        const studyListResponse = await axios.get(
+          `${apiBaseURL}study_list/${props.signedInUser.user_id}`
+          // `http://localhost:4000/study_list/4`
+        );
+        // console.log(studyListResponse)
+        // console.log(`${apiBaseURL}study_list/${props.signedInUser.user_id}`)
+        console.log("Signed in user:", props.signedInUser);
+        props.setStudyList(studyListResponse.data.data);
+      }
+    }
+    getStudyList();
+    // eslint-disable-next-line
+  }, [props.signedInUser]);
+
+  const handleLogin = () => {
+    const user = props.users.filter((user) => user.name === selectedUser)[0];
+    //console.log('User: ', user)
+    props.setSignedInUser(user);
+    //console.log(props.signedInUser.user_id, selectedUser, props.signedInUser)
+    // console.log(props.users.filter((user) => user.name === selectedUser)[0])
+  };
+
+  const handleLogout = () => {
+    props.setSignedInUser({
+      name: "guest",
+      user_id: 0,
+      is_faculty: false,
+    });
+    setSelectedUser("guest");
+  };
+
   return (
     <div>
       {props.signedInUser.user_id === 0 && (
@@ -43,7 +87,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                       value={selectedUser}
                       onChange={(e) => setSelectedUser(e.target.value)}
                     >
-                      <option selected>Filter by tag</option>
+                      <option selected>guest</option>
                       {props.users.map((user) => (
                         <option key={user.user_id}>{user.name}</option>
                       ))}
@@ -56,11 +100,9 @@ export default function SignIn(props: SignInProps): JSX.Element {
                     className="btn btn-primary"
                     data-dismiss="modal"
                     onClick={() =>
-                      props.setSignedInUser(
-                        props.users.filter(
-                          (user) => user.name === selectedUser
-                        )[0]
-                      )
+                      selectedUser === "guest"
+                        ? console.log("guest cant log in")
+                        : handleLogin()
                     }
                   >
                     Sign In
@@ -72,17 +114,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
         </div>
       )}
       {props.signedInUser.user_id !== 0 && (
-        <button
-          onClick={() =>
-            props.setSignedInUser({
-              name: "guest",
-              user_id: 0,
-              is_faculty: false,
-            })
-          }
-        >
-          Sign Out
-        </button>
+        <button onClick={() => handleLogout()}>Sign Out</button>
       )}
     </div>
   );

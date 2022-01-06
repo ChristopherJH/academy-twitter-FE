@@ -10,6 +10,8 @@ import UserType from "./types/UserType";
 import "./App.css";
 import NavigationBar from "./components/NavigationBar";
 import SignIn from "./components/SignIn";
+import StudyListType from "./types/StudyListType";
+import CreateRecommendation from "./components/CreateRecommendation";
 
 config();
 
@@ -23,8 +25,7 @@ function App(): JSX.Element {
   const [users, setUsers] = useState<UserType[]>([]);
   const [stages, setStages] = useState<StageType[]>([]);
   //const [comments, setComments] = useState<CommentType[]>([]);
-  //const [studyList, setStudyList] = useState<CommentType[]>([])
-
+  const [studyList, setStudyList] = useState<StudyListType[]>([]);
   const [searchText, setSearchText] = useState("");
   const [dropDownValue, setDropDownValue] = useState("");
   const [signedInUser, setSignedInUser] = useState<UserType>({
@@ -56,19 +57,34 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      {typeof signedInUser !== "string" && (
-        <SignIn
-          users={users}
-          setSignedInUser={setSignedInUser}
-          signedInUser={signedInUser}
-        />
-      )}
+      <div className="header row mx-2 mt-2">
+        <h1 className="col-5">Academy Twitter</h1>
+        <div className="offset-5 col-1">
+          <CreateRecommendation
+            signedInUser={signedInUser}
+            tags={tags}
+            stages={stages}
+          />
+        </div>
+        <div className="col-1">
+          <SignIn
+            users={users}
+            setSignedInUser={setSignedInUser}
+            signedInUser={signedInUser}
+            studyList={studyList}
+            setStudyList={setStudyList}
+          />
+        </div>
+      </div>
       <NavigationBar
         searchText={searchText}
         setSearchText={setSearchText}
         tags={tags}
         dropDownValue={dropDownValue}
         setDropDownValue={setDropDownValue}
+        recommendations={recommendations}
+        setRecommendations={setRecommendations}
+        studyList={studyList}
       />
       {recommendations.length > 0 && (
         <Recommendations
@@ -79,7 +95,8 @@ function App(): JSX.Element {
           searchText={searchText}
           dropDownValue={dropDownValue}
         />
-      )}
+      )}{" "}
+      :
     </div>
   );
 }
