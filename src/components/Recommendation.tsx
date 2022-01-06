@@ -3,6 +3,7 @@ import RecommendationType from "../types/RecommendationType";
 import StageType from "../types/StageType";
 import TagType from "../types/TagType";
 import UserType from "../types/UserType";
+import dateFormatter from "../utils/dateFormatter";
 
 interface recommendationProps {
   recommendation: RecommendationType;
@@ -65,11 +66,13 @@ export default function Recommendation(
             </button>
           ))}
         </div>
-        <p className="offset-1 col-2">{props.recommendation.time}</p>
+        <p className="offset-1 col-2">
+          {dateFormatter(props.recommendation.time)}
+        </p>
       </div>
       <div className="row">
-        <button className="col-2">See comments</button>
-        <p className="offset-8 col-1">{props.recommendation.likes} likes</p>
+        <button className="offset-1 col-2">See comments</button>
+        <p className="offset-7 col-1">{props.recommendation.likes} likes</p>
         <p className="col-1">{props.recommendation.dislikes} dislikes</p>
       </div>
     </div>
