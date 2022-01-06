@@ -1,4 +1,4 @@
-const listOfContentTypes = [
+const listOfContentTypes: string[] = [
   "video",
   "article",
   "ebook",
