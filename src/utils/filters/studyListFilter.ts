@@ -1,4 +1,4 @@
-import StudyListType from "../../types/StudyListType"
+import StudyListType from "../../types/StudyListType";
 import RecommendationType from "../../types/RecommendationType";
 
 export default function studyListFilter(
@@ -8,7 +8,8 @@ export default function studyListFilter(
   return filteredRecommendations.filter(
     (recommendation) =>
       studyList.find(
-        (studyListItem) => studyListItem.recommendation_id === recommendation.recommendation_id
+        (studyListItem) =>
+          studyListItem.recommendation_id === recommendation.recommendation_id
       ) !== undefined
   );
 }

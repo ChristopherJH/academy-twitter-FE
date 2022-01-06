@@ -25,7 +25,7 @@ function App(): JSX.Element {
   const [users, setUsers] = useState<UserType[]>([]);
   const [stages, setStages] = useState<StageType[]>([]);
   //const [comments, setComments] = useState<CommentType[]>([]);
-  const [studyList, setStudyList] = useState<StudyListType[]>([])
+  const [studyList, setStudyList] = useState<StudyListType[]>([]);
   const [searchText, setSearchText] = useState("");
   const [dropDownValue, setDropDownValue] = useState("");
   const [signedInUser, setSignedInUser] = useState<UserType>({
@@ -60,7 +60,11 @@ function App(): JSX.Element {
       <div className="header row mx-2 mt-2">
         <h1 className="col-5">Academy Twitter</h1>
         <div className="offset-5 col-1">
-          <CreateRecommendation signedInUser={signedInUser} tags={tags} stages={stages} />
+          <CreateRecommendation
+            signedInUser={signedInUser}
+            tags={tags}
+            stages={stages}
+          />
         </div>
         <div className="col-1">
           <SignIn
@@ -72,7 +76,6 @@ function App(): JSX.Element {
           />
         </div>
       </div>
-
       <NavigationBar
         searchText={searchText}
         setSearchText={setSearchText}
@@ -92,7 +95,8 @@ function App(): JSX.Element {
           searchText={searchText}
           dropDownValue={dropDownValue}
         />
-      )} :
+      )}{" "}
+      :
     </div>
   );
 }

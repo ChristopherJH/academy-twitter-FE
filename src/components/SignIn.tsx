@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import UserType from "../types/UserType";
-import axios from "axios"
+import axios from "axios";
 import StudyListType from "../types/StudyListType";
 import { config } from "dotenv";
 
-config()
+config();
 
 interface SignInProps {
   users: UserType[];
@@ -28,34 +28,30 @@ export default function SignIn(props: SignInProps): JSX.Element {
         );
         // console.log(studyListResponse)
         // console.log(`${apiBaseURL}study_list/${props.signedInUser.user_id}`)
-        console.log("Signed in user:", props.signedInUser)
+        console.log("Signed in user:", props.signedInUser);
         props.setStudyList(studyListResponse.data.data);
       }
     }
-    getStudyList()
+    getStudyList();
     // eslint-disable-next-line
-  }, [props.signedInUser])
-
-
+  }, [props.signedInUser]);
 
   const handleLogin = () => {
-    const user = props.users.filter(
-      (user) => user.name === selectedUser
-    )[0]
+    const user = props.users.filter((user) => user.name === selectedUser)[0];
     //console.log('User: ', user)
-    props.setSignedInUser(user)
+    props.setSignedInUser(user);
     //console.log(props.signedInUser.user_id, selectedUser, props.signedInUser)
     // console.log(props.users.filter((user) => user.name === selectedUser)[0])
-  }
+  };
 
   const handleLogout = () => {
     props.setSignedInUser({
       name: "guest",
       user_id: 0,
       is_faculty: false,
-    })
-    setSelectedUser("guest")
-  }
+    });
+    setSelectedUser("guest");
+  };
 
   return (
     <div>
@@ -103,9 +99,10 @@ export default function SignIn(props: SignInProps): JSX.Element {
                     type="button"
                     className="btn btn-primary"
                     data-dismiss="modal"
-
-                    onClick={() => selectedUser === "guest" ? console.log('guest cant log in') :
-                      handleLogin()
+                    onClick={() =>
+                      selectedUser === "guest"
+                        ? console.log("guest cant log in")
+                        : handleLogin()
                     }
                   >
                     Sign In
@@ -117,13 +114,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
         </div>
       )}
       {props.signedInUser.user_id !== 0 && (
-        <button
-          onClick={() =>
-            handleLogout()
-          }
-        >
-          Sign Out
-        </button>
+        <button onClick={() => handleLogout()}>Sign Out</button>
       )}
     </div>
   );

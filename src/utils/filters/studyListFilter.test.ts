@@ -3,16 +3,15 @@ import studyListFilter from "./studyListFilter";
 test("Returns unchanged array if search is empty or array of elements which include the search term", () => {
   expect(
     studyListFilter(
-
       [
         {
-          "user_id": 4,
-          "recommendation_id": 7
+          user_id: 4,
+          recommendation_id: 7,
         },
         {
-          "user_id": 4,
-          "recommendation_id": 1
-        }
+          user_id: 4,
+          recommendation_id: 1,
+        },
       ],
       [
         {
@@ -92,7 +91,7 @@ test("Returns unchanged array if search is empty or array of elements which incl
       likes: 2,
       dislikes: 3,
       user_id: 4,
-      stage_id: 6
-    }
+      stage_id: 6,
+    },
   ]);
 });

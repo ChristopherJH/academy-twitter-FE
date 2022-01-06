@@ -3,7 +3,6 @@ import StudyListType from "../types/StudyListType";
 import TagType from "../types/TagType";
 import studyListFilter from "../utils/filters/studyListFilter";
 
-
 interface NavigationBarProps {
   searchText: string;
   setSearchText: (input: string) => void;
@@ -28,8 +27,18 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
         setDropDownValue={props.setDropDownValue}
       />
 
-      <button onClick={() => props.setRecommendations(studyListFilter(props.studyList, props.recommendations))}>View study List</button>
-      <button onClick={() => props.setRecommendations(props.recommendations)}>View all</button>
+      <button
+        onClick={() =>
+          props.setRecommendations(
+            studyListFilter(props.studyList, props.recommendations)
+          )
+        }
+      >
+        View study List
+      </button>
+      <button onClick={() => props.setRecommendations(props.recommendations)}>
+        View all
+      </button>
     </div>
   );
 }
