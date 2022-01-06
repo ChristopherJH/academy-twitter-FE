@@ -26,32 +26,8 @@ export default function Recommendations(
       props.recommendations,
       props.searchText
     );
-    // filteredRecommendations = props.recommendations.filter(
-    //   (recommendation) =>
-    //     recommendation.title
-    //       .toLowerCase()
-    //       .includes(props.searchText.toLowerCase()) ||
-    //     recommendation.author
-    //       .toLowerCase()
-    //       .includes(props.searchText.toLowerCase()) ||
-    //     recommendation.description
-    //       .toLowerCase()
-    //       .includes(props.searchText.toLowerCase())
-    // );
   }
   if (props.dropDownValue) {
-    // filter tags based on drop down value
-    // const filteredTags = props.tags.filter(
-    //   (tag) => tag.name === props.dropDownValue
-    // );
-    // // filter recommendations based on tags with the drop down value
-    // filteredRecommendations = filteredRecommendations.filter(
-    //   (recommendation) =>
-    //     // returns true if a recommendation exists with that tag
-    //     filteredTags.find(
-    //       (tag) => tag.recommendation_id === recommendation.recommendation_id
-    //     ) !== undefined
-    // );
     filteredRecommendations = tagsFilter(
       props.tags,
       props.dropDownValue,

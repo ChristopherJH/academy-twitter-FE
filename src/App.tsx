@@ -9,6 +9,7 @@ import UserType from "./types/UserType";
 //import CommentType from "./types/CommentType";
 import "./App.css";
 import NavigationBar from "./components/NavigationBar";
+import SignIn from "./components/SignIn";
 
 config();
 
@@ -26,6 +27,11 @@ function App(): JSX.Element {
 
   const [searchText, setSearchText] = useState("");
   const [dropDownValue, setDropDownValue] = useState("");
+  const [signedInUser, setSignedInUser] = useState<UserType>({
+    name: "guest",
+    user_id: 0,
+    is_faculty: false,
+  });
 
   useEffect(() => {
     getAllData();
@@ -50,6 +56,13 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
+      {typeof signedInUser !== "string" && (
+        <SignIn
+          users={users}
+          setSignedInUser={setSignedInUser}
+          signedInUser={signedInUser}
+        />
+      )}
       <NavigationBar
         searchText={searchText}
         setSearchText={setSearchText}
