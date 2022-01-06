@@ -1,6 +1,40 @@
 .recommendation {
-  background-color: gainsboro;
-  border: solid;
-  margin: 10px 10px 10px 10px;
-  padding: 5px 5px 5px 5px;
+  border: solid #ff7043 2px;
+  box-shadow: 5px 5px 10px #888888;
+  border-radius: 10px;
+  margin: 10px 5vw;
+  padding: 15px;
+}
+
+.recommended {
+  background-color: #ffca28;
+  border-radius: 5px;
+  text-align: center;
+  padding: 4px;
+}
+
+.recommended h4 {
+  margin: 0 auto;
+}
+
+body {
+  margin: 0;
+}
+
+.header {
+  background-color: #ff7043;
+  padding: 10px;
+  margin: 0px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-space {
+  display: flex;
+  text-align: right;
+}
+
+.user-space h5 {
+  margin: auto 10px;
 }

@@ -59,7 +59,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
         <div>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-outline-light"
             data-toggle="modal"
             data-target="#signInModal"
           >
@@ -114,7 +114,12 @@ export default function SignIn(props: SignInProps): JSX.Element {
         </div>
       )}
       {props.signedInUser.user_id !== 0 && (
-        <button onClick={() => handleLogout()}>Sign Out</button>
+        <button
+          className="btn btn-outline-light"
+          onClick={() => handleLogout()}
+        >
+          Sign Out
+        </button>
       )}
     </div>
   );
