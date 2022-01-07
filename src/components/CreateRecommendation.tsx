@@ -18,7 +18,7 @@ export default function CreateRecommendation(
         <>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-outline-light"
             data-toggle="modal"
             data-target="#exampleModal"
           >

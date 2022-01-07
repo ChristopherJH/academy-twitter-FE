@@ -16,29 +16,39 @@ interface NavigationBarProps {
 
 export default function NavigationBar(props: NavigationBarProps): JSX.Element {
   return (
-    <div className="navbar">
-      <SearchBar
-        searchText={props.searchText}
-        setSearchText={props.setSearchText}
-      />
-      <TagsDropDown
-        tags={props.tags}
-        dropDownValue={props.dropDownValue}
-        setDropDownValue={props.setDropDownValue}
-      />
+    <div className="navbar row">
+      <div className="col-3">
+        <SearchBar
+          searchText={props.searchText}
+          setSearchText={props.setSearchText}
+        />
+      </div>
+      <div className="col-2">
+        <TagsDropDown
+          tags={props.tags}
+          dropDownValue={props.dropDownValue}
+          setDropDownValue={props.setDropDownValue}
+        />
+      </div>
+      <div className="offset-4 col-3 text-right">
+        <button
+          className="btn btn-outline-dark mr-2"
+          onClick={() =>
+            props.setRecommendations(
+              studyListFilter(props.studyList, props.recommendations)
+            )
+          }
+        >
+          View study List
+        </button>
 
-      <button
-        onClick={() =>
-          props.setRecommendations(
-            studyListFilter(props.studyList, props.recommendations)
-          )
-        }
-      >
-        View study List
-      </button>
-      <button onClick={() => props.setRecommendations(props.recommendations)}>
-        View all
-      </button>
+        <button
+          className="btn btn-outline-dark"
+          onClick={() => props.setRecommendations(props.recommendations)}
+        >
+          View all
+        </button>
+      </div>
     </div>
   );
 }

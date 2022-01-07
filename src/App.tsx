@@ -57,16 +57,17 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      <div className="header row mx-2 mt-2">
-        <h1 className="col-5">Academy Twitter</h1>
-        <div className="offset-5 col-1">
+      <div className="header">
+        <h1>Academy Twitter</h1>
+        <div className="user-space">
           <CreateRecommendation
             signedInUser={signedInUser}
             tags={tags}
             stages={stages}
           />
-        </div>
-        <div className="col-1">
+
+          {signedInUser.user_id !== 0 && <h5>👤{signedInUser.name}</h5>}
+
           <SignIn
             users={users}
             setSignedInUser={setSignedInUser}

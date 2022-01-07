@@ -35,7 +35,9 @@ export default function Recommendation(
             {props.recommendation.title && props.recommendation.title}
           </a>
         </h2>
-        <h3 className="offset-4 col-2">{props.recommendation.recommended}</h3>
+        <h4 className="recommended offset-3 col-2">
+          {props.recommendation.recommended}
+        </h4>
       </div>
       <div className="row">
         <h3 className="col-3">
@@ -72,8 +74,8 @@ export default function Recommendation(
       </div>
       <div className="row">
         <button className="offset-1 col-2">See comments</button>
-        <p className="offset-7 col-1">{props.recommendation.likes} likes</p>
-        <p className="col-1">{props.recommendation.dislikes} dislikes</p>
+        <h5 className="offset-7 col-1">{props.recommendation.likes} 👍</h5>
+        <h5 className="col-1">{props.recommendation.dislikes} 👎</h5>
       </div>
     </div>
   );
