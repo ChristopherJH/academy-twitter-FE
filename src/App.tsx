@@ -60,7 +60,7 @@ function App(): JSX.Element {
   return (
     <div className="main">
       <div className="header">
-        <h1>Academy Twitter</h1>
+        <h1>✨ Resorcery ✨</h1>
         <div className="user-space">
           <CreateRecommendation
             signedInUser={signedInUser}
@@ -101,6 +101,8 @@ function App(): JSX.Element {
           users={users}
           searchText={searchText}
           dropDownValue={dropDownValue}
+          signedInUser={signedInUser}
+          setRecommendations={setRecommendations}
         />
       )}
       {studyListClicked && userStudyList.length === 0 && (

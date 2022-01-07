@@ -14,6 +14,8 @@ interface recommendationListProps {
   // comments: CommentType[]
   searchText: string;
   dropDownValue: string;
+  signedInUser: UserType;
+  setRecommendations: (input: RecommendationType[]) => void;
 }
 
 export default function Recommendations(
@@ -44,6 +46,8 @@ export default function Recommendations(
           tags={props.tags}
           stages={props.stages}
           users={props.users}
+          signedInUser={props.signedInUser}
+          setRecommendations={props.setRecommendations}
         />
       ))}
     </div>

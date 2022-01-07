@@ -4,6 +4,12 @@ import StageType from "../types/StageType";
 import TagType from "../types/TagType";
 import UserType from "../types/UserType";
 import dateFormatter from "../utils/dateFormatter";
+import { config } from "dotenv";
+import axios from "axios";
+
+config();
+
+const apiBaseURL = process.env.REACT_APP_API_BASE;
 
 interface recommendationProps {
   recommendation: RecommendationType;
@@ -11,6 +17,8 @@ interface recommendationProps {
   users: UserType[];
   stages: StageType[];
   // comments: CommentType[]
+  signedInUser: UserType;
+  setRecommendations: (input: RecommendationType[]) => void;
 }
 
 export default function Recommendation(
@@ -44,7 +52,7 @@ export default function Recommendation(
           {props.recommendation.author && props.recommendation.author}
         </h3>
         <h3 className="col-3">{props.recommendation.content}</h3>
-        <h4 className="offset-4 col-2">{recommenderName}</h4>
+        <h4 className="offset-4 col-2">Uploaded by: {recommenderName}</h4>
       </div>
       <div className="row">
         <p className="col-12">{props.recommendation.description}</p>
@@ -73,10 +81,68 @@ export default function Recommendation(
         </p>
       </div>
       <div className="row">
-        <button className="offset-1 col-2">See comments</button>
-        <h5 className="offset-7 col-1">{props.recommendation.likes} 👍</h5>
-        <h5 className="col-1">{props.recommendation.dislikes} 👎</h5>
+        <button className="col-2">See comments</button>
+        <h5 className="offset-6 col-1 text-right">
+          {props.recommendation.likes}
+        </h5>
+        {props.signedInUser.user_id === 0 ? (
+          <h4 className="col-1 text-left">👍</h4>
+        ) : (
+          <h4
+            className="col-1 text-left like"
+            onClick={() =>
+              handleLikeDislike(
+                true,
+                props.recommendation.recommendation_id,
+                props.setRecommendations
+              )
+            }
+          >
+            👍
+          </h4>
+        )}
+
+        <h5 className="col-1 text-right">{props.recommendation.dislikes}</h5>
+        {props.signedInUser.user_id === 0 ? (
+          <h4 className="col-1 text-left">👎</h4>
+        ) : (
+          <h4
+            className="col-1 text-left dislike"
+            onClick={() =>
+              handleLikeDislike(
+                false,
+                props.recommendation.recommendation_id,
+                props.setRecommendations
+              )
+            }
+          >
+            👎
+          </h4>
+        )}
       </div>
     </div>
   );
+}
+
+async function handleLikeDislike(
+  like: boolean,
+  id: number,
+  setRecommendations: (input: RecommendationType[]) => void
+) {
+  let endpointString = "";
+  if (like) {
+    endpointString = "like";
+  } else {
+    endpointString = "dislike";
+  }
+  try {
+    const response = await axios.put(`${apiBaseURL}${endpointString}/${id}`);
+    console.log(response);
+    const recommendationsResponse = await axios.get(
+      `${apiBaseURL}recommendations`
+    );
+    setRecommendations(recommendationsResponse.data.data);
+  } catch (err) {
+    console.log(err);
+  }
 }
