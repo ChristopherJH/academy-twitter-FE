@@ -20,20 +20,20 @@ interface NavigationBarProps {
 export default function NavigationBar(props: NavigationBarProps): JSX.Element {
   return (
     <div className="navbar row">
-      <div className="col-3">
+      <div className="col-7">
         <SearchBar
           searchText={props.searchText}
           setSearchText={props.setSearchText}
         />
       </div>
-      <div className="col-2">
+      <div className="col-2 text-left">
         <TagsDropDown
           tags={props.tags}
           dropDownValue={props.dropDownValue}
           setDropDownValue={props.setDropDownValue}
         />
       </div>
-      <div className="offset-4 col-3 text-right">
+      <div className="col-3 text-right">
         {props.signedInUser.user_id !== 0 && (
           <button
             className="btn btn-outline-dark mr-2"
@@ -45,7 +45,7 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
               props.setStudyListClicked(true);
             }}
           >
-            View study List
+            View Spell Book 📗
           </button>
         )}
 
@@ -74,7 +74,7 @@ function SearchBar(props: SearchBarProps): JSX.Element {
   return (
     <div className="searchbar">
       <input
-        className="search form-control"
+        className="search form-control "
         type="text"
         placeholder="Search recommendations"
         name="search"

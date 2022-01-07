@@ -1,5 +1,5 @@
 .recommendation {
-  border: solid #ff7043 2px;
+  border: solid #3f51b5 2px;
   box-shadow: 5px 5px 10px #888888;
   border-radius: 10px;
   margin: 10px 5vw;
@@ -17,12 +17,17 @@
   margin: 0 auto;
 }
 
+.like,
+.dislike {
+  cursor: pointer;
+}
 body {
   margin: 0;
 }
 
 .header {
-  background-color: #ff7043;
+  background-color: #3f51b5;
+  color: #fafafa;
   padding: 10px;
   margin: 0px;
   align-items: center;
