@@ -46,7 +46,6 @@ export default function Recommendations(
           users={props.users}
         />
       ))}
-      ;
     </div>
   );
 }

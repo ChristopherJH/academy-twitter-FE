@@ -33,6 +33,8 @@ function App(): JSX.Element {
     user_id: 0,
     is_faculty: false,
   });
+  const [userStudyList, setUserStudyList] = useState<RecommendationType[]>([]);
+  const [studyListClicked, setStudyListClicked] = useState(false);
 
   useEffect(() => {
     getAllData();
@@ -84,22 +86,26 @@ function App(): JSX.Element {
         dropDownValue={dropDownValue}
         setDropDownValue={setDropDownValue}
         recommendations={recommendations}
-        setRecommendations={setRecommendations}
         studyList={studyList}
+        signedInUser={signedInUser}
+        setUserStudyList={setUserStudyList}
+        setStudyListClicked={setStudyListClicked}
       />
+
       {recommendations.length > 0 && (
         <Recommendations
-          recommendations={recommendations}
+          recommendations={!studyListClicked ? recommendations : userStudyList}
           tags={tags}
           stages={stages}
           users={users}
           searchText={searchText}
           dropDownValue={dropDownValue}
         />
-      )}{" "}
-      :
+      )}
+      {studyListClicked && userStudyList.length === 0 && (
+        <p>You have no items in your study list</p>
+      )}
     </div>
   );
 }
-
 export default App;

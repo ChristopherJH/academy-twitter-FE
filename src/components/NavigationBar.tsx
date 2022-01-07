@@ -1,6 +1,7 @@
 import RecommendationType from "../types/RecommendationType";
 import StudyListType from "../types/StudyListType";
 import TagType from "../types/TagType";
+import UserType from "../types/UserType";
 import studyListFilter from "../utils/filters/studyListFilter";
 
 interface NavigationBarProps {
@@ -11,7 +12,9 @@ interface NavigationBarProps {
   setDropDownValue: (input: string) => void;
   recommendations: RecommendationType[];
   studyList: StudyListType[];
-  setRecommendations: (input: RecommendationType[]) => void;
+  setUserStudyList: (input: RecommendationType[]) => void;
+  signedInUser: UserType;
+  setStudyListClicked: (input: boolean) => void;
 }
 
 export default function NavigationBar(props: NavigationBarProps): JSX.Element {
@@ -31,20 +34,29 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
         />
       </div>
       <div className="offset-4 col-3 text-right">
-        <button
-          className="btn btn-outline-dark mr-2"
-          onClick={() =>
-            props.setRecommendations(
-              studyListFilter(props.studyList, props.recommendations)
-            )
-          }
-        >
-          View study List
-        </button>
+        {props.signedInUser.user_id !== 0 && (
+          <button
+            className="btn btn-outline-dark mr-2"
+            onClick={() => {
+              props.setUserStudyList(
+                studyListFilter(props.studyList, props.recommendations)
+              );
+
+              props.setStudyListClicked(true);
+            }}
+          >
+            View study List
+          </button>
+        )}
 
         <button
           className="btn btn-outline-dark"
-          onClick={() => props.setRecommendations(props.recommendations)}
+          onClick={() => {
+            props.setUserStudyList([]);
+            props.setDropDownValue("");
+            props.setSearchText("");
+            props.setStudyListClicked(false);
+          }}
         >
           View all
         </button>
