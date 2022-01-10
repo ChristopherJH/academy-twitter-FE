@@ -6,6 +6,14 @@
   padding: 15px;
 }
 
+.add-button {
+  width: 50px;
+}
+
+.add-button-div {
+  text-align: right;
+}
+
 .recommended {
   background-color: #ffca28;
   border-radius: 5px;

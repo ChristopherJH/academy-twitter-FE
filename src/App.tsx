@@ -12,6 +12,7 @@ import NavigationBar from "./components/NavigationBar";
 import SignIn from "./components/SignIn";
 import StudyListType from "./types/StudyListType";
 import CreateRecommendation from "./components/CreateRecommendation";
+import studyListFilter from "./utils/filters/studyListFilter";
 
 config();
 
@@ -35,6 +36,13 @@ function App(): JSX.Element {
   });
   const [userStudyList, setUserStudyList] = useState<RecommendationType[]>([]);
   const [studyListClicked, setStudyListClicked] = useState(false);
+
+  useEffect(() => {
+    function updateStudyList() {
+      setUserStudyList(studyListFilter(studyList, recommendations));
+    }
+    updateStudyList();
+  }, [studyList, recommendations]);
 
   useEffect(() => {
     getAllData();
@@ -104,6 +112,8 @@ function App(): JSX.Element {
           dropDownValue={dropDownValue}
           signedInUser={signedInUser}
           setRecommendations={setRecommendations}
+          studyList={studyList}
+          setStudyList={setStudyList}
         />
       )}
       {studyListClicked && userStudyList.length === 0 && (
