@@ -24,10 +24,8 @@ export default function SignIn(props: SignInProps): JSX.Element {
       if (typeof apiBaseURL === "string") {
         const studyListResponse = await axios.get(
           `${apiBaseURL}study_list/${props.signedInUser.user_id}`
-          // `http://localhost:4000/study_list/4`
         );
-        // console.log(studyListResponse)
-        // console.log(`${apiBaseURL}study_list/${props.signedInUser.user_id}`)
+
         console.log("Signed in user:", props.signedInUser);
         props.setStudyList(studyListResponse.data.data);
       }
@@ -38,10 +36,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
 
   const handleLogin = () => {
     const user = props.users.filter((user) => user.name === selectedUser)[0];
-    //console.log('User: ', user)
     props.setSignedInUser(user);
-    //console.log(props.signedInUser.user_id, selectedUser, props.signedInUser)
-    // console.log(props.users.filter((user) => user.name === selectedUser)[0])
   };
 
   const handleLogout = () => {

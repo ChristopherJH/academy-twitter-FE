@@ -6,6 +6,7 @@ import UserType from "../types/UserType";
 import dateFormatter from "../utils/dateFormatter";
 import { config } from "dotenv";
 import axios from "axios";
+import StudyListType from "../types/StudyListType";
 
 config();
 
@@ -19,6 +20,8 @@ interface recommendationProps {
   // comments: CommentType[]
   signedInUser: UserType;
   setRecommendations: (input: RecommendationType[]) => void;
+  studyList: StudyListType[];
+  setStudyList: (input: StudyListType[]) => void;
 }
 
 export default function Recommendation(
@@ -35,6 +38,26 @@ export default function Recommendation(
     (element) => element.user_id === props.recommendation.user_id
   )?.name;
 
+  const handleAddorRemoveToStudyList = async (add: boolean) => {
+    try {
+      if (add) {
+        await axios.delete(
+          `${apiBaseURL}study_list/${props.signedInUser.user_id}/${props.recommendation.recommendation_id}`
+        );
+      } else {
+        await axios.post(
+          `${apiBaseURL}study_list/${props.signedInUser.user_id}/${props.recommendation.recommendation_id}`
+        );
+      }
+      const studyListResponse = await axios.get(
+        `${apiBaseURL}study_list/${props.signedInUser.user_id}`
+      );
+      props.setStudyList(studyListResponse.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="recommendation">
       <div className="row">
@@ -46,6 +69,27 @@ export default function Recommendation(
         <h4 className="recommended offset-3 col-2">
           {props.recommendation.recommended}
         </h4>
+        {props.signedInUser.user_id !== 0 && (
+          <div className="col-1 add-button-div">
+            {props.studyList
+              .map((item) => item.recommendation_id)
+              .includes(props.recommendation.recommendation_id) ? (
+              <button
+                onClick={() => handleAddorRemoveToStudyList(true)}
+                className="btn btn-outline-primary add-button"
+              >
+                -
+              </button>
+            ) : (
+              <button
+                onClick={() => handleAddorRemoveToStudyList(false)}
+                className="btn btn-outline-primary add-button"
+              >
+                +
+              </button>
+            )}
+          </div>
+        )}
       </div>
       <div className="row">
         <h3 className="col-3">
