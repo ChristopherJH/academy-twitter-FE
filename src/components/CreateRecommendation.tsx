@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StageType from "../types/StageType";
 import TagType from "../types/TagType";
 import UserType from "../types/UserType";
@@ -18,6 +18,7 @@ interface CreateRecommendationProps {
   stages: StageType[];
   setRecommendations: (input: RecommendationType[]) => void;
   recommendations: RecommendationType[];
+  setTags: (input: TagType[]) => void;
 }
 
 export interface FormType {
@@ -55,6 +56,8 @@ export default function CreateRecommendation(
             type="button"
             className="btn btn-outline-light"
             data-toggle="modal"
+            data-backdrop="static"
+            data-keyboard="false"
             data-target="#exampleModal"
             onClick={() => {
               setFormContent({
@@ -98,6 +101,7 @@ export default function CreateRecommendation(
                   signedInUser={props.signedInUser}
                   setRecommendations={props.setRecommendations}
                   recommendations={props.recommendations}
+                  setTags={props.setTags}
                 />
               </div>
             </div>
@@ -116,12 +120,32 @@ interface FormProps {
   signedInUser: UserType;
   setRecommendations: (input: RecommendationType[]) => void;
   recommendations: RecommendationType[];
+  setTags: (input: TagType[]) => void;
 }
 
 function Form(props: FormProps): JSX.Element {
   const tagNamesArray = props.tags.map((tag) => tag.name);
   const filteredTagNames = Array.from(new Set(tagNamesArray));
   const [postPressed, setPostPressed] = useState<boolean>(false);
+  const [tagArray, setTagArray] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>("");
+
+  useEffect(() => {
+    const handleAddTags = async (id: number) => {
+      try {
+        for (const tag of tagArray) {
+          await axios.post(`${apiBaseURL}tags/${id}`, { name: tag });
+        }
+        const tagsResponse = await axios.get(`${apiBaseURL}tags`);
+        props.setTags(tagsResponse.data.data);
+        setTagArray([]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    handleAddTags(props.recommendations[0].recommendation_id);
+    // eslint-disable-next-line
+  }, [props.recommendations]);
 
   const handlePostRecommendation = async () => {
     // e.preventDefault();
@@ -257,8 +281,16 @@ function Form(props: FormProps): JSX.Element {
         <div className="form-group">
           <h3>Add tags to your post</h3>
           <div className="tag-dropdown">
-            <select className="form-select form-control" aria-label="default">
-              <option selected>Filter by tag</option>
+            <select
+              className="form-select form-control"
+              aria-label="default"
+              value="Choose a tag"
+              onChange={(e) => {
+                if (!tagArray.includes(e.target.value))
+                  setTagArray([...tagArray, e.target.value]);
+              }}
+            >
+              <option selected>Choose a tag</option>
               {filteredTagNames.map((name, index) => (
                 <option key={index}>{name}</option>
               ))}
@@ -269,10 +301,32 @@ function Form(props: FormProps): JSX.Element {
             placeholder="Add a new tag"
             className="form-control"
             id="new-tags"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
           />
         </div>
-        <button className="btn btn-primary">Add tag</button>
-        <p>[List of currently selected tags]</p>
+        <button
+          className="btn btn-primary"
+          data-backdrop="static"
+          data-keyboard="false"
+          onClick={(e) => {
+            e.preventDefault();
+            if (
+              !tagArray.includes(tagInput) &&
+              !tagInput.includes(" ") &&
+              tagInput.length > 0
+            )
+              setTagArray([...tagArray, tagInput]);
+            setTagInput("");
+          }}
+        >
+          Add tag
+        </button>
+        {tagArray.map((tag, index) => (
+          <button className="btn btn-warning mx-2" key={index}>
+            {tag}
+          </button>
+        ))}
         <div className="form-group">
           <h3>Reason for posting</h3>
           <input
@@ -281,12 +335,12 @@ function Form(props: FormProps): JSX.Element {
             className="form-control"
             id="why-recommended"
             value={props.formContent.recommended_description}
-            onChange={(e) =>
+            onChange={(e) => {
               props.setFormContent({
                 ...props.formContent,
                 recommended_description: e.target.value,
-              })
-            }
+              });
+            }}
           />
           {postPressed && props.formContent.recommended_description === "" && (
             <div className="alert alert-danger" role="alert">
@@ -343,7 +397,9 @@ function Form(props: FormProps): JSX.Element {
               type="button"
               className="btn btn-primary"
               data-dismiss="modal"
-              onClick={() => handlePostRecommendation()}
+              onClick={() => {
+                handlePostRecommendation();
+              }}
             >
               Post
             </button>
