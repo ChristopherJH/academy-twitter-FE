@@ -65,7 +65,12 @@ export default function SignIn(props: SignInProps): JSX.Element {
           >
             Sign In
           </button>
-          <div className="modal" tab-index="-1" role="dialog" id="signInModal">
+          <div
+            className="modal signin-modal"
+            tab-index="-1"
+            role="dialog"
+            id="signInModal"
+          >
             <div className="modal-dialog" role="document">
               <div className="modal-content">
                 <div className="modal-header">
@@ -80,9 +85,9 @@ export default function SignIn(props: SignInProps): JSX.Element {
                   </button>
                 </div>
                 <div className="modal-body">
-                  <div className="container-fluid">
+                  <div className="container-fluid signin-popup-main">
                     <select
-                      className="form-select form-select-lg mb-3"
+                      className="form-select form-select-lg mb-3 form-control"
                       aria-label="default"
                       value={selectedUser}
                       onChange={(e) => setSelectedUser(e.target.value)}
@@ -92,21 +97,19 @@ export default function SignIn(props: SignInProps): JSX.Element {
                         <option key={user.user_id}>{user.name}</option>
                       ))}
                     </select>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      data-dismiss="modal"
+                      onClick={() =>
+                        selectedUser === "guest"
+                          ? console.log("guest cant log in")
+                          : handleLogin()
+                      }
+                    >
+                      Sign In
+                    </button>
                   </div>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    data-dismiss="modal"
-                    onClick={() =>
-                      selectedUser === "guest"
-                        ? console.log("guest cant log in")
-                        : handleLogin()
-                    }
-                  >
-                    Sign In
-                  </button>
                 </div>
               </div>
             </div>

@@ -6,6 +6,7 @@ import listOfContentTypes from "../utils/listOfContentTypes";
 import axios from "axios";
 import { config } from "dotenv";
 import RecommendationType from "../types/RecommendationType";
+import modalCloseCondition from "../utils/modalCloseCondition";
 
 config();
 
@@ -16,9 +17,10 @@ interface CreateRecommendationProps {
   tags: TagType[];
   stages: StageType[];
   setRecommendations: (input: RecommendationType[]) => void;
+  recommendations: RecommendationType[];
 }
 
-interface FormType {
+export interface FormType {
   title: string;
   author: string;
   url: string;
@@ -38,11 +40,11 @@ export default function CreateRecommendation(
     author: "",
     url: "",
     description: "",
-    content: "",
+    content: "Article",
     recommended_description: "",
-    recommended: "",
+    recommended: "recommended",
     user_id: 0,
-    stage_id: 8,
+    stage_id: 0,
   });
 
   return (
@@ -65,7 +67,7 @@ export default function CreateRecommendation(
           </button>
 
           <div
-            className="modal fade"
+            className="modal fade create-modal"
             id="exampleModal"
             tab-index="-1"
             role="dialog"
@@ -95,6 +97,7 @@ export default function CreateRecommendation(
                   setFormContent={setFormContent}
                   signedInUser={props.signedInUser}
                   setRecommendations={props.setRecommendations}
+                  recommendations={props.recommendations}
                 />
               </div>
             </div>
@@ -112,11 +115,13 @@ interface FormProps {
   setFormContent: (input: FormType) => void;
   signedInUser: UserType;
   setRecommendations: (input: RecommendationType[]) => void;
+  recommendations: RecommendationType[];
 }
 
 function Form(props: FormProps): JSX.Element {
   const tagNamesArray = props.tags.map((tag) => tag.name);
   const filteredTagNames = Array.from(new Set(tagNamesArray));
+  const [postPressed, setPostPressed] = useState<boolean>(false);
 
   const handlePostRecommendation = async () => {
     // e.preventDefault();
@@ -125,13 +130,25 @@ function Form(props: FormProps): JSX.Element {
         `${apiBaseURL}recommendations`,
         props.formContent
       );
+      console.log(response);
       const recommendationsResponse = await axios.get(
         `${apiBaseURL}recommendations`
       );
       props.setRecommendations(recommendationsResponse.data.data);
-      console.log(response);
+      props.setFormContent({
+        title: "",
+        author: "",
+        url: "",
+        description: "",
+        content: "Article",
+        recommended_description: "",
+        recommended: "recommended",
+        user_id: 0,
+        stage_id: 0,
+      });
+      setPostPressed(false);
     } catch (err) {
-      console.log(err);
+      setPostPressed(true);
     }
   };
 
@@ -153,6 +170,11 @@ function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {postPressed && props.formContent.title === "" && (
+            <div className="alert alert-danger" role="alert">
+              Title cannot be empty
+            </div>
+          )}
           <input
             type="text"
             placeholder="Author/Company name"
@@ -166,6 +188,11 @@ function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {postPressed && props.formContent.author === "" && (
+            <div className="alert alert-danger" role="alert">
+              Author name cannot be empty
+            </div>
+          )}
           <input
             type="text"
             placeholder="URL"
@@ -179,6 +206,19 @@ function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {postPressed && props.formContent.url === "" && (
+            <div className="alert alert-danger" role="alert">
+              URL cannot be empty
+            </div>
+          )}
+          {postPressed &&
+            props.recommendations
+              .map((rec) => rec.url)
+              .includes(props.formContent.url) && (
+              <div className="alert alert-danger" role="alert">
+                Resource has already been posted
+              </div>
+            )}
           <label htmlFor="content-type">Content type</label>
           <select
             className="form-control"
@@ -208,6 +248,11 @@ function Form(props: FormProps): JSX.Element {
               })
             }
           ></textarea>
+          {postPressed && props.formContent.description === "" && (
+            <div className="alert alert-danger" role="alert">
+              Description cannot be empty
+            </div>
+          )}
         </div>
         <div className="form-group">
           <h3>Add tags to your post</h3>
@@ -243,6 +288,12 @@ function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {postPressed && props.formContent.recommended_description === "" && (
+            <div className="alert alert-danger" role="alert">
+              Recommended description cannot be empty
+            </div>
+          )}
+
           <div className="stage-dropdown">
             <select
               className="form-select form-control"
@@ -262,6 +313,11 @@ function Form(props: FormProps): JSX.Element {
                 </option>
               ))}
             </select>
+            {postPressed && props.formContent.stage_id === 0 && (
+              <div className="alert alert-danger" role="alert">
+                Stage cannot be empty
+              </div>
+            )}
           </div>
           <div className="recommended-dropdown">
             <select
@@ -282,14 +338,24 @@ function Form(props: FormProps): JSX.Element {
           </div>
         </div>
         <div className="modal-footer">
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-dismiss="modal"
-            onClick={() => handlePostRecommendation()}
-          >
-            Post
-          </button>
+          {modalCloseCondition(props.formContent, props.recommendations) ? (
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-dismiss="modal"
+              onClick={() => handlePostRecommendation()}
+            >
+              Post
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => handlePostRecommendation()}
+            >
+              Post
+            </button>
+          )}
         </div>
       </div>
     </form>
