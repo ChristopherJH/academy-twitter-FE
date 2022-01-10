@@ -35,9 +35,27 @@ body {
   justify-content: space-between;
 }
 
+.create-modal,
+.signin-modal {
+  color: #0f0f0f;
+}
+
+.signin-popup-main {
+  display: flex;
+}
+
+.signin-popup-main button {
+  margin-left: 10px;
+  width: 100px;
+}
+
+.signin-popup-main button,
+.signin-popup-main select {
+  height: 50px;
+}
+
 .user-space {
   display: flex;
-  text-align: right;
 }
 
 .user-space h5 {

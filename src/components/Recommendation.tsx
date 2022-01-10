@@ -88,8 +88,8 @@ export default function Recommendation(
         {props.signedInUser.user_id === 0 ? (
           <h4 className="col-1 text-left">👍</h4>
         ) : (
-          <h4
-            className="col-1 text-left like"
+          <button
+            className="col-1 text-left like btn btn-outline-dark"
             onClick={() =>
               handleLikeDislike(
                 true,
@@ -99,15 +99,15 @@ export default function Recommendation(
             }
           >
             👍
-          </h4>
+          </button>
         )}
 
         <h5 className="col-1 text-right">{props.recommendation.dislikes}</h5>
         {props.signedInUser.user_id === 0 ? (
           <h4 className="col-1 text-left">👎</h4>
         ) : (
-          <h4
-            className="col-1 text-left dislike"
+          <button
+            className="col-1 text-left dislike btn btn-outline-dark"
             onClick={() =>
               handleLikeDislike(
                 false,
@@ -117,7 +117,7 @@ export default function Recommendation(
             }
           >
             👎
-          </h4>
+          </button>
         )}
       </div>
     </div>
