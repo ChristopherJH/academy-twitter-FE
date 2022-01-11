@@ -106,6 +106,7 @@ function App(): JSX.Element {
         studyList={studyList}
         signedInUser={signedInUser}
         setUserStudyList={setUserStudyList}
+        studyListClicked={studyListClicked}
         setStudyListClicked={setStudyListClicked}
       />
 
