@@ -76,6 +76,7 @@ function App(): JSX.Element {
             stages={stages}
             setRecommendations={setRecommendations}
             recommendations={recommendations}
+            setTags={setTags}
           />
 
           {signedInUser.user_id !== 0 && <h5>👤{signedInUser.name}</h5>}
