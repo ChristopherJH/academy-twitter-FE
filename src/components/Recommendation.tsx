@@ -61,7 +61,7 @@ export default function Recommendation(
   return (
     <div className="recommendation">
       <div className="row">
-        <h2 className="col-6" id="recommendation-title">
+        <h2 className="col-6 recommendation-title">
           <a href={props.recommendation.url} id="recommendation-url">
             {props.recommendation.title && props.recommendation.title}
           </a>
@@ -153,6 +153,7 @@ export default function Recommendation(
         ) : (
           <button
             className="col-1 text-left like btn btn-outline-dark"
+            id="recommendation-like-button"
             onClick={() =>
               handleLikeDislike(
                 true,
@@ -173,6 +174,7 @@ export default function Recommendation(
         ) : (
           <button
             className="col-1 text-left dislike btn btn-outline-dark"
+            id="recommendation-dislike-button"
             onClick={() =>
               handleLikeDislike(
                 false,

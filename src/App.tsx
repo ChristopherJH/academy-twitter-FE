@@ -79,7 +79,9 @@ function App(): JSX.Element {
             setTags={setTags}
           />
 
-          {signedInUser.user_id !== 0 && <h5>👤{signedInUser.name}</h5>}
+          {signedInUser.user_id !== 0 && (
+            <h5 id="users-name">👤{signedInUser.name}</h5>
+          )}
 
           <SignIn
             users={users}

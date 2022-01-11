@@ -37,6 +37,7 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
         {props.signedInUser.user_id !== 0 && (
           <button
             className="btn btn-outline-dark mr-2"
+            id="view-study-list-button"
             onClick={() => {
               props.setUserStudyList(
                 studyListFilter(props.studyList, props.recommendations)

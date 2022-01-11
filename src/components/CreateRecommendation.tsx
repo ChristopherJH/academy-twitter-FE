@@ -55,10 +55,11 @@ export default function CreateRecommendation(
           <button
             type="button"
             className="btn btn-outline-light"
+            id="create-button"
             data-toggle="modal"
             data-backdrop="static"
             data-keyboard="false"
-            data-target="#exampleModal"
+            data-target="#createRecModal"
             onClick={() => {
               setFormContent({
                 ...formContent,
@@ -71,16 +72,16 @@ export default function CreateRecommendation(
 
           <div
             className="modal fade create-modal"
-            id="exampleModal"
+            id="createRecModal"
             tab-index="-1"
             role="dialog"
-            aria-labelledby="exampleModalLabel"
+            aria-labelledby="createRecModalLabel"
             aria-hidden="true"
           >
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">
+                  <h5 className="modal-title" id="createRecModalLabel">
                     Create a recommendation
                   </h5>
                   <button
