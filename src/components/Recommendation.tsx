@@ -61,16 +61,19 @@ export default function Recommendation(
   return (
     <div className="recommendation">
       <div className="row">
-        <h2 className="col-6">
-          <a href={props.recommendation.url}>
+        <h2 className="col-6" id="recommendation-title">
+          <a href={props.recommendation.url} id="recommendation-url">
             {props.recommendation.title && props.recommendation.title}
           </a>
         </h2>
-        <h4 className="recommended offset-3 col-2">
+        <h4
+          className="recommended offset-3 col-2"
+          id="recommendation-recommended"
+        >
           {props.recommendation.recommended}
         </h4>
         {props.signedInUser.user_id !== 0 && (
-          <div className="col-1 add-button-div">
+          <div className="col-1 add-button-div" id="add-sl-button">
             {props.studyList
               .map((item) => item.recommendation_id)
               .includes(props.recommendation.recommendation_id) ? (
@@ -84,6 +87,7 @@ export default function Recommendation(
               <button
                 onClick={() => handleAddorRemoveToStudyList(false)}
                 className="btn btn-outline-primary add-button"
+                id="remove-sl-button"
               >
                 +
               </button>
@@ -92,31 +96,37 @@ export default function Recommendation(
         )}
       </div>
       <div className="row">
-        <h3 className="col-3">
+        <h3 className="col-3" id="recommendation-author">
           {props.recommendation.author && props.recommendation.author}
         </h3>
-        <h3 className="col-3">{props.recommendation.content}</h3>
-        <h4 className="offset-4 col-2">Uploaded by: {recommenderName}</h4>
+        <h3 className="col-3" id="recommendation-content">
+          {props.recommendation.content}
+        </h3>
+        <h4 className="offset-4 col-2" id="recommendation-username">
+          Uploaded by: {recommenderName}
+        </h4>
       </div>
       <div className="row">
-        <p className="col-12">{props.recommendation.description}</p>
+        <p className="col-12" id="recommendation-description">
+          {props.recommendation.description}
+        </p>
       </div>
       <div className="row">
-        <p className="col-12">
+        <p className="col-12" id="recommendation-stage">
           Recommended for Week {recommendationStage?.stage_week}:{" "}
           {recommendationStage?.stage_description}
         </p>
       </div>
       <div className="row">
-        <p className="col-12">
+        <p className="col-12" id="recommendation-recommended-description">
           Why? {props.recommendation.recommended_description}
         </p>
       </div>
       <div className="row">
-        <div className="col-9">
+        <div className="col-9 recommendation-tags-div">
           {recommendationTags?.map((tag) => (
             <button
-              className="btn btn-warning btn-sm mx-2"
+              className="btn btn-warning btn-sm mx-2 recommendation-tag"
               disabled
               key={tag.tag_id}
             >
@@ -124,13 +134,18 @@ export default function Recommendation(
             </button>
           ))}
         </div>
-        <p className="offset-1 col-2">
+        <p className="offset-1 col-2" id="recommendation-date">
           {dateFormatter(props.recommendation.time)}
         </p>
       </div>
       <div className="row">
-        <button className="col-2">See comments</button>
-        <h5 className="offset-6 col-1 text-right">
+        <button className="col-2" id="recommendation-see-comments-button">
+          See comments
+        </button>
+        <h5
+          className="offset-6 col-1 text-right"
+          id="recommendation-like-count"
+        >
           {props.recommendation.likes}
         </h5>
         {props.signedInUser.user_id === 0 ? (
@@ -150,7 +165,9 @@ export default function Recommendation(
           </button>
         )}
 
-        <h5 className="col-1 text-right">{props.recommendation.dislikes}</h5>
+        <h5 className="col-1 text-right" id="recommendation-dislike-count">
+          {props.recommendation.dislikes}
+        </h5>
         {props.signedInUser.user_id === 0 ? (
           <h4 className="col-1 text-left">👎</h4>
         ) : (
