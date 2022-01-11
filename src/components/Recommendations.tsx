@@ -41,7 +41,7 @@ export default function Recommendations(
   }
 
   return (
-    <div>
+    <div id="recommendations-list">
       {filteredRecommendations.map((recommendation) => (
         <Recommendation
           key={recommendation.recommendation_id}

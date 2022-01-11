@@ -55,7 +55,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
           <button
             type="button"
             className="btn btn-outline-light"
-            id="sign"
+            id="signin-button"
             data-toggle="modal"
             data-target="#signInModal"
           >
