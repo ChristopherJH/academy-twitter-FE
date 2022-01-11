@@ -115,7 +115,11 @@ export default function Recommendation(
       <div className="row">
         <div className="col-9">
           {recommendationTags?.map((tag) => (
-            <button className="btn btn-warning btn-sm mx-2" key={tag.tag_id}>
+            <button
+              className="btn btn-warning btn-sm mx-2"
+              disabled
+              key={tag.tag_id}
+            >
               {tag.name}
             </button>
           ))}
