@@ -126,7 +126,7 @@ export default function Recommendation(
         <div className="col-9 recommendation-tags-div">
           {recommendationTags?.map((tag) => (
             <button
-              className="btn btn-warning btn-sm mx-2 recommendation-tag"
+              className="btn btn-custom btn-sm mx-2 recommendation-tag"
               disabled
               key={tag.tag_id}
             >

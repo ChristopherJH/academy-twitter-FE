@@ -96,7 +96,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                     </select>
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-custom"
                       data-dismiss="modal"
                       id="modal-signin-button"
                       onClick={() =>

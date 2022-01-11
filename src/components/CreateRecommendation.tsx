@@ -307,7 +307,7 @@ function Form(props: FormProps): JSX.Element {
           />
         </div>
         <button
-          className="btn btn-primary"
+          className="btn btn-custom"
           data-backdrop="static"
           data-keyboard="false"
           onClick={(e) => {
@@ -396,7 +396,7 @@ function Form(props: FormProps): JSX.Element {
           {modalCloseCondition(props.formContent, props.recommendations) ? (
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-custom"
               data-dismiss="modal"
               onClick={() => {
                 handlePostRecommendation();
@@ -407,7 +407,7 @@ function Form(props: FormProps): JSX.Element {
           ) : (
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-custom"
               onClick={() => handlePostRecommendation()}
             >
               Post
