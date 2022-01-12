@@ -7,22 +7,37 @@ describe("renders homepage", () => {
     cy.get("#page-title").should("exist");
   });
 
-  it("renders a search bar", () => {
+  it("renders a search bar which filters recommendations", () => {
     cy.get("#searchbar").should("exist");
+    /* ==== Generated with Cypress Studio ==== */
+    cy.get("#searchbar").clear();
+    cy.get("#searchbar").type("know");
+    /* ==== End Cypress Studio ==== */
+    cy.get("#recommendations-list")
+      .should("be.visible")
+      .each(() => {
+        if (cy.get(".recommendation-title").find("know").length > 0) {
+          cy.get(".recommendation-title").should("contain", "know");
+        } else if (cy.get("#recommendation-author").contains("know")) {
+          cy.get("#recommendation-author").should("contain", "know");
+        } else {
+          cy.get(".recommendation-description").should("contain", "know");
+        }
+      });
   });
 
-  it("renders a tags dropdown", () => {
+  it("renders a tags dropdown which filters recommendations for the selected tag", () => {
     cy.get(".tag-dropdown").should("exist");
     /* ==== Generated with Cypress Studio ==== */
-    // cy.get("#tag-dropdown-select").select("bla");
+    cy.get("#tag-dropdown-select").select("bla");
     // /* ==== End Cypress Studio ==== */
-    // cy.get("#recommendations-list").each(() => {
-    //   cy.get(".recommendation-tags-div")
-    //     .each(($item) => {
-    //   expect($item).should('contain.text', 'candle')  // checks all children of <td>
-    //       cy.get(".recommendation-tag").should("contain.text", "candle");
-    //     });
-    // });
+    cy.get("#recommendations-list").each(() => {
+      cy.get(".recommendation-tags-div")
+        .should("be.visible")
+        .each(($tag) => {
+          cy.wrap($tag).parent().should("contain", "website");
+        });
+    });
   });
 
   it("renders a sign-in button", () => {
