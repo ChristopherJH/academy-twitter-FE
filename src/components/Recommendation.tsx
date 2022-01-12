@@ -61,7 +61,7 @@ export default function Recommendation(
   return (
     <div className="recommendation">
       <div className="row">
-        <h2 className="col-6 recommendation-title">
+        <h2 className="col-6 recommendation-title searchbar-test">
           <a href={props.recommendation.url} id="recommendation-url">
             {props.recommendation.title && props.recommendation.title}
           </a>
@@ -96,7 +96,7 @@ export default function Recommendation(
         </div>
       </div>
       <div className="row">
-        <h3 className="col-3" id="recommendation-author">
+        <h3 className="col-3 searchbar-test" id="recommendation-author">
           {props.recommendation.author && props.recommendation.author}
         </h3>
         <h3 className="col-3" id="recommendation-content">
@@ -104,7 +104,7 @@ export default function Recommendation(
         </h3>
       </div>
       <div className="row">
-        <p className="col-12" id="recommendation-description">
+        <p className="col-12 searchbar-test" id="recommendation-description">
           <hr className="solid"></hr>
           {props.recommendation.description}
         </p>
