@@ -12,6 +12,18 @@ config();
 
 const apiBaseURL = process.env.REACT_APP_API_BASE;
 
+const defaultForm = {
+  title: "",
+  author: "",
+  url: "",
+  description: "",
+  content: "Article",
+  recommended_description: "",
+  recommended: "Recommended",
+  user_id: 0,
+  stage_id: 0,
+};
+
 interface CreateRecommendationProps {
   signedInUser: UserType;
   tags: TagType[];
@@ -36,17 +48,7 @@ export interface FormType {
 export default function CreateRecommendation(
   props: CreateRecommendationProps
 ): JSX.Element {
-  const [formContent, setFormContent] = useState<FormType>({
-    title: "",
-    author: "",
-    url: "",
-    description: "",
-    content: "Article",
-    recommended_description: "",
-    recommended: "recommended",
-    user_id: 0,
-    stage_id: 0,
-  });
+  const [formContent, setFormContent] = useState<FormType>(defaultForm);
 
   return (
     <>
@@ -81,9 +83,9 @@ export default function CreateRecommendation(
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title" id="createRecModalLabel">
+                  <h2 className="modal-title" id="createRecModalLabel">
                     Create a recommendation
-                  </h5>
+                  </h2>
                   <button
                     type="button"
                     className="close"
@@ -160,17 +162,7 @@ function Form(props: FormProps): JSX.Element {
         `${apiBaseURL}recommendations`
       );
       props.setRecommendations(recommendationsResponse.data.data);
-      props.setFormContent({
-        title: "",
-        author: "",
-        url: "",
-        description: "",
-        content: "Article",
-        recommended_description: "",
-        recommended: "recommended",
-        user_id: 0,
-        stage_id: 0,
-      });
+      props.setFormContent(defaultForm);
       setPostPressed(false);
     } catch (err) {
       setPostPressed(true);
@@ -307,7 +299,7 @@ function Form(props: FormProps): JSX.Element {
           />
         </div>
         <button
-          className="btn btn-primary"
+          className="btn btn-custom"
           data-backdrop="static"
           data-keyboard="false"
           onClick={(e) => {
@@ -396,7 +388,7 @@ function Form(props: FormProps): JSX.Element {
           {modalCloseCondition(props.formContent, props.recommendations) ? (
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-custom"
               data-dismiss="modal"
               onClick={() => {
                 handlePostRecommendation();
@@ -407,7 +399,7 @@ function Form(props: FormProps): JSX.Element {
           ) : (
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-custom"
               onClick={() => handlePostRecommendation()}
             >
               Post

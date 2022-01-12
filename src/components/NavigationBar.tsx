@@ -14,6 +14,7 @@ interface NavigationBarProps {
   studyList: StudyListType[];
   setUserStudyList: (input: RecommendationType[]) => void;
   signedInUser: UserType;
+  studyListClicked: boolean;
   setStudyListClicked: (input: boolean) => void;
 }
 
@@ -34,7 +35,7 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
         />
       </div>
       <div className="col-3 text-right">
-        {props.signedInUser.user_id !== 0 && (
+        {props.signedInUser.user_id !== 0 && !props.studyListClicked && (
           <button
             className="btn btn-outline-dark mr-2"
             id="view-study-list-button"

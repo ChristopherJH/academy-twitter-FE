@@ -68,7 +68,11 @@ function App(): JSX.Element {
   return (
     <div className="main">
       <div className="header">
-        <h1 id="page-title">✨ Resorcery ✨</h1>
+        {!studyListClicked ? (
+          <h1 id="page-title">✨ Resorcery ✨</h1>
+        ) : (
+          <h1 id="study-list-title">✨ Spell Book ✨</h1>
+        )}
         <div className="user-space">
           <CreateRecommendation
             signedInUser={signedInUser}
@@ -102,6 +106,7 @@ function App(): JSX.Element {
         studyList={studyList}
         signedInUser={signedInUser}
         setUserStudyList={setUserStudyList}
+        studyListClicked={studyListClicked}
         setStudyListClicked={setStudyListClicked}
       />
 

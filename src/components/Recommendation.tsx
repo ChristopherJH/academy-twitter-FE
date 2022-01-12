@@ -66,34 +66,34 @@ export default function Recommendation(
             {props.recommendation.title && props.recommendation.title}
           </a>
         </h2>
-        <h4
-          className="recommended offset-3 col-2"
-          id="recommendation-recommended"
-        >
-          {props.recommendation.recommended}
-        </h4>
-        {props.signedInUser.user_id !== 0 && (
-          <div className="col-1 add-button-div" id="add-sl-button">
-            {props.studyList
-              .map((item) => item.recommendation_id)
-              .includes(props.recommendation.recommendation_id) ? (
-              <button
-                onClick={() => handleAddorRemoveToStudyList(true)}
-                className="btn btn-outline-primary add-button"
-              >
-                -
-              </button>
-            ) : (
-              <button
-                onClick={() => handleAddorRemoveToStudyList(false)}
-                className="btn btn-outline-primary add-button"
-                id="remove-sl-button"
-              >
-                +
-              </button>
-            )}
-          </div>
-        )}
+        <div className="recommended-and-add-to-sl offset-3 col-3">
+          <h4 className="recommended" id="recommendation-recommended">
+            {props.recommendation.recommended}
+          </h4>
+          {props.signedInUser.user_id !== 0 && (
+            <div className="add-button-div">
+              {props.studyList
+                .map((item) => item.recommendation_id)
+                .includes(props.recommendation.recommendation_id) ? (
+                <button
+                  onClick={() => handleAddorRemoveToStudyList(true)}
+                  className="btn btn-outline-primary add-button"
+                  id="add-sl-button"
+                >
+                  -
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleAddorRemoveToStudyList(false)}
+                  className="btn btn-outline-primary add-button"
+                  id="remove-sl-button"
+                >
+                  +
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div className="row">
         <h3 className="col-3" id="recommendation-author">
@@ -102,12 +102,10 @@ export default function Recommendation(
         <h3 className="col-3" id="recommendation-content">
           {props.recommendation.content}
         </h3>
-        <h4 className="offset-4 col-2" id="recommendation-username">
-          Uploaded by: {recommenderName}
-        </h4>
       </div>
       <div className="row">
         <p className="col-12" id="recommendation-description">
+          <hr className="solid"></hr>
           {props.recommendation.description}
         </p>
       </div>
@@ -126,7 +124,7 @@ export default function Recommendation(
         <div className="col-9 recommendation-tags-div">
           {recommendationTags?.map((tag) => (
             <button
-              className="btn btn-warning btn-sm mx-2 recommendation-tag"
+              className="btn btn-custom btn-sm mx-2 recommendation-tag"
               disabled
               key={tag.tag_id}
             >
@@ -134,9 +132,12 @@ export default function Recommendation(
             </button>
           ))}
         </div>
-        <p className="offset-1 col-2" id="recommendation-date">
-          {dateFormatter(props.recommendation.time)}
-        </p>
+        <div className="offset-1 col-2">
+          <h5 id="recommendation-username">👤 {recommenderName}</h5>
+          <p id="recommendation-date">
+            {dateFormatter(props.recommendation.time)}
+          </p>
+        </div>
       </div>
       <div className="row">
         <button className="col-2" id="recommendation-see-comments-button">
