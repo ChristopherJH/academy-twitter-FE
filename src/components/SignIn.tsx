@@ -19,17 +19,18 @@ const apiBaseURL = process.env.REACT_APP_API_BASE;
 export default function SignIn(props: SignInProps): JSX.Element {
   const [selectedUser, setSelectedUser] = useState<string>("guest");
 
-  useEffect(() => {
-    async function getStudyList() {
-      if (typeof apiBaseURL === "string") {
-        const studyListResponse = await axios.get(
-          `${apiBaseURL}study_list/${props.signedInUser.user_id}`
-        );
+  async function getStudyList() {
+    if (typeof apiBaseURL === "string") {
+      const studyListResponse = await axios.get(
+        `${apiBaseURL}study_list/${props.signedInUser.user_id}`
+      );
 
-        console.log("Signed in user:", props.signedInUser);
-        props.setStudyList(studyListResponse.data.data);
-      }
+      console.log("Signed in user:", props.signedInUser);
+      props.setStudyList(studyListResponse.data.data);
     }
+  }
+
+  useEffect(() => {
     getStudyList();
     // eslint-disable-next-line
   }, [props.signedInUser]);

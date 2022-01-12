@@ -7,6 +7,7 @@ import dateFormatter from "../utils/dateFormatter";
 import { config } from "dotenv";
 import axios from "axios";
 import StudyListType from "../types/StudyListType";
+import { useEffect, useState } from "react";
 
 config();
 
@@ -37,6 +38,14 @@ export default function Recommendation(
   const recommenderName = props.users.find(
     (element) => element.user_id === props.recommendation.user_id
   )?.name;
+  const [likes, setLikes] = useState<number>(0);
+  const [dislikes, setDislikes] = useState<number>(0);
+  const [commentBody, setCommentBody] = useState<string>("");
+
+  useEffect(() => {
+    getLikes(setLikes, props.recommendation.recommendation_id);
+    getDislikes(setDislikes, props.recommendation.recommendation_id);
+  }, [props.recommendation.recommendation_id]);
 
   const handleAddorRemoveToStudyList = async (add: boolean) => {
     try {
@@ -144,73 +153,102 @@ export default function Recommendation(
           See comments
         </button>
         <h5
-          className="offset-6 col-1 text-right"
+          className="offset-7 col-2 text-right"
           id="recommendation-like-count"
         >
-          {props.recommendation.likes}
+          Endorsements: {likes - dislikes}
         </h5>
-        {props.signedInUser.user_id === 0 ? (
-          <h4 className="col-1 text-left">👍</h4>
-        ) : (
-          <button
-            className="col-1 text-left like btn btn-outline-dark"
-            id="recommendation-like-button"
-            onClick={() =>
-              handleLikeDislike(
-                true,
-                props.recommendation.recommendation_id,
-                props.setRecommendations
-              )
-            }
-          >
-            👍
-          </button>
+        {props.signedInUser.user_id !== 0 && (
+          <div className="col-1">
+            <button
+              className="btn btn-primary mb-2"
+              type="button"
+              data-toggle="collapse"
+              data-target="#create-comment-section"
+              aria-expanded="false"
+              aria-controls="create-comment-section"
+            >
+              Comment
+            </button>
+          </div>
         )}
-
-        <h5 className="col-1 text-right" id="recommendation-dislike-count">
-          {props.recommendation.dislikes}
-        </h5>
-        {props.signedInUser.user_id === 0 ? (
-          <h4 className="col-1 text-left">👎</h4>
-        ) : (
-          <button
-            className="col-1 text-left dislike btn btn-outline-dark"
-            id="recommendation-dislike-button"
-            onClick={() =>
-              handleLikeDislike(
-                false,
-                props.recommendation.recommendation_id,
-                props.setRecommendations
-              )
-            }
-          >
-            👎
-          </button>
-        )}
+      </div>
+      <div className="collapse row" id="create-comment-section">
+        <div className="card card-body">
+          <textarea
+            className="form-control"
+            placeholder="Write your comment"
+            value={commentBody}
+            onChange={(e) => setCommentBody(e.target.value)}
+          />
+          <div className="row endorse-veto-buttons text-right">
+            <button
+              className="btn btn-custom offset-10 mr-2 mt-2"
+              onClick={() =>
+                postComment(
+                  true,
+                  props.recommendation.recommendation_id,
+                  props.signedInUser.user_id,
+                  commentBody,
+                  setCommentBody
+                )
+              }
+            >
+              Endorse
+            </button>
+            <button
+              className="btn btn-custom mt-2"
+              onClick={() =>
+                postComment(
+                  false,
+                  props.recommendation.recommendation_id,
+                  props.signedInUser.user_id,
+                  commentBody,
+                  setCommentBody
+                )
+              }
+            >
+              Veto
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-async function handleLikeDislike(
-  like: boolean,
+async function getLikes(setLikes: (input: number) => void, id: number) {
+  const response = await axios.get(`${apiBaseURL}${id}/likes`);
+  setLikes(response.data.data[0].count);
+  console.log(response.data.data[0].count);
+}
+
+async function getDislikes(setDislikes: (input: number) => void, id: number) {
+  const response = await axios.get(`${apiBaseURL}${id}/dislikes`);
+  setDislikes(response.data.data[0].count);
+  console.log(response.data.data[0].count);
+}
+
+async function postComment(
+  endorse: boolean,
   id: number,
-  setRecommendations: (input: RecommendationType[]) => void
+  user_id: number,
+  commentBody: string,
+  setCommentBody: (input: string) => void
 ) {
-  let endpointString = "";
-  if (like) {
-    endpointString = "like";
+  let is_like = false;
+  let is_dislike = false;
+  if (endorse) {
+    is_like = true;
   } else {
-    endpointString = "dislike";
+    is_dislike = true;
   }
-  try {
-    const response = await axios.put(`${apiBaseURL}${endpointString}/${id}`);
-    console.log(response);
-    const recommendationsResponse = await axios.get(
-      `${apiBaseURL}recommendations`
-    );
-    setRecommendations(recommendationsResponse.data.data);
-  } catch (err) {
-    console.log(err);
-  }
+  const response = await axios.post(`${apiBaseURL}comments/${id}`, {
+    body: commentBody,
+    user_id: user_id,
+    is_like: is_like,
+    is_dislike: is_dislike,
+  });
+  console.log(response);
+  setCommentBody("");
 }

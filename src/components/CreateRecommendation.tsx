@@ -133,22 +133,23 @@ function Form(props: FormProps): JSX.Element {
   const [tagArray, setTagArray] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
 
-  useEffect(() => {
-    const handleAddTags = async (id: number) => {
-      try {
-        for (const tag of tagArray) {
-          await axios.post(`${apiBaseURL}tags/${id}`, { name: tag });
-        }
-        const tagsResponse = await axios.get(`${apiBaseURL}tags`);
-        props.setTags(tagsResponse.data.data);
-        setTagArray([]);
-      } catch (err) {
-        console.log(err);
+  const handleAddTags = async (id: number) => {
+    try {
+      for (const tag of tagArray) {
+        await axios.post(`${apiBaseURL}tags/${id}`, { name: tag });
       }
-    };
+      const tagsResponse = await axios.get(`${apiBaseURL}tags`);
+      props.setTags(tagsResponse.data.data);
+      setTagArray([]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     handleAddTags(props.recommendations[0].recommendation_id);
     // eslint-disable-next-line
-  }, [props.recommendations]);
+  }, [props.recommendations, tagArray]);
 
   const handlePostRecommendation = async () => {
     // e.preventDefault();
