@@ -10,20 +10,22 @@ describe("renders homepage", () => {
   it("renders a search bar which filters recommendations", () => {
     cy.get("#searchbar").should("exist");
     /* ==== Generated with Cypress Studio ==== */
-    cy.get("#searchbar").clear();
-    cy.get("#searchbar").type("know");
+    // cy.get("#searchbar").clear();
+    // cy.get("#searchbar").type("hello");
     /* ==== End Cypress Studio ==== */
     cy.get("#recommendations-list")
       .should("be.visible")
       .each(() => {
-        if (cy.get(".recommendation-title").find("know").length > 0) {
-          cy.get(".recommendation-title").should("contain", "know");
-        } else if (cy.get("#recommendation-author").contains("know")) {
-          cy.get("#recommendation-author").should("contain", "know");
-        } else {
-          cy.get(".recommendation-description").should("contain", "know");
-        }
+        cy.get(".recommendation").should("be.visible");
+        cy.get(".searchbar-test").should("contain", "hello");
       });
+    // if (cy.get(".recommendation-title").includes("know")) {
+    //   cy.get(".recommendation-title").should("contain", "know");
+    // } else if (cy.get("#recommendation-author").contains("know")) {
+    //   cy.get("#recommendation-author").should("contain", "know");
+    // } else {
+    //   cy.get(".recommendation-description").should("contain", "know");
+    // }
   });
 
   it("renders a tags dropdown which filters recommendations for the selected tag", () => {
@@ -35,7 +37,7 @@ describe("renders homepage", () => {
       cy.get(".recommendation-tags-div")
         .should("be.visible")
         .each(($tag) => {
-          cy.wrap($tag).parent().should("contain", "website");
+          cy.wrap($tag).parent().should("contain", "bla");
         });
     });
   });
