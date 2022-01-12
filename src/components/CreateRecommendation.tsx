@@ -188,7 +188,7 @@ function Form(props: FormProps): JSX.Element {
             }
           />
           {postPressed && props.formContent.title === "" && (
-            <div className="alert alert-danger" role="alert">
+            <div className="alert alert-danger" id="title-alert" role="alert">
               Title cannot be empty
             </div>
           )}
@@ -206,7 +206,7 @@ function Form(props: FormProps): JSX.Element {
             }
           />
           {postPressed && props.formContent.author === "" && (
-            <div className="alert alert-danger" role="alert">
+            <div className="alert alert-danger" id="author-alert" role="alert">
               Author name cannot be empty
             </div>
           )}
@@ -224,7 +224,7 @@ function Form(props: FormProps): JSX.Element {
             }
           />
           {postPressed && props.formContent.url === "" && (
-            <div className="alert alert-danger" role="alert">
+            <div className="alert alert-danger" id="url-alert" role="alert">
               URL cannot be empty
             </div>
           )}
@@ -232,7 +232,11 @@ function Form(props: FormProps): JSX.Element {
             props.recommendations
               .map((rec) => rec.url)
               .includes(props.formContent.url) && (
-              <div className="alert alert-danger" role="alert">
+              <div
+                className="alert alert-danger"
+                id="url-duplicate-alert"
+                role="alert"
+              >
                 Resource has already been posted
               </div>
             )}
@@ -266,7 +270,11 @@ function Form(props: FormProps): JSX.Element {
             }
           ></textarea>
           {postPressed && props.formContent.description === "" && (
-            <div className="alert alert-danger" role="alert">
+            <div
+              className="alert alert-danger"
+              id="description-alert"
+              role="alert"
+            >
               Description cannot be empty
             </div>
           )}
@@ -315,11 +323,13 @@ function Form(props: FormProps): JSX.Element {
         >
           Add tag
         </button>
-        {tagArray.map((tag, index) => (
-          <button className="btn btn-warning mx-2" key={index}>
-            {tag}
-          </button>
-        ))}
+        <div id="tag-buttons">
+          {tagArray.map((tag, index) => (
+            <button className="btn btn-warning mx-2 tag-button" key={index}>
+              {tag}
+            </button>
+          ))}
+        </div>
         <div className="form-group">
           <h3>Reason for posting</h3>
           <input
@@ -336,7 +346,11 @@ function Form(props: FormProps): JSX.Element {
             }}
           />
           {postPressed && props.formContent.recommended_description === "" && (
-            <div className="alert alert-danger" role="alert">
+            <div
+              className="alert alert-danger"
+              id="recommended-description-alert"
+              role="alert"
+            >
               Recommended description cannot be empty
             </div>
           )}
@@ -361,7 +375,7 @@ function Form(props: FormProps): JSX.Element {
               ))}
             </select>
             {postPressed && props.formContent.stage_id === 0 && (
-              <div className="alert alert-danger" role="alert">
+              <div className="alert alert-danger" id="stage-alert" role="alert">
                 Stage cannot be empty
               </div>
             )}

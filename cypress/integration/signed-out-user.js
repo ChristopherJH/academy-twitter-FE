@@ -1,4 +1,4 @@
-describe("renders homepage", () => {
+describe("signed in user features work", () => {
   beforeEach(() => {
     cy.visit("/");
   });
