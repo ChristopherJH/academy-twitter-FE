@@ -84,6 +84,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                   <div className="container-fluid signin-popup-main">
                     <select
                       className="form-select form-select-lg mb-3 form-control"
+                      id="users-dropdown-select"
                       aria-label="default"
                       value={selectedUser}
                       onChange={(e) => setSelectedUser(e.target.value)}
@@ -97,6 +98,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                       type="button"
                       className="btn btn-primary"
                       data-dismiss="modal"
+                      id="modal-signin-button"
                       onClick={() =>
                         selectedUser === "guest"
                           ? console.log("guest cant log in")
@@ -115,6 +117,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
       {props.signedInUser.user_id !== 0 && (
         <button
           className="btn btn-outline-light"
+          id="signout-button"
           onClick={() => handleLogout()}
         >
           Sign Out
