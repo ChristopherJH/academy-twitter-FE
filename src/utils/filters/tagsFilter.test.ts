@@ -20,7 +20,7 @@ test("Returns unchanged array if search is empty or array of elements which incl
           recommendation_id: 1,
         },
       ],
-      "website",
+      ["website", "google"],
       [
         {
           recommendation_id: 1,
