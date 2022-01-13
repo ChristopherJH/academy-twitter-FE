@@ -57,9 +57,9 @@ describe("signed in user features work", () => {
   it("doesn't render create button", () => {
     cy.get("#create-button").should("not.exist");
   });
-  it("doesn't render like button", () => {
-    cy.get("#recommendation-like-button").should("not.exist");
-  });
+  // it("doesn't render like button", () => {
+  //   cy.get("#recommendation-like-button").should("not.exist");
+  // });
   it("doesn't render add to study list button", () => {
     cy.get("#add-sl-button").should("not.exist");
   });
@@ -94,10 +94,6 @@ describe("signed in user features work", () => {
       .get("#recommendation-date")
       .should("exist")
       .get(".recommendation-tags-div")
-      .should("exist")
-      .get("#recommendation-like-count")
-      .should("exist")
-      .get("#recommendation-dislike-count")
       .should("exist");
   });
 

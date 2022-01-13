@@ -8,8 +8,6 @@ export default interface RecommendationType {
   time: string;
   recommended_description: string;
   recommended: string;
-  likes: number;
-  dislikes: number;
   user_id: number;
   stage_id: number;
 }
