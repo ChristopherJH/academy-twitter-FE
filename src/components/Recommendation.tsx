@@ -8,6 +8,8 @@ import { config } from "dotenv";
 import axios from "axios";
 import StudyListType from "../types/StudyListType";
 import { useEffect, useState } from "react";
+import { Comments, getComments } from "./Comments";
+import CommentType from "../types/CommentType";
 
 config();
 
@@ -41,11 +43,15 @@ export default function Recommendation(
   const [likes, setLikes] = useState<number>(0);
   const [dislikes, setDislikes] = useState<number>(0);
   const [commentBody, setCommentBody] = useState<string>("");
+  const [comments, setComments] = useState<CommentType[]>([]);
+
+  const viewCommentIDName = `view-comment-section-${props.recommendation.recommendation_id}`;
+  const createCommentIDName = `create-comment-section-${props.recommendation.recommendation_id}`;
 
   useEffect(() => {
     getLikes(setLikes, props.recommendation.recommendation_id);
     getDislikes(setDislikes, props.recommendation.recommendation_id);
-  }, [props.recommendation.recommendation_id]);
+  }, [props.recommendation.recommendation_id, comments]);
 
   const handleAddorRemoveToStudyList = async (add: boolean) => {
     try {
@@ -86,16 +92,24 @@ export default function Recommendation(
                 .includes(props.recommendation.recommendation_id) ? (
                 <button
                   onClick={() => handleAddorRemoveToStudyList(true)}
-                  className="btn btn-outline-primary add-button"
+                  className="btn btn-custom add-button"
+                  type="button"
                   id="add-sl-button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Remove from study list"
                 >
                   -
                 </button>
               ) : (
                 <button
                   onClick={() => handleAddorRemoveToStudyList(false)}
-                  className="btn btn-outline-primary add-button"
+                  className="btn btn-custom add-button"
+                  type="button"
                   id="remove-sl-button"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Add to study list"
                 >
                   +
                 </button>
@@ -149,7 +163,15 @@ export default function Recommendation(
         </div>
       </div>
       <div className="row">
-        <button className="col-2" id="recommendation-see-comments-button">
+        <button
+          className="col-2"
+          id="recommendation-see-comments-button"
+          type="button"
+          data-toggle="collapse"
+          data-target={`#${viewCommentIDName}`}
+          aria-expanded="false"
+          aria-controls={viewCommentIDName}
+        >
           See comments
         </button>
         <h5
@@ -161,19 +183,20 @@ export default function Recommendation(
         {props.signedInUser.user_id !== 0 && (
           <div className="col-1">
             <button
-              className="btn btn-primary mb-2"
+              className="btn btn-custom mb-2"
               type="button"
               data-toggle="collapse"
-              data-target="#create-comment-section"
+              data-target={`#${createCommentIDName}`}
               aria-expanded="false"
-              aria-controls="create-comment-section"
+              aria-controls={createCommentIDName}
             >
               Comment
             </button>
           </div>
         )}
       </div>
-      <div className="collapse row" id="create-comment-section">
+
+      <div className="collapse row" id={createCommentIDName}>
         <div className="card card-body">
           <textarea
             className="form-control"
@@ -190,7 +213,8 @@ export default function Recommendation(
                   props.recommendation.recommendation_id,
                   props.signedInUser.user_id,
                   commentBody,
-                  setCommentBody
+                  setCommentBody,
+                  setComments
                 )
               }
             >
@@ -204,13 +228,23 @@ export default function Recommendation(
                   props.recommendation.recommendation_id,
                   props.signedInUser.user_id,
                   commentBody,
-                  setCommentBody
+                  setCommentBody,
+                  setComments
                 )
               }
             >
               Veto
             </button>
           </div>
+        </div>
+      </div>
+      <div className="collapse row" id={viewCommentIDName}>
+        <div className="card card-body">
+          <Comments
+            recommendation={props.recommendation}
+            comments={comments}
+            setComments={setComments}
+          />
         </div>
       </div>
     </div>
@@ -220,13 +254,11 @@ export default function Recommendation(
 async function getLikes(setLikes: (input: number) => void, id: number) {
   const response = await axios.get(`${apiBaseURL}${id}/likes`);
   setLikes(response.data.data[0].count);
-  console.log(response.data.data[0].count);
 }
 
 async function getDislikes(setDislikes: (input: number) => void, id: number) {
   const response = await axios.get(`${apiBaseURL}${id}/dislikes`);
   setDislikes(response.data.data[0].count);
-  console.log(response.data.data[0].count);
 }
 
 async function postComment(
@@ -234,7 +266,8 @@ async function postComment(
   id: number,
   user_id: number,
   commentBody: string,
-  setCommentBody: (input: string) => void
+  setCommentBody: (input: string) => void,
+  setComments: (input: CommentType[]) => void
 ) {
   let is_like = false;
   let is_dislike = false;
@@ -251,4 +284,5 @@ async function postComment(
   });
   console.log(response);
   setCommentBody("");
+  getComments(setComments, id);
 }
