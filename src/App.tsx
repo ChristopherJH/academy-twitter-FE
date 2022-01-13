@@ -25,7 +25,6 @@ function App(): JSX.Element {
   const [tags, setTags] = useState<TagType[]>([]);
   const [users, setUsers] = useState<UserType[]>([]);
   const [stages, setStages] = useState<StageType[]>([]);
-  //const [comments, setComments] = useState<CommentType[]>([]);
   const [studyList, setStudyList] = useState<StudyListType[]>([]);
   const [searchText, setSearchText] = useState("");
   const [dropDownValue, setDropDownValue] = useState("");
@@ -71,7 +70,7 @@ function App(): JSX.Element {
         {!studyListClicked ? (
           <h1 id="page-title">✨ Resorcery ✨</h1>
         ) : (
-          <h1 id="study-list-title">✨ Spell Book ✨</h1>
+          <h1 id="study-list-title">✨ Study List ✨</h1>
         )}
         <div className="user-space">
           <CreateRecommendation

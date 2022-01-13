@@ -47,7 +47,7 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
               props.setStudyListClicked(true);
             }}
           >
-            View Spell Book 📗
+            Study List 📗
           </button>
         )}
 
