@@ -25,8 +25,7 @@ test("Returns unchanged array if search is empty or array of elements which incl
           time: "a",
           recommended_description: "a",
           recommended: "a",
-          likes: 0,
-          dislikes: 0,
+
           user_id: 0,
           stage_id: 0,
         },
@@ -57,8 +56,7 @@ test("Returns unchanged array if search is empty or array of elements which incl
           time: "a",
           recommended_description: "a",
           recommended: "a",
-          likes: 0,
-          dislikes: 0,
+
           user_id: 0,
           stage_id: 0,
         },
@@ -89,8 +87,7 @@ test("Returns unchanged array if search is empty or array of elements which incl
           time: "a",
           recommended_description: "a",
           recommended: "a",
-          likes: 0,
-          dislikes: 0,
+
           user_id: 0,
           stage_id: 0,
         },
@@ -121,8 +118,6 @@ test("Returns unchanged array if search is empty or array of elements which incl
           time: "a",
           recommended_description: "a",
           recommended: "a",
-          likes: 0,
-          dislikes: 0,
           user_id: 0,
           stage_id: 0,
         },
