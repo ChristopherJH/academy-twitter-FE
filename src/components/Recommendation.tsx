@@ -1,4 +1,3 @@
-// import CommentType from "../types/CommentType";
 import RecommendationType from "../types/RecommendationType";
 import StageType from "../types/StageType";
 import TagType from "../types/TagType";
@@ -20,7 +19,6 @@ interface recommendationProps {
   tags: TagType[];
   users: UserType[];
   stages: StageType[];
-  // comments: CommentType[]
   signedInUser: UserType;
   setRecommendations: (input: RecommendationType[]) => void;
   studyList: StudyListType[];
@@ -49,31 +47,13 @@ export default function Recommendation(
 
   const viewCommentIDName = `view-comment-section-${props.recommendation.recommendation_id}`;
   const createCommentIDName = `create-comment-section-${props.recommendation.recommendation_id}`;
-
+  const usersCommentOnPost = comments.filter(
+    (comment) => comment.user_id === props.signedInUser.user_id
+  );
   useEffect(() => {
     getLikes(setLikes, props.recommendation.recommendation_id);
     getDislikes(setDislikes, props.recommendation.recommendation_id);
   }, [props.recommendation.recommendation_id, comments]);
-
-  const handleAddorRemoveToStudyList = async (add: boolean) => {
-    try {
-      if (add) {
-        await axios.delete(
-          `${apiBaseURL}study_list/${props.signedInUser.user_id}/${props.recommendation.recommendation_id}`
-        );
-      } else {
-        await axios.post(
-          `${apiBaseURL}study_list/${props.signedInUser.user_id}/${props.recommendation.recommendation_id}`
-        );
-      }
-      const studyListResponse = await axios.get(
-        `${apiBaseURL}study_list/${props.signedInUser.user_id}`
-      );
-      props.setStudyList(studyListResponse.data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div className="recommendation">
@@ -93,7 +73,14 @@ export default function Recommendation(
                 .map((item) => item.recommendation_id)
                 .includes(props.recommendation.recommendation_id) ? (
                 <button
-                  onClick={() => handleAddorRemoveToStudyList(true)}
+                  onClick={() =>
+                    handleAddorRemoveToStudyList(
+                      true,
+                      props.signedInUser.user_id,
+                      props.recommendation.recommendation_id,
+                      props.setStudyList
+                    )
+                  }
                   className="btn btn-custom add-button mr-2"
                   type="button"
                   id="add-sl-button"
@@ -105,7 +92,14 @@ export default function Recommendation(
                 </button>
               ) : (
                 <button
-                  onClick={() => handleAddorRemoveToStudyList(false)}
+                  onClick={() =>
+                    handleAddorRemoveToStudyList(
+                      false,
+                      props.signedInUser.user_id,
+                      props.recommendation.recommendation_id,
+                      props.setStudyList
+                    )
+                  }
                   className="btn btn-custom add-button mr-2"
                   type="button"
                   id="remove-sl-button"
@@ -116,6 +110,23 @@ export default function Recommendation(
                   +
                 </button>
               )}
+              {/* <a
+                href="#"
+                className="button"
+                id="remove-sl-button"
+                onClick={() =>
+                  handleAddorRemoveToStudyList(
+                    false,
+                    props.signedInUser.user_id,
+                    props.recommendation.recommendation_id,
+                    props.setStudyList
+                  )
+                }
+              > */}
+              {/* <span className="icon">+</span>
+                <span className="text">Add to study list</span>
+              </a> */}
+
               {props.signedInUser.user_id === props.recommendation.user_id && (
                 <button
                   className="btn btn-danger delete-rec-button"
@@ -195,42 +206,29 @@ export default function Recommendation(
         >
           Sorciness: {likes - dislikes}
         </h5>
-        {
-          props.signedInUser.user_id !== 0 ? (
-            comments.filter(
-              (comment) => comment.user_id === props.signedInUser.user_id
-            ).length === 0 ? (
-              <div className="offset-1 col-1">
-                <button
-                  className="btn btn-custom mb-2"
-                  type="button"
-                  id="add-comment-button"
-                  data-toggle="collapse"
-                  data-target={`#${createCommentIDName}`}
-                  aria-expanded="false"
-                  aria-controls={createCommentIDName}
-                >
-                  Comment
-                </button>
-              </div>
-            ) : (
-              <p>Already commented</p>
-            )
+        {props.signedInUser.user_id !== 0 ? (
+          usersCommentOnPost.length === 0 ? (
+            <div className="offset-1 col-1">
+              <button
+                className="btn btn-custom mb-2"
+                type="button"
+                id="add-comment-button"
+                data-toggle="collapse"
+                data-target={`#${createCommentIDName}`}
+                aria-expanded="false"
+                aria-controls={createCommentIDName}
+              >
+                Comment
+              </button>
+            </div>
+          ) : usersCommentOnPost[0].is_like ? (
+            <p className="offset-1 col-1">Upvoted</p>
           ) : (
-            <p>Sign in to comment</p>
+            <p className="offset-1 col-1">Downvoted</p>
           )
-
-          //comments.length > 0 ? (
-          //   comments.filter(
-          //     (comment) => comment.user_id === props.signedInUser.user_id
-          //   )[0].is_like ? (
-          //     <p className="offset-1 col-1">Upvoted</p>
-          //   ) : (
-          //     <p className="offset-1 col-1">Downvoted</p>
-          //   )
-          // ) : (
-          //   <p>loading</p>
-        }
+        ) : (
+          <p>Sign in to comment</p>
+        )}
       </div>
 
       <div className="collapse row" id={createCommentIDName}>
@@ -340,14 +338,34 @@ async function postComment(
   } else {
     is_dislike = true;
   }
-  const response = await axios.post(`${apiBaseURL}comments/${id}`, {
+  await axios.post(`${apiBaseURL}comments/${id}`, {
     body: commentBody,
     user_id: user_id,
     is_like: is_like,
     is_dislike: is_dislike,
   });
-  console.log(response);
   setCommentBody("");
   getComments(setComments, id);
   setCommentPressed(false);
+}
+
+async function handleAddorRemoveToStudyList(
+  add: boolean,
+  user_id: number,
+  rec_id: number,
+  setStudyList: (input: StudyListType[]) => void
+) {
+  try {
+    if (add) {
+      await axios.delete(`${apiBaseURL}study_list/${user_id}/${rec_id}`);
+    } else {
+      await axios.post(`${apiBaseURL}study_list/${user_id}/${rec_id}`);
+    }
+    const studyListResponse = await axios.get(
+      `${apiBaseURL}study_list/${user_id}`
+    );
+    setStudyList(studyListResponse.data.data);
+  } catch (err) {
+    console.log(err);
+  }
 }
