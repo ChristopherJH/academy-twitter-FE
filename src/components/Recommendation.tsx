@@ -82,7 +82,7 @@ export default function Recommendation(
             {props.recommendation.title && props.recommendation.title}
           </a>
         </h2>
-        <div className="recommended-and-add-to-sl offset-3 col-3">
+        <div className="recommended-and-add-to-sl offset-2 col-4">
           <h4 className="recommended" id="recommendation-recommended">
             {props.recommendation.recommended}
           </h4>
@@ -93,7 +93,7 @@ export default function Recommendation(
                 .includes(props.recommendation.recommendation_id) ? (
                 <button
                   onClick={() => handleAddorRemoveToStudyList(true)}
-                  className="btn btn-custom add-button"
+                  className="btn btn-custom add-button mr-2"
                   type="button"
                   id="add-sl-button"
                   data-toggle="tooltip"
@@ -105,7 +105,7 @@ export default function Recommendation(
               ) : (
                 <button
                   onClick={() => handleAddorRemoveToStudyList(false)}
-                  className="btn btn-custom add-button"
+                  className="btn btn-custom add-button mr-2"
                   type="button"
                   id="remove-sl-button"
                   data-toggle="tooltip"
@@ -113,6 +113,19 @@ export default function Recommendation(
                   title="Add to study list"
                 >
                   +
+                </button>
+              )}
+              {props.signedInUser.user_id === props.recommendation.user_id && (
+                <button
+                  className="btn btn-danger delete-rec-button"
+                  onClick={() => {
+                    handleDeleteRecommendation(
+                      props.recommendation.recommendation_id,
+                      props.setRecommendations
+                    );
+                  }}
+                >
+                  <i className="fa fa-trash-o"></i>
                 </button>
               )}
             </div>
@@ -176,13 +189,13 @@ export default function Recommendation(
           See comments
         </button>
         <h5
-          className="offset-7 col-2 text-right"
+          className="offset-5 col-2 text-right"
           id="recommendation-like-count"
         >
           Sorciness: {likes - dislikes}
         </h5>
         {props.signedInUser.user_id !== 0 && (
-          <div className="col-1">
+          <div className="offset-1 col-1">
             <button
               className="btn btn-custom mb-2"
               type="button"
@@ -246,6 +259,7 @@ export default function Recommendation(
       <div className="collapse row" id={viewCommentIDName}>
         <div className="card card-body">
           <Comments
+            signedInUser={props.signedInUser}
             recommendation={props.recommendation}
             comments={comments}
             setComments={setComments}
@@ -264,6 +278,15 @@ async function getLikes(setLikes: (input: number) => void, id: number) {
 async function getDislikes(setDislikes: (input: number) => void, id: number) {
   const response = await axios.get(`${apiBaseURL}${id}/dislikes`);
   setDislikes(response.data.data[0].count);
+}
+
+async function handleDeleteRecommendation(
+  id: number,
+  setRecommendations: (input: RecommendationType[]) => void
+) {
+  await axios.delete(`${apiBaseURL}recommendations/${id}`);
+  const response = await axios.get(`${apiBaseURL}recommendations`);
+  setRecommendations(response.data.data);
 }
 
 async function postComment(
