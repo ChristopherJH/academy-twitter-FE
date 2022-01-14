@@ -29,10 +29,11 @@
 }
 
 #add-sl-button,
-#remove-sl-button {
-  height: 50px;
+#remove-sl-button,
+.delete-rec-button {
+  min-height: 50px;
+  max-height: 50px;
   width: 50px;
-  padding: 10px;
   font-size: large;
 }
 
@@ -149,4 +150,13 @@ fieldset[disabled] .btn-custom.active {
 
 .selected-tags {
   margin: auto 10px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-header button {
+  font-size: small;
 }
