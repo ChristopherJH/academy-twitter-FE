@@ -33,7 +33,7 @@ export default function Recommendations(
       props.searchText
     );
   }
-  if (props.dropDownValue && props.dropDownValue !== "Filter by tag") {
+  if (props.dropDownValue) {
     filteredRecommendations = tagsFilter(
       props.tags,
       props.dropDownArray,
