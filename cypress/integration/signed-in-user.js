@@ -1,4 +1,4 @@
-describe("renders homepage", () => {
+describe("Signed in user interface renders correctly", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.get("#signin-button").click();
@@ -16,22 +16,4 @@ describe("renders homepage", () => {
     cy.get("#create-button").click();
     cy.get("#createRecModal").should("exist");
   });
-  // it("can use functioning like and dislike buttons", () => {
-  //   cy.get("#recommendation-like-count").then(($likeCount) => {
-  //     const count = parseInt($likeCount.text());
-  //     cy.get("#recommendation-like-button").click();
-  //     cy.get("#recommendation-like-count").should(
-  //       "contain.text",
-  //       `${count + 1}`
-  //     );
-  //   });
-  //   cy.get("#recommendation-dislike-count").then(($dislikeCount) => {
-  //     const count = parseInt($dislikeCount.text());
-  //     cy.get("#recommendation-dislike-button").click();
-  //     cy.get("#recommendation-dislike-count").should(
-  //       "contain.text",
-  //       `${count + 1}`
-  //     );
-  //   });
-  // });
 });
