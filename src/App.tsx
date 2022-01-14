@@ -35,6 +35,7 @@ function App(): JSX.Element {
   });
   const [userStudyList, setUserStudyList] = useState<RecommendationType[]>([]);
   const [studyListClicked, setStudyListClicked] = useState(false);
+  const [dropDownArray, setDropdownArray] = useState<string[]>([]);
 
   useEffect(() => {
     function updateStudyList() {
@@ -107,6 +108,8 @@ function App(): JSX.Element {
         setUserStudyList={setUserStudyList}
         studyListClicked={studyListClicked}
         setStudyListClicked={setStudyListClicked}
+        dropDownArray={dropDownArray}
+        setDropdownArray={setDropdownArray}
       />
 
       {recommendations.length > 0 && (
@@ -121,6 +124,7 @@ function App(): JSX.Element {
           setRecommendations={setRecommendations}
           studyList={studyList}
           setStudyList={setStudyList}
+          dropDownArray={dropDownArray}
         />
       )}
       {studyListClicked && userStudyList.length === 0 && (

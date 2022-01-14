@@ -126,9 +126,9 @@ export default function Recommendation(
           {props.recommendation.content}
         </h3>
       </div>
+      <hr className="solid row"></hr>
       <div className="row">
         <p className="col-12 searchbar-test" id="recommendation-description">
-          <hr className="solid"></hr>
           {props.recommendation.description}
         </p>
       </div>

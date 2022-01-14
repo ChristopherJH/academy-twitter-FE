@@ -292,7 +292,7 @@ function Form(props: FormProps): JSX.Element {
                   setTagArray([...tagArray, e.target.value]);
               }}
             >
-              <option selected>Choose a tag</option>
+              <option>Choose a tag</option>
               {filteredTagNames.map((name, index) => (
                 <option key={index}>{name}</option>
               ))}
@@ -326,7 +326,11 @@ function Form(props: FormProps): JSX.Element {
         </button>
         <div id="tag-buttons">
           {tagArray.map((tag, index) => (
-            <button className="btn btn-warning mx-2 tag-button" key={index}>
+            <button
+              className="btn btn-warning mx-2 tag-button"
+              key={index}
+              onClick={(e) => deleteTag(e, tagArray, tag, setTagArray)}
+            >
               {tag}
             </button>
           ))}
@@ -368,7 +372,7 @@ function Form(props: FormProps): JSX.Element {
                 })
               }
             >
-              <option selected>Stage of mark</option>
+              <option>Stage of mark</option>
               {props.stages.map((stage, index) => (
                 <option key={index} value={stage.stage_id}>
                   {stage.stage_description}
@@ -393,9 +397,9 @@ function Form(props: FormProps): JSX.Element {
                 })
               }
             >
-              <option selected>Recommended</option>
-              <option selected>Not recommended</option>
-              <option selected>Promising</option>
+              <option>Recommended</option>
+              <option>Not recommended</option>
+              <option>Promising</option>
             </select>
           </div>
         </div>
@@ -424,4 +428,15 @@ function Form(props: FormProps): JSX.Element {
       </div>
     </form>
   );
+}
+function deleteTag(
+  e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  tagArray: string[],
+  tag: string,
+  setTagArray: (input: string[]) => void
+): void {
+  e.preventDefault();
+  const index = tagArray.indexOf(tag);
+  tagArray.splice(index, 1);
+  setTagArray([...tagArray]);
 }

@@ -16,6 +16,8 @@ interface NavigationBarProps {
   signedInUser: UserType;
   studyListClicked: boolean;
   setStudyListClicked: (input: boolean) => void;
+  setDropdownArray: (input: string[]) => void;
+  dropDownArray: string[];
 }
 
 export default function NavigationBar(props: NavigationBarProps): JSX.Element {
@@ -32,8 +34,11 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           tags={props.tags}
           dropDownValue={props.dropDownValue}
           setDropDownValue={props.setDropDownValue}
+          setDropdownArray={props.setDropdownArray}
+          dropDownArray={props.dropDownArray}
         />
       </div>
+
       <div className="col-3 text-right">
         {props.signedInUser.user_id !== 0 && !props.studyListClicked && (
           <button
@@ -64,6 +69,17 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           View all
         </button>
       </div>
+      <div className="row">
+        {props.dropDownArray.length > 0 && (
+          <p className="ml-5 mr-2 selected-tags">Selected tags:</p>
+        )}
+
+        {Array.from(new Set(props.dropDownArray)).map((el, index) => (
+          <button className="btn btn-custom" key={index}>
+            {el}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -93,6 +109,8 @@ interface TagsDropDownProps {
   tags: TagType[];
   dropDownValue: string;
   setDropDownValue: (input: string) => void;
+  setDropdownArray: (input: string[]) => void;
+  dropDownArray: string[];
 }
 
 function TagsDropDown(props: TagsDropDownProps): JSX.Element {
@@ -105,11 +123,12 @@ function TagsDropDown(props: TagsDropDownProps): JSX.Element {
         aria-label="default"
         id="tag-dropdown-select"
         value={props.dropDownValue}
-        onChange={(e) => props.setDropDownValue(e.target.value)}
+        onChange={(e) => {
+          props.setDropDownValue(e.target.value);
+          props.setDropdownArray([...props.dropDownArray, e.target.value]);
+        }}
       >
-        <option selected id="tag-dropdown-filter-by-tag">
-          Filter by tag
-        </option>
+        <option id="tag-dropdown-filter-by-tag">Filter by tag</option>
         {filteredTagNames.map((name, index) => (
           <option key={index}>{name}</option>
         ))}

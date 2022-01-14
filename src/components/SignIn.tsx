@@ -90,7 +90,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                       value={selectedUser}
                       onChange={(e) => setSelectedUser(e.target.value)}
                     >
-                      <option selected>guest</option>
+                      <option>guest</option>
                       {props.users.map((user) => (
                         <option key={user.user_id}>{user.name}</option>
                       ))}

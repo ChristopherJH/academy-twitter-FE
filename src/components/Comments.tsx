@@ -18,9 +18,8 @@ interface CommentsProps {
 export function Comments(props: CommentsProps): JSX.Element {
   useEffect(() => {
     getComments(props.setComments, props.recommendation.recommendation_id);
-    console.log(props.comments);
     // eslint-disable-next-line
-  }, [props.comments, props.recommendation.recommendation_id]);
+  }, []);
   return (
     <>
       {props.comments?.map((comment, index) => {
@@ -35,12 +34,16 @@ interface CommentProps {
 }
 
 function Comment(props: CommentProps): JSX.Element {
-  console.log(props.comment);
   return (
     <div className="comment-div">
       <h5>{props.comment.name}</h5>
+      {props.comment.is_like ? <p>Endorsed</p> : <p>Vetoed</p>}
       <h6>{dateFormatter(props.comment.date)}</h6>
       <p>{props.comment.body}</p>
+      <hr
+        className="solid
+      "
+      ></hr>
     </div>
   );
 }
