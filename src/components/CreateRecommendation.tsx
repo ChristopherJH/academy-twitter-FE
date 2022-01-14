@@ -7,6 +7,7 @@ import axios from "axios";
 import { config } from "dotenv";
 import RecommendationType from "../types/RecommendationType";
 import modalCloseCondition from "../utils/modalCloseCondition";
+import deleteTag from "../utils/deleteTag";
 
 config();
 
@@ -330,7 +331,10 @@ function Form(props: FormProps): JSX.Element {
             <button
               className="btn btn-warning mx-2 tag-button"
               key={index}
-              onClick={(e) => deleteTag(e, tagArray, tag, setTagArray)}
+              onClick={(e) => {
+                e.preventDefault();
+                setTagArray([...deleteTag(tagArray, tag)]);
+              }}
             >
               {tag}
             </button>
@@ -429,15 +433,4 @@ function Form(props: FormProps): JSX.Element {
       </div>
     </form>
   );
-}
-function deleteTag(
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  tagArray: string[],
-  tag: string,
-  setTagArray: (input: string[]) => void
-): void {
-  e.preventDefault();
-  const index = tagArray.indexOf(tag);
-  tagArray.splice(index, 1);
-  setTagArray([...tagArray]);
 }

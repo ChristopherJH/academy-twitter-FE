@@ -2,6 +2,7 @@ import RecommendationType from "../types/RecommendationType";
 import StudyListType from "../types/StudyListType";
 import TagType from "../types/TagType";
 import UserType from "../types/UserType";
+import deleteTag from "../utils/deleteTag";
 import studyListFilter from "../utils/filters/studyListFilter";
 
 interface NavigationBarProps {
@@ -16,7 +17,7 @@ interface NavigationBarProps {
   signedInUser: UserType;
   studyListClicked: boolean;
   setStudyListClicked: (input: boolean) => void;
-  setDropdownArray: (input: string[]) => void;
+  setDropDownArray: (input: string[]) => void;
   dropDownArray: string[];
 }
 
@@ -34,7 +35,7 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           tags={props.tags}
           dropDownValue={props.dropDownValue}
           setDropDownValue={props.setDropDownValue}
-          setDropdownArray={props.setDropdownArray}
+          setDropDownArray={props.setDropDownArray}
           dropDownArray={props.dropDownArray}
         />
       </div>
@@ -61,7 +62,8 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           id="view-all-button"
           onClick={() => {
             props.setUserStudyList([]);
-            props.setDropDownValue("");
+            props.setDropDownValue("Filter by tag");
+            props.setDropDownArray([]);
             props.setSearchText("");
             props.setStudyListClicked(false);
           }}
@@ -74,9 +76,16 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           <p className="ml-5 mr-2 selected-tags">Selected tags:</p>
         )}
 
-        {Array.from(new Set(props.dropDownArray)).map((el, index) => (
-          <button className="btn btn-custom" key={index}>
-            {el}
+        {Array.from(new Set(props.dropDownArray)).map((tag, index) => (
+          <button
+            className="btn btn-custom"
+            key={index}
+            onClick={(e) => {
+              e.preventDefault();
+              props.setDropDownArray([...deleteTag(props.dropDownArray, tag)]);
+            }}
+          >
+            {tag}
           </button>
         ))}
       </div>
@@ -109,7 +118,7 @@ interface TagsDropDownProps {
   tags: TagType[];
   dropDownValue: string;
   setDropDownValue: (input: string) => void;
-  setDropdownArray: (input: string[]) => void;
+  setDropDownArray: (input: string[]) => void;
   dropDownArray: string[];
 }
 
@@ -125,7 +134,10 @@ function TagsDropDown(props: TagsDropDownProps): JSX.Element {
         value={props.dropDownValue}
         onChange={(e) => {
           props.setDropDownValue(e.target.value);
-          props.setDropdownArray([...props.dropDownArray, e.target.value]);
+          if (e.target.value !== "Filter by tag") {
+            props.setDropDownArray([...props.dropDownArray, e.target.value]);
+          }
+          props.setDropDownValue("Filter by tag");
         }}
       >
         <option id="tag-dropdown-filter-by-tag">Filter by tag</option>
