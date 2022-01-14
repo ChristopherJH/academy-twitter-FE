@@ -62,7 +62,8 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           id="view-all-button"
           onClick={() => {
             props.setUserStudyList([]);
-            props.setDropDownValue("");
+            props.setDropDownValue("Filter by tag");
+            props.setDropDownArray([]);
             props.setSearchText("");
             props.setStudyListClicked(false);
           }}
@@ -136,6 +137,7 @@ function TagsDropDown(props: TagsDropDownProps): JSX.Element {
           if (e.target.value !== "Filter by tag") {
             props.setDropDownArray([...props.dropDownArray, e.target.value]);
           }
+          props.setDropDownValue("Filter by tag");
         }}
       >
         <option id="tag-dropdown-filter-by-tag">Filter by tag</option>

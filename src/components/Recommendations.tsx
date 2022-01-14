@@ -20,6 +20,7 @@ interface recommendationListProps {
   studyList: StudyListType[];
   setStudyList: (input: StudyListType[]) => void;
   dropDownArray: string[];
+  setDropDownArray: (input: string[]) => void;
 }
 
 export default function Recommendations(
@@ -33,7 +34,7 @@ export default function Recommendations(
       props.searchText
     );
   }
-  if (props.dropDownValue) {
+  if (props.dropDownArray.length > 0) {
     filteredRecommendations = tagsFilter(
       props.tags,
       props.dropDownArray,
@@ -54,6 +55,7 @@ export default function Recommendations(
           setRecommendations={props.setRecommendations}
           studyList={props.studyList}
           setStudyList={props.setStudyList}
+          setDropDownArray={props.setDropDownArray}
         />
       ))}
     </div>

@@ -25,6 +25,7 @@ interface recommendationProps {
   setRecommendations: (input: RecommendationType[]) => void;
   studyList: StudyListType[];
   setStudyList: (input: StudyListType[]) => void;
+  setDropDownArray: (input: string[]) => void;
 }
 
 export default function Recommendation(
@@ -148,8 +149,8 @@ export default function Recommendation(
           {recommendationTags?.map((tag) => (
             <button
               className="btn btn-custom btn-sm mx-2 recommendation-tag"
-              disabled
               key={tag.tag_id}
+              onClick={() => props.setDropDownArray([tag.name])}
             >
               {tag.name}
             </button>
@@ -178,7 +179,7 @@ export default function Recommendation(
           className="offset-7 col-2 text-right"
           id="recommendation-like-count"
         >
-          Endorsements: {likes - dislikes}
+          Sorciness: {likes - dislikes}
         </h5>
         {props.signedInUser.user_id !== 0 && (
           <div className="col-1">

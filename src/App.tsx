@@ -125,6 +125,7 @@ function App(): JSX.Element {
           studyList={studyList}
           setStudyList={setStudyList}
           dropDownArray={dropDownArray}
+          setDropDownArray={setDropDownArray}
         />
       )}
       {studyListClicked && userStudyList.length === 0 && (
