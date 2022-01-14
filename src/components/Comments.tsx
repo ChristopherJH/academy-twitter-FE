@@ -67,7 +67,7 @@ function Comment(props: CommentProps): JSX.Element {
           </button>
         )}
       </div>
-      {props.comment.is_like ? <p>Endorsed</p> : <p>Vetoed</p>}
+      {props.comment.is_like ? <p>Upvoted</p> : <p>Downvoted</p>}
       <h6>{dateFormatter(props.comment.date)}</h6>
       <p>{props.comment.body}</p>
 
@@ -85,6 +85,7 @@ export async function getComments(
   id: number
 ) {
   const response = await axios.get(`${apiBaseURL}comments/${id}`);
+  console.log(response.data.data);
   setComments(response.data.data);
 }
 

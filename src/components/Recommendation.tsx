@@ -45,6 +45,7 @@ export default function Recommendation(
   const [dislikes, setDislikes] = useState<number>(0);
   const [commentBody, setCommentBody] = useState<string>("");
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [commentPressed, setCommentPressed] = useState<boolean>(false);
 
   const viewCommentIDName = `view-comment-section-${props.recommendation.recommendation_id}`;
   const createCommentIDName = `create-comment-section-${props.recommendation.recommendation_id}`;
@@ -186,7 +187,7 @@ export default function Recommendation(
           aria-expanded="false"
           aria-controls={viewCommentIDName}
         >
-          See comments
+          {`See comments (${comments.length})`}
         </button>
         <h5
           className="offset-5 col-2 text-right"
@@ -194,21 +195,42 @@ export default function Recommendation(
         >
           Sorciness: {likes - dislikes}
         </h5>
-        {props.signedInUser.user_id !== 0 && (
-          <div className="offset-1 col-1">
-            <button
-              className="btn btn-custom mb-2"
-              type="button"
-              id="add-comment-button"
-              data-toggle="collapse"
-              data-target={`#${createCommentIDName}`}
-              aria-expanded="false"
-              aria-controls={createCommentIDName}
-            >
-              Comment
-            </button>
-          </div>
-        )}
+        {
+          props.signedInUser.user_id !== 0 ? (
+            comments.filter(
+              (comment) => comment.user_id === props.signedInUser.user_id
+            ).length === 0 ? (
+              <div className="offset-1 col-1">
+                <button
+                  className="btn btn-custom mb-2"
+                  type="button"
+                  id="add-comment-button"
+                  data-toggle="collapse"
+                  data-target={`#${createCommentIDName}`}
+                  aria-expanded="false"
+                  aria-controls={createCommentIDName}
+                >
+                  Comment
+                </button>
+              </div>
+            ) : (
+              <p>Already commented</p>
+            )
+          ) : (
+            <p>Sign in to comment</p>
+          )
+
+          //comments.length > 0 ? (
+          //   comments.filter(
+          //     (comment) => comment.user_id === props.signedInUser.user_id
+          //   )[0].is_like ? (
+          //     <p className="offset-1 col-1">Upvoted</p>
+          //   ) : (
+          //     <p className="offset-1 col-1">Downvoted</p>
+          //   )
+          // ) : (
+          //   <p>loading</p>
+        }
       </div>
 
       <div className="collapse row" id={createCommentIDName}>
@@ -220,38 +242,51 @@ export default function Recommendation(
             value={commentBody}
             onChange={(e) => setCommentBody(e.target.value)}
           />
+          {commentPressed && commentBody === "" && (
+            <div
+              className="alert alert-danger"
+              id="comment-body-alert"
+              role="alert"
+            >
+              Cannot post an empty comment
+            </div>
+          )}
           <div className="row endorse-veto-buttons text-right">
             <button
               className="btn btn-custom offset-10 mr-2 mt-2"
               id="endorse-button"
-              onClick={() =>
+              onClick={() => {
+                setCommentPressed(true);
                 postComment(
                   true,
                   props.recommendation.recommendation_id,
                   props.signedInUser.user_id,
                   commentBody,
                   setCommentBody,
-                  setComments
-                )
-              }
+                  setComments,
+                  setCommentPressed
+                );
+              }}
             >
-              Endorse
+              Upvote
             </button>
             <button
               className="btn btn-custom mt-2"
               id="veto-button"
-              onClick={() =>
+              onClick={() => {
+                setCommentPressed(true);
                 postComment(
                   false,
                   props.recommendation.recommendation_id,
                   props.signedInUser.user_id,
                   commentBody,
                   setCommentBody,
-                  setComments
-                )
-              }
+                  setComments,
+                  setCommentPressed
+                );
+              }}
             >
-              Veto
+              Downvote
             </button>
           </div>
         </div>
@@ -295,7 +330,8 @@ async function postComment(
   user_id: number,
   commentBody: string,
   setCommentBody: (input: string) => void,
-  setComments: (input: CommentType[]) => void
+  setComments: (input: CommentType[]) => void,
+  setCommentPressed: (input: boolean) => void
 ) {
   let is_like = false;
   let is_dislike = false;
@@ -313,4 +349,5 @@ async function postComment(
   console.log(response);
   setCommentBody("");
   getComments(setComments, id);
+  setCommentPressed(false);
 }
