@@ -309,6 +309,7 @@ function Form(props: FormProps): JSX.Element {
         </div>
         <button
           className="btn btn-custom"
+          id="add-tag-button"
           data-backdrop="static"
           data-keyboard="false"
           onClick={(e) => {

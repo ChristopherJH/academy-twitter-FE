@@ -1,4 +1,4 @@
-describe("create a recommendation modal works", () => {
+describe("Create a recommendation modal works", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.get("#signin-button").click();
@@ -10,22 +10,24 @@ describe("create a recommendation modal works", () => {
     cy.get("#resource-name").clear();
     cy.get("#resource-name").type("Google");
     cy.get("#author-name").clear();
-    cy.get("#author-name").type("alphabet");
+    cy.get("#author-name").type("Alphabet");
     cy.get("#url").clear();
-    cy.get("#url").type("google.com");
+    cy.get("#url").type("https://www.google.com");
+    cy.get("#content-type").select("Website");
     cy.get("#resource-description").click();
-    cy.get("#resource-description").type("search engine that everyone uses");
-    cy.get("#why-recommended").type("such a good website");
-    cy.get(".stage-dropdown > .form-select").select("8");
-    cy.get(".modal-footer > .btn").click();
-    /* ==== Generated with Cypress Studio ==== */
-    // cy.get("#new-tags").clear();
-    cy.get("#new-tags").type("google");
-    cy.get('.modal-body > [data-backdrop="static"]').click();
+    cy.get("#resource-description").type(
+      "Great search engine for finding literally anything."
+    );
     cy.get("#new-tags").clear();
     cy.get("#new-tags").type("website");
-    cy.get('.modal-body > [data-backdrop="static"]').click();
-    /* ==== End Cypress Studio ==== */
+    cy.get("#add-tag-button").click();
+    cy.get("#new-tags").clear();
+    cy.get("#new-tags").type("google");
+    cy.get("#add-tag-button").click();
+    cy.get("#why-recommended").clear();
+    cy.get("#why-recommended").type("Such a great website");
+    cy.get(".stage-dropdown > .form-select").select("8");
+    cy.get(".modal-footer > .btn").click();
   });
   it("posting a recommendation with empty fields should keep the modal visible", () => {
     cy.get(".modal-footer > .btn").click();
@@ -98,7 +100,7 @@ describe("create a recommendation modal works", () => {
     cy.get("#author-name").clear();
     cy.get("#author-name").type("alphabet");
     cy.get("#url").clear();
-    cy.get("#url").type("google.com");
+    cy.get("#url").type("https://www.google.com");
     cy.get("#resource-description").click();
     cy.get("#resource-description").type("search engine that everyone uses");
     cy.get("#why-recommended").type("such a good website");
@@ -128,10 +130,10 @@ describe("create a recommendation modal works", () => {
   it("adding a new tag via the text input", () => {
     cy.get("#new-tags").clear();
     cy.get("#new-tags").type("hello{enter}");
-    cy.get('.modal-body > [data-backdrop="static"]').click();
+    cy.get("#add-tag-button").click();
     cy.get("#new-tags").clear();
     cy.get("#new-tags").type("website{enter}");
-    cy.get('.modal-body > [data-backdrop="static"]').click();
+    cy.get("#add-tag-button").click();
     cy.get("#tag-buttons").find(".tag-button").should("have.length", 2);
     cy.get("#tag-buttons").contains("website");
     cy.get("#tag-buttons").contains("hello");
@@ -139,7 +141,7 @@ describe("create a recommendation modal works", () => {
   it("adding the same tag via the text input and via dropdown should only add one tag", () => {
     cy.get("#new-tags").clear();
     cy.get("#new-tags").type("google{enter}");
-    cy.get('.modal-body > [data-backdrop="static"]').click();
+    cy.get("#add-tag-button").click();
     cy.get(".modal-body > :nth-child(2) > .tag-dropdown > .form-select").select(
       "google"
     );

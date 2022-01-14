@@ -185,6 +185,7 @@ export default function Recommendation(
             <button
               className="btn btn-custom mb-2"
               type="button"
+              id="add-comment-button"
               data-toggle="collapse"
               data-target={`#${createCommentIDName}`}
               aria-expanded="false"
@@ -199,6 +200,7 @@ export default function Recommendation(
       <div className="collapse row" id={createCommentIDName}>
         <div className="card card-body">
           <textarea
+            id="comment-input"
             className="form-control"
             placeholder="Write your comment"
             value={commentBody}
@@ -207,6 +209,7 @@ export default function Recommendation(
           <div className="row endorse-veto-buttons text-right">
             <button
               className="btn btn-custom offset-10 mr-2 mt-2"
+              id="endorse-button"
               onClick={() =>
                 postComment(
                   true,
@@ -222,6 +225,7 @@ export default function Recommendation(
             </button>
             <button
               className="btn btn-custom mt-2"
+              id="veto-button"
               onClick={() =>
                 postComment(
                   false,
