@@ -25,13 +25,14 @@ export default function SignIn(props: SignInProps): JSX.Element {
         `${apiBaseURL}study_list/${props.signedInUser.user_id}`
       );
 
-      console.log("Signed in user:", props.signedInUser);
       props.setStudyList(studyListResponse.data.data);
     }
   }
 
   useEffect(() => {
     getStudyList();
+    localStorage.setItem("signedInUser", JSON.stringify(props.signedInUser));
+
     // eslint-disable-next-line
   }, [props.signedInUser]);
 
