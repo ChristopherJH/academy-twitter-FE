@@ -32,9 +32,13 @@ function App(): JSX.Element {
     // getting stored value
     const saved = localStorage.getItem("signedInUser");
     if (saved) {
-      return saved === "{ name: 'guest', user_id: 0, is_faculty: false}"
-        ? { name: "guest", user_id: 0, is_faculty: false }
-        : JSON.parse(saved);
+      return JSON.parse(saved);
+    } else {
+      return {
+        name: "guest",
+        user_id: 0,
+        is_faculty: false,
+      };
     }
   });
 
