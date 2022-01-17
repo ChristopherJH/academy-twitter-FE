@@ -148,7 +148,8 @@ function Form(props: FormProps): JSX.Element {
   };
 
   useEffect(() => {
-    handleAddTags(props.recommendations[0].recommendation_id);
+    props.recommendations.length > 0 &&
+      handleAddTags(props.recommendations[0].recommendation_id);
     // eslint-disable-next-line
   }, [props.recommendations]);
 
