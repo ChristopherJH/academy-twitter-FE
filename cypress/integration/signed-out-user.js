@@ -7,39 +7,19 @@ describe("Signed in user features work", () => {
     cy.get("#page-title").should("exist");
   });
 
-  // it("renders a search bar which filters recommendations", () => { //boolean not working yet
-  //   cy.get("#searchbar").should("exist");
-  //   /* ==== Generated with Cypress Studio ==== */
-  //   cy.get("#searchbar").clear();
-  //   cy.get("#searchbar").type("know");
-  //   /* ==== End Cypress Studio ==== */
-  //   cy.get("#recommendations-list")
-  //     .should("be.visible")
-  //     .each(() => {
-  //       cy.get(".recommendation").should("be.visible");
-  //       cy.get(".searchbar-test").should("contain", "hello");
-  //     });
-  //   if (cy.get(".recommendation-title").includes("know")) {
-  //     cy.get(".recommendation-title").should("contain", "know");
-  //   } else if (cy.get("#recommendation-author").contains("know")) {
-  //     cy.get("#recommendation-author").should("contain", "know");
-  //   } else {
-  //     cy.get(".recommendation-description").should("contain", "know");
-  //   }
-  // });
+  it("renders a search bar which filters recommendations", () => {
+    cy.get("#searchbar").should("exist");
+    cy.get("#searchbar").clear();
+    cy.get("#searchbar").type("sql");
+    cy.get(".recommendation").should("have.length", 2);
+  });
 
   it("renders a tags dropdown which filters recommendations for the selected tag", () => {
     cy.get(".tag-dropdown").should("exist");
     /* ==== Generated with Cypress Studio ==== */
-    cy.get("#tag-dropdown-select").select("google");
+    cy.get("#tag-dropdown-select").select("github");
     // /* ==== End Cypress Studio ==== */
-    cy.get("#recommendations-list").each(() => {
-      cy.get(".recommendation-tags-div")
-        .should("be.visible")
-        .each(($tag) => {
-          cy.wrap($tag).parent().should("contain", "google");
-        });
-    });
+    cy.get(".recommendation").should("have.length", 2);
   });
 
   it("renders a sign-in button", () => {
@@ -96,11 +76,4 @@ describe("Signed in user features work", () => {
       .get(".recommendation-tags-div")
       .should("exist");
   });
-
-  // it("search bar filters recommendations", () => {
-  //   cy.get("#searchbar").type("test");
-  //   cy.get("#recommendations-list").each((recommendation) => {
-  //     cy.get(recommendation).contains("test");
-  //   });
-  // });
 });
