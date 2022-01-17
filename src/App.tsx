@@ -6,7 +6,6 @@ import TagType from "./types/TagType";
 import StageType from "./types/StageType";
 import { config } from "dotenv";
 import UserType from "./types/UserType";
-//import CommentType from "./types/CommentType";
 import "./App.css";
 import NavigationBar from "./components/NavigationBar";
 import SignIn from "./components/SignIn";
@@ -56,12 +55,10 @@ function App(): JSX.Element {
       const tagsResponse = await axios.get(`${apiBaseURL}tags`);
       const userResponse = await axios.get(`${apiBaseURL}users`);
       const stageResponse = await axios.get(`${apiBaseURL}stages`);
-      //const commentResponse = await axios.get(`${apiBaseURL}comments`);
       setRecommendations(recommendationsResponse.data.data);
       setTags(tagsResponse.data.data);
       setUsers(userResponse.data.data);
       setStages(stageResponse.data.data);
-      //setComments(commentResponse.data.data);
     }
   }
 
@@ -111,7 +108,7 @@ function App(): JSX.Element {
         dropDownArray={dropDownArray}
         setDropDownArray={setDropDownArray}
       />
-
+      {/* If recommendations has been loaded */}
       {recommendations.length > 0 && (
         <Recommendations
           recommendations={!studyListClicked ? recommendations : userStudyList}
@@ -128,6 +125,7 @@ function App(): JSX.Element {
           setDropDownArray={setDropDownArray}
         />
       )}
+      {/* If user has clicked study list and it is empty */}
       {studyListClicked && userStudyList.length === 0 && (
         <p>You have no items in your study list</p>
       )}

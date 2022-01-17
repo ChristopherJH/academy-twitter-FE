@@ -12,7 +12,6 @@ interface recommendationListProps {
   tags: TagType[];
   users: UserType[];
   stages: StageType[];
-  // comments: CommentType[]
   searchText: string;
   dropDownValue: string;
   signedInUser: UserType;
