@@ -93,7 +93,9 @@ export default function CreateRecommendation(
                     data-dismiss="modal"
                     aria-label="Close"
                   >
-                    <span aria-hidden="true">&times;</span>
+                    <span id="closeModal" aria-hidden="true">
+                      &times;
+                    </span>
                   </button>
                 </div>
 
