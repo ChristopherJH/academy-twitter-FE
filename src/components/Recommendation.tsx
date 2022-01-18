@@ -6,8 +6,8 @@ import dateFormatter from "../utils/dateFormatter";
 import { config } from "dotenv";
 import axios from "axios";
 import StudyListType from "../types/StudyListType";
-import { useEffect, useState } from "react";
-import { Comments, getComments } from "./Comments";
+import { useState } from "react";
+import { Comments, postComment } from "./Comments";
 import CommentType from "../types/CommentType";
 
 config();
@@ -39,8 +39,7 @@ export default function Recommendation(
   const recommenderName = props.users.find(
     (element) => element.user_id === props.recommendation.user_id
   )?.name;
-  const [likes, setLikes] = useState<number>(0);
-  const [dislikes, setDislikes] = useState<number>(0);
+  const [sorciness, setSorciness] = useState<number>(0);
   const [commentBody, setCommentBody] = useState<string>("");
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentPressed, setCommentPressed] = useState<boolean>(false);
@@ -50,10 +49,6 @@ export default function Recommendation(
   const usersCommentOnPost = comments.filter(
     (comment) => comment.user_id === props.signedInUser.user_id
   );
-  useEffect(() => {
-    getLikes(setLikes, props.recommendation.recommendation_id);
-    getDislikes(setDislikes, props.recommendation.recommendation_id);
-  }, [props.recommendation.recommendation_id, comments]);
 
   return (
     <div className="recommendation">
@@ -204,7 +199,7 @@ export default function Recommendation(
           className="offset-5 col-2 text-right"
           id="recommendation-like-count"
         >
-          Sorciness: {likes - dislikes}
+          Sorciness: {sorciness}
         </h5>
         {props.signedInUser.user_id !== 0 ? (
           usersCommentOnPost.length === 0 ? (
@@ -296,21 +291,12 @@ export default function Recommendation(
             recommendation={props.recommendation}
             comments={comments}
             setComments={setComments}
+            setSorciness={setSorciness}
           />
         </div>
       </div>
     </div>
   );
-}
-
-async function getLikes(setLikes: (input: number) => void, id: number) {
-  const response = await axios.get(`${apiBaseURL}${id}/likes`);
-  setLikes(response.data.data[0].count);
-}
-
-async function getDislikes(setDislikes: (input: number) => void, id: number) {
-  const response = await axios.get(`${apiBaseURL}${id}/dislikes`);
-  setDislikes(response.data.data[0].count);
 }
 
 async function handleDeleteRecommendation(
@@ -320,33 +306,6 @@ async function handleDeleteRecommendation(
   await axios.delete(`${apiBaseURL}recommendations/${id}`);
   const response = await axios.get(`${apiBaseURL}recommendations`);
   setRecommendations(response.data.data);
-}
-
-async function postComment(
-  endorse: boolean,
-  id: number,
-  user_id: number,
-  commentBody: string,
-  setCommentBody: (input: string) => void,
-  setComments: (input: CommentType[]) => void,
-  setCommentPressed: (input: boolean) => void
-) {
-  let is_like = false;
-  let is_dislike = false;
-  if (endorse) {
-    is_like = true;
-  } else {
-    is_dislike = true;
-  }
-  await axios.post(`${apiBaseURL}comments/${id}`, {
-    body: commentBody,
-    user_id: user_id,
-    is_like: is_like,
-    is_dislike: is_dislike,
-  });
-  setCommentBody("");
-  getComments(setComments, id);
-  setCommentPressed(false);
 }
 
 async function handleAddorRemoveToStudyList(

@@ -52,10 +52,6 @@ function App(): JSX.Element {
     updateStudyList();
   }, [studyList, recommendations]);
 
-  useEffect(() => {
-    getAllData();
-  }, []);
-
   async function getAllData() {
     if (typeof apiBaseURL === "string") {
       const recommendationsResponse = await axios.get(
@@ -70,6 +66,11 @@ function App(): JSX.Element {
       setStages(stageResponse.data.data);
     }
   }
+
+  useEffect(() => {
+    console.log("getAllData called");
+    getAllData();
+  }, []);
 
   return (
     <div className="main">
