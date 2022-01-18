@@ -29,18 +29,18 @@ describe("Comment feature works correctly", () => {
     cy.get("#why-recommended").type("Such a great website");
     cy.get(".stage-dropdown > .form-select").select("8");
     cy.get(".modal-footer > .btn").click();
-    cy.wait(100);
+    cy.wait(1000);
   });
 
   it("Can post a veto comment and see it", () => {
     cy.get(".recommendation").get("#add-comment-button").click();
     cy.get("#comment-input")
       .click()
-      .type("Lmao google is using your data! bing is better no cap");
+      .type("Lmao google is using your data! bing is better");
     cy.get("#veto-button").click();
     cy.get("#recommendation-see-comments-button").click();
     cy.get(".comment-div")
-      .findByText("Lmao google is using your data! bing is better no cap")
+      .findByText("Lmao google is using your data! bing is better")
       .should("be.visible");
   });
 
@@ -73,6 +73,12 @@ describe("Comment feature works correctly", () => {
   });
   it("clicking the trashcan will delete the recommendation", () => {
     cy.get(".btn-danger").click();
-    cy.get("#recommendations-list").should("have.length", 0);
+    cy.get(".recommendation").should("have.length", 3);
+  });
+
+  it("trying upvote with an empty body shows an alert and prevents posting", () => {
+    cy.get(".recommendation").get("#add-comment-button").click();
+    cy.get("#endorse-button").click();
+    cy.get("#comment-body-alert").should("be.visible");
   });
 });
