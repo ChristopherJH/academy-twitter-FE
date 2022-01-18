@@ -12,6 +12,7 @@ interface SignInProps {
   setSignedInUser: (input: UserType) => void;
   studyList: StudyListType[];
   setStudyList: (input: StudyListType[]) => void;
+  setStudyListClicked: (input: boolean) => void;
 }
 
 const apiBaseURL = process.env.REACT_APP_API_BASE;
@@ -52,6 +53,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
       is_faculty: false,
     });
     setSelectedUser("guest");
+    props.setStudyListClicked(false);
   };
 
   return (

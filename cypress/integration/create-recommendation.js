@@ -18,6 +18,7 @@ describe("Create a recommendation modal works", () => {
     cy.get("#resource-description").type(
       "Great search engine for finding literally anything."
     );
+
     cy.get("#new-tags").clear();
     cy.get("#new-tags").type("website");
     cy.get("#add-tag-button").click();
@@ -28,7 +29,7 @@ describe("Create a recommendation modal works", () => {
     cy.get("#why-recommended").type("Such a great website");
     cy.get(".stage-dropdown > .form-select").select("8");
     cy.get(".modal-footer > .btn").click();
-    cy.wait(100);
+    cy.wait(1000);
   });
   it("posting a recommendation with empty fields should keep the modal visible", () => {
     cy.get(".modal-footer > .btn").click();
@@ -158,6 +159,6 @@ describe("Delete a recommendation modal works", () => {
   });
   it("clicking the trashcan will delete the recommendation", () => {
     cy.get(".btn-danger").click();
-    cy.get("#recommendations-list").should("have.length", 0);
+    cy.get(".recommendation").should("have.length", 3); //make sure the 3 permanent recommendations are there
   });
 });

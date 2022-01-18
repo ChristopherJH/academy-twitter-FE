@@ -1,4 +1,4 @@
-describe("Signed in user features work", () => {
+describe("Signed out user features work", () => {
   beforeEach(() => {
     cy.visit("/");
   });
@@ -7,18 +7,39 @@ describe("Signed in user features work", () => {
     cy.get("#page-title").should("exist");
   });
 
-  it("renders a search bar which filters recommendations", () => {
+  it("renders a search bar which filters recommendations down to 2 matches", () => {
     cy.get("#searchbar").should("exist");
     cy.get("#searchbar").clear();
     cy.get("#searchbar").type("sql");
     cy.get(".recommendation").should("have.length", 2);
   });
 
+  it("renders a search bar which filters recommendations down to 0 matches if it can't find the search term", () => {
+    cy.get("#searchbar").should("exist");
+    cy.get("#searchbar").clear();
+    cy.get("#searchbar").type("lol");
+    cy.get(".recommendation").should("have.length", 0);
+  });
+
+  it("the search bar does not return results for tags typed in", () => {
+    cy.get("#searchbar").should("exist");
+    cy.get("#searchbar").clear();
+    cy.get("#searchbar").type("github");
+    cy.get(".recommendation").should("have.length", 0);
+  });
+
+  it("clicking view all after using the searchbar shows all existing recommendations", () => {
+    cy.get("#searchbar").should("exist");
+    cy.get("#searchbar").clear();
+    cy.get("#searchbar").type("github");
+    cy.get(".recommendation").should("have.length", 0);
+    cy.get("#view-all-button").click();
+    cy.get(".recommendation").should("have.length", 3);
+  });
+
   it("renders a tags dropdown which filters recommendations for the selected tag", () => {
     cy.get(".tag-dropdown").should("exist");
-    /* ==== Generated with Cypress Studio ==== */
-    cy.get("#tag-dropdown-select").select("github");
-    // /* ==== End Cypress Studio ==== */
+    cy.get("#tag-dropdown-select").select("back-end");
     cy.get(".recommendation").should("have.length", 2);
   });
 
