@@ -40,11 +40,10 @@ export function Comments(props: CommentsProps): JSX.Element {
   );
 }
 
-// eslint-disable-next-line
 export async function getComments(
   setComments: (input: CommentType[]) => void,
   id: number
-) {
+): Promise<void> {
   const response = await axios.get(`${apiBaseURL}comments/${id}`);
   setComments(response.data.data);
 }

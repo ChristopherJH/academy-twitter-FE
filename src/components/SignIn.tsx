@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UserType from "../types/UserType";
 import axios from "axios";
 import StudyListType from "../types/StudyListType";
@@ -19,21 +19,25 @@ const apiBaseURL = process.env.REACT_APP_API_BASE;
 export default function SignIn(props: SignInProps): JSX.Element {
   const [selectedUser, setSelectedUser] = useState<string>("guest");
 
-  async function getStudyList() {
+  //destructure props (so that any change to props wont cause a rerender) so now: signedInUser = props.signedInUser
+  const { signedInUser, setStudyList } = props;
+
+  //useCallback makes it so getStudyList's reference does not change during renders, making it okay to put in the useEffect dependency array
+  const getStudyList = useCallback(async () => {
     if (typeof apiBaseURL === "string") {
       const studyListResponse = await axios.get(
-        `${apiBaseURL}study_list/${props.signedInUser.user_id}`
+        `${apiBaseURL}study_list/${signedInUser.user_id}`
       );
 
-      console.log("Signed in user:", props.signedInUser);
-      props.setStudyList(studyListResponse.data.data);
+      console.log("Signed in user:", signedInUser);
+      setStudyList(studyListResponse.data.data);
     }
-  }
+  }, [signedInUser, setStudyList]);
 
+  //then add getStudyList to the dependency array without lint error
   useEffect(() => {
     getStudyList();
-    // eslint-disable-next-line
-  }, [props.signedInUser]);
+  }, [props.signedInUser, getStudyList]);
 
   const handleLogin = () => {
     const user = props.users.filter((user) => user.name === selectedUser)[0];
