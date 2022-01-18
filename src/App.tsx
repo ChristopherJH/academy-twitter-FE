@@ -40,7 +40,7 @@ function App(): JSX.Element {
       };
     }
   });
- 
+
   const [userStudyList, setUserStudyList] = useState<RecommendationType[]>([]);
   const [studyListClicked, setStudyListClicked] = useState(false);
   const [dropDownArray, setDropDownArray] = useState<string[]>([]);
