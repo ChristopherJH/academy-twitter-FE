@@ -7,6 +7,15 @@ import { config } from "dotenv";
 config();
 
 interface SignInProps {
+import { useCallback, useEffect, useState } from "react";
+import UserType from "../types/UserType";
+import axios from "axios";
+import StudyListType from "../types/StudyListType";
+import { config } from "dotenv";
+
+config();
+
+interface SignInProps {
   users: UserType[];
   signedInUser: UserType;
   setSignedInUser: (input: UserType) => void;
@@ -37,11 +46,14 @@ export default function SignIn(props: SignInProps): JSX.Element {
   //then add getStudyList to the dependency array without lint error
   useEffect(() => {
     getStudyList();
+    localStorage.setItem("signedInUser", JSON.stringify(props.signedInUser));
+    console.log("local storage sign in:", localStorage.getItem("signedInUser"));
   }, [props.signedInUser, getStudyList]);
 
   const handleLogin = () => {
     const user = props.users.filter((user) => user.name === selectedUser)[0];
     props.setSignedInUser(user);
+    console.log("logged in", props.signedInUser);
   };
 
   const handleLogout = () => {
@@ -51,6 +63,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
       is_faculty: false,
     });
     setSelectedUser("guest");
+    console.log("logged out", props.signedInUser);
   };
 
   return (
