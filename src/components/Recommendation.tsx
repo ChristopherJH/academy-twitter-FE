@@ -54,12 +54,12 @@ export default function Recommendation(
   return (
     <div className="recommendation">
       <div className="row">
-        <h2 className="col-6 recommendation-title searchbar-test">
+        <h2 className="col-8 recommendation-title searchbar-test">
           <a href={props.recommendation.url} id="recommendation-url">
             {props.recommendation.title && props.recommendation.title}
           </a>
         </h2>
-        <div className="recommended-and-add-to-sl offset-2 col-4">
+        <div className="recommended-and-add-to-sl offset-0 col-4">
           <h4 className="recommended" id="recommendation-recommended">
             {props.recommendation.recommended}
           </h4>
@@ -141,28 +141,31 @@ export default function Recommendation(
         </div>
       </div>
       <div className="row">
-        <h3 className="col-3 searchbar-test" id="recommendation-author">
+        <h4 className="col-3 searchbar-test" id="recommendation-author">
           {props.recommendation.author && props.recommendation.author}
-        </h3>
-        <h3 className="col-3" id="recommendation-content">
+        </h4>
+        <h5 className="col-2" id="recommendation-content">
           {props.recommendation.content}
-        </h3>
+        </h5>
+        <p
+          className="offset-4 col-3 text-right mt-2 "
+          id="recommendation-stage"
+        >
+          <strong className="mr-2">
+            {recommendationStage?.stage_description}
+          </strong>
+        </p>
       </div>
       <hr className="solid row"></hr>
       <div className="row">
-        <p className="col-12 searchbar-test" id="recommendation-description">
+        <h4 className="col-12 searchbar-test" id="recommendation-description">
           {props.recommendation.description}
-        </p>
+        </h4>
       </div>
-      <div className="row">
-        <p className="col-12" id="recommendation-stage">
-          Recommended for Week {recommendationStage?.stage_week}:{" "}
-          {recommendationStage?.stage_description}
-        </p>
-      </div>
+
       <div className="row">
         <p className="col-12" id="recommendation-recommended-description">
-          Why? {props.recommendation.recommended_description}
+          <strong>Why?</strong> "{props.recommendation.recommended_description}"
         </p>
       </div>
       <div className="row">
@@ -185,31 +188,38 @@ export default function Recommendation(
         </div>
       </div>
       <div className="row">
-        <button
-          className="col-2"
-          id="recommendation-see-comments-button"
-          type="button"
-          data-toggle="collapse"
-          data-target={`#${viewCommentIDName}`}
-          aria-expanded="false"
-          aria-controls={viewCommentIDName}
-          onClick={() => setSeeCommentsPressed(!seeCommentsPressed)}
-        >
-          {seeCommentsPressed
-            ? "Hide comments"
-            : comments.length > 0
-            ? `See comments(${comments.length})`
-            : "No comments"}
-        </button>
+        {comments.length > 1 ? (
+          <button
+            className="col-3"
+            id="recommendation-see-comments-button"
+            type="button"
+            data-toggle="collapse"
+            data-target={`#${viewCommentIDName}`}
+            aria-expanded="false"
+            aria-controls={viewCommentIDName}
+            onClick={() => setSeeCommentsPressed(!seeCommentsPressed)}
+          >
+            {seeCommentsPressed ? "Hide comments" : `See more comments`}
+          </button>
+        ) : (
+          <div className="col-3">
+            {comments.length === 0 && (
+              <p className="ml-5">
+                <strong>No comments</strong>
+              </p>
+            )}
+          </div>
+        )}
+
         <h5
-          className="offset-5 col-2 text-right"
+          className="offset-4 col-2 text-right"
           id="recommendation-like-count"
         >
           Sorciness: {sorciness}
         </h5>
         {props.signedInUser.user_id !== 0 ? (
           usersCommentOnPost.length === 0 ? (
-            <div className="offset-1 col-1">
+            <div className="offset-1 col-2">
               <button
                 className="btn btn-custom mb-2"
                 type="button"
@@ -231,7 +241,6 @@ export default function Recommendation(
           <p>Sign in to comment</p>
         )}
       </div>
-
       <div className="collapse row" id={createCommentIDName}>
         <div className="card card-body">
           <textarea
@@ -290,17 +299,13 @@ export default function Recommendation(
           </div>
         </div>
       </div>
-      <div className="collapse row" id={viewCommentIDName}>
-        <div className="card card-body">
-          <Comments
-            signedInUser={props.signedInUser}
-            recommendation={props.recommendation}
-            comments={comments}
-            setComments={setComments}
-            setSorciness={setSorciness}
-          />
-        </div>
-      </div>
+      <Comments
+        signedInUser={props.signedInUser}
+        recommendation={props.recommendation}
+        comments={seeCommentsPressed ? comments : comments.slice(0, 1)}
+        setComments={setComments}
+        setSorciness={setSorciness}
+      />
     </div>
   );
 }

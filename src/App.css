@@ -196,3 +196,9 @@ fieldset[disabled] .btn-custom.active {
   white-space: nowrap;
   padding-right: 15px;
 } */
+
+#recommendation-author,
+#recommendation-stage,
+#recommendation-content {
+  color: grey;
+}
