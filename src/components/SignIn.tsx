@@ -32,12 +32,15 @@ export default function SignIn(props: SignInProps): JSX.Element {
 
   useEffect(() => {
     getStudyList();
+    localStorage.setItem("signedInUser", JSON.stringify(props.signedInUser));
+    console.log("local storage sign in:", localStorage.getItem("signedInUser"));
     // eslint-disable-next-line
   }, [props.signedInUser]);
 
   const handleLogin = () => {
     const user = props.users.filter((user) => user.name === selectedUser)[0];
     props.setSignedInUser(user);
+    console.log("logged in", props.signedInUser);
   };
 
   const handleLogout = () => {
@@ -47,6 +50,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
       is_faculty: false,
     });
     setSelectedUser("guest");
+    console.log("logged out", props.signedInUser);
   };
 
   return (
