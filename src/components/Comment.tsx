@@ -9,6 +9,7 @@ interface CommentProps {
   signedInUser: UserType;
   setComments: (input: CommentType[]) => void;
   recommendation: RecommendationType;
+  comments: CommentType[];
 }
 
 export default function Comment(props: CommentProps): JSX.Element {
@@ -36,10 +37,12 @@ export default function Comment(props: CommentProps): JSX.Element {
       <h6>{dateFormatter(props.comment.date)}</h6>
       <p>{props.comment.body}</p>
 
-      <hr
-        className="solid
+      {props.comments.length > 1 && (
+        <hr
+          className="solid
         "
-      ></hr>
+        ></hr>
+      )}
     </div>
   );
 }

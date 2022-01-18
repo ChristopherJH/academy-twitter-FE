@@ -21,8 +21,8 @@ interface CommentsProps {
 
 export function Comments(props: CommentsProps): JSX.Element {
   const { recommendation, setComments } = props;
+
   useEffect(() => {
-    console.log("getComments called");
     getComments(setComments, recommendation.recommendation_id);
   }, [recommendation.recommendation_id, setComments]);
 
@@ -33,17 +33,22 @@ export function Comments(props: CommentsProps): JSX.Element {
   props.setSorciness(upvotes - downvotes);
   return (
     <>
-      {props.comments?.map((comment, index) => {
-        return (
-          <Comment
-            signedInUser={props.signedInUser}
-            key={index}
-            comment={comment}
-            setComments={props.setComments}
-            recommendation={props.recommendation}
-          />
-        );
-      })}
+      {props.comments.length > 0 && (
+        <div className="card card-body">
+          {props.comments?.map((comment, index) => {
+            return (
+              <Comment
+                signedInUser={props.signedInUser}
+                key={index}
+                comment={comment}
+                setComments={props.setComments}
+                recommendation={props.recommendation}
+                comments={props.comments}
+              />
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }
