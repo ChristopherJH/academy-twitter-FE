@@ -27,7 +27,6 @@ function App(): JSX.Element {
   const [studyList, setStudyList] = useState<StudyListType[]>([]);
   const [searchText, setSearchText] = useState("");
   const [dropDownValue, setDropDownValue] = useState("");
-
   const [signedInUser, setSignedInUser] = useState(() => {
     // getting stored value
     const saved = localStorage.getItem("signedInUser");
@@ -41,7 +40,7 @@ function App(): JSX.Element {
       };
     }
   });
-
+ 
   const [userStudyList, setUserStudyList] = useState<RecommendationType[]>([]);
   const [studyListClicked, setStudyListClicked] = useState(false);
   const [dropDownArray, setDropDownArray] = useState<string[]>([]);
@@ -95,9 +94,9 @@ function App(): JSX.Element {
           )}
 
           <SignIn
-            signedInUser={signedInUser}
-            setSignedInUser={setSignedInUser}
             users={users}
+            setSignedInUser={setSignedInUser}
+            signedInUser={signedInUser}
             studyList={studyList}
             setStudyList={setStudyList}
           />

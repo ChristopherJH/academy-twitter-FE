@@ -25,6 +25,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
         `${apiBaseURL}study_list/${props.signedInUser.user_id}`
       );
 
+      console.log("Signed in user:", props.signedInUser);
       props.setStudyList(studyListResponse.data.data);
     }
   }
