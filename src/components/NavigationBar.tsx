@@ -4,6 +4,8 @@ import TagType from "../types/TagType";
 import UserType from "../types/UserType";
 import deleteTag from "../utils/deleteTag";
 import studyListFilter from "../utils/filters/studyListFilter";
+import SearchBar from "./SearchBar";
+import TagsDropDown from "./TagsDropDown";
 
 interface NavigationBarProps {
   searchText: string;
@@ -89,62 +91,6 @@ export default function NavigationBar(props: NavigationBarProps): JSX.Element {
           </button>
         ))}
       </div>
-    </div>
-  );
-}
-
-interface SearchBarProps {
-  searchText: string;
-  setSearchText: (input: string) => void;
-}
-
-function SearchBar(props: SearchBarProps): JSX.Element {
-  return (
-    <div className="searchbar">
-      <input
-        className="search form-control "
-        type="text"
-        id="searchbar"
-        placeholder="Search recommendations"
-        name="search"
-        value={props.searchText}
-        onChange={(e) => props.setSearchText(e.target.value)}
-      ></input>
-    </div>
-  );
-}
-
-interface TagsDropDownProps {
-  tags: TagType[];
-  dropDownValue: string;
-  setDropDownValue: (input: string) => void;
-  setDropDownArray: (input: string[]) => void;
-  dropDownArray: string[];
-}
-
-function TagsDropDown(props: TagsDropDownProps): JSX.Element {
-  const tagNamesArray = props.tags.map((tag) => tag.name);
-  const filteredTagNames = Array.from(new Set(tagNamesArray));
-  return (
-    <div className="tag-dropdown" id="tag-dropdown-div">
-      <select
-        className="form-select form-control"
-        aria-label="default"
-        id="tag-dropdown-select"
-        value={props.dropDownValue}
-        onChange={(e) => {
-          props.setDropDownValue(e.target.value);
-          if (e.target.value !== "Filter by tag") {
-            props.setDropDownArray([...props.dropDownArray, e.target.value]);
-          }
-          props.setDropDownValue("Filter by tag");
-        }}
-      >
-        <option id="tag-dropdown-filter-by-tag">Filter by tag</option>
-        {filteredTagNames.map((name, index) => (
-          <option key={index}>{name}</option>
-        ))}
-      </select>
     </div>
   );
 }

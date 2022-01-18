@@ -43,6 +43,7 @@ export default function Recommendation(
   const [commentBody, setCommentBody] = useState<string>("");
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentPressed, setCommentPressed] = useState<boolean>(false);
+  const [seeCommentsPressed, setSeeCommentsPressed] = useState<boolean>(false);
 
   const viewCommentIDName = `view-comment-section-${props.recommendation.recommendation_id}`;
   const createCommentIDName = `create-comment-section-${props.recommendation.recommendation_id}`;
@@ -192,8 +193,13 @@ export default function Recommendation(
           data-target={`#${viewCommentIDName}`}
           aria-expanded="false"
           aria-controls={viewCommentIDName}
+          onClick={() => setSeeCommentsPressed(!seeCommentsPressed)}
         >
-          {`See comments (${comments.length})`}
+          {seeCommentsPressed
+            ? "Hide comments"
+            : comments.length > 0
+            ? `See comments(${comments.length})`
+            : "No comments"}
         </button>
         <h5
           className="offset-5 col-2 text-right"
