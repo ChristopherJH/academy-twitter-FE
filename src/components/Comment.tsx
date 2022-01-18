@@ -1,11 +1,8 @@
-import axios from "axios";
 import CommentType from "../types/CommentType";
 import RecommendationType from "../types/RecommendationType";
 import UserType from "../types/UserType";
 import dateFormatter from "../utils/dateFormatter";
-import { getComments } from "./Comments";
-
-const apiBaseURL = process.env.REACT_APP_API_BASE;
+import { handleDeleteComment } from "./Comments";
 
 interface CommentProps {
   comment: CommentType;
@@ -45,15 +42,4 @@ export default function Comment(props: CommentProps): JSX.Element {
       ></hr>
     </div>
   );
-}
-
-async function handleDeleteComment(
-  comment_id: number,
-  recommendation_id: number,
-  setComments: (input: CommentType[]) => void
-) {
-  await axios.delete(
-    `${apiBaseURL}${recommendation_id}/comments/${comment_id}`
-  );
-  getComments(setComments, recommendation_id);
 }

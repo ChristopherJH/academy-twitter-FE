@@ -133,27 +133,30 @@ function Form(props: FormProps): JSX.Element {
   const tagNamesArray = props.tags.map((tag) => tag.name);
   const filteredTagNames = Array.from(new Set(tagNamesArray));
   const [postPressed, setPostPressed] = useState<boolean>(false);
+  const [postSubmitted, setPostSubmitted] = useState<boolean>(false);
   const [tagArray, setTagArray] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState<string>("");
 
-  const handleAddTags = async (id: number) => {
-    try {
-      for (const tag of tagArray) {
-        await axios.post(`${apiBaseURL}tags/${id}`, { name: tag });
-      }
-      const tagsResponse = await axios.get(`${apiBaseURL}tags`);
-      props.setTags(tagsResponse.data.data);
-      setTagArray([]);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  const { recommendations, setTags } = props;
   useEffect(() => {
-    props.recommendations.length > 0 &&
-      handleAddTags(props.recommendations[0].recommendation_id);
-    // eslint-disable-next-line
-  }, [props.recommendations]);
+    const handleAddTags = async (id: number) => {
+      try {
+        for (const tag of tagArray) {
+          await axios.post(`${apiBaseURL}tags/${id}`, { name: tag });
+        }
+        const tagsResponse = await axios.get(`${apiBaseURL}tags`);
+        setTags(tagsResponse.data.data);
+        setTagArray([]);
+        setPostSubmitted(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    recommendations.length > 0 &&
+      postSubmitted &&
+      handleAddTags(recommendations[0].recommendation_id);
+  }, [recommendations, setTags, tagArray, postSubmitted]);
 
   const handlePostRecommendation = async () => {
     // e.preventDefault();
@@ -169,6 +172,7 @@ function Form(props: FormProps): JSX.Element {
       props.setRecommendations(recommendationsResponse.data.data);
       props.setFormContent(defaultForm);
       setPostPressed(false);
+      setPostSubmitted(true);
     } catch (err) {
       setPostPressed(true);
     }
