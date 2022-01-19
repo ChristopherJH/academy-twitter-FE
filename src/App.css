@@ -213,3 +213,7 @@ fieldset[disabled] .btn-custom.active {
 .comment-date {
   color: grey;
 }
+
+.name-and-signup-button {
+  display: flex;
+}

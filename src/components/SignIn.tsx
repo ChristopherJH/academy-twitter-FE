@@ -162,10 +162,13 @@ export default function SignIn(props: SignInProps): JSX.Element {
                       >
                         Create a new user
                       </button>
-                      <div className="collapse row" id="viewSignup">
-                        <div>
+                      <div className="collapse" id="viewSignup">
+                        <div className="name-and-signup-button">
                           <input
                             value={signUpContent.name}
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter new user's name"
                             onChange={(e) =>
                               setSignUpContent({
                                 ...signUpContent,
@@ -173,6 +176,12 @@ export default function SignIn(props: SignInProps): JSX.Element {
                               })
                             }
                           />
+                          <button
+                            className="btn btn-custom"
+                            onClick={() => handleSignup()}
+                          >
+                            Sign-up
+                          </button>
                         </div>
                         <div className="form-check form-switch">
                           <input
@@ -193,7 +202,6 @@ export default function SignIn(props: SignInProps): JSX.Element {
                             Faculty
                           </label>
                         </div>
-                        <button onClick={() => handleSignup()}>Sign-up</button>
                       </div>
                     </div>
                   </div>
