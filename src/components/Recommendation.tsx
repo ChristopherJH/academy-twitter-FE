@@ -36,7 +36,7 @@ export default function Recommendation(
   const recommendationStage = props.stages.find(
     (element) => element.stage_id === props.recommendation.stage_id
   );
-  const recommenderName = props.users.find(
+  let recommenderName = props.users.find(
     (element) => element.user_id === props.recommendation.user_id
   )?.name;
   const [sorciness, setSorciness] = useState<number>(0);
@@ -44,12 +44,19 @@ export default function Recommendation(
   const [comments, setComments] = useState<CommentType[]>([]);
   const [commentPressed, setCommentPressed] = useState<boolean>(false);
   const [seeCommentsPressed, setSeeCommentsPressed] = useState<boolean>(false);
-
   const viewCommentIDName = `view-comment-section-${props.recommendation.recommendation_id}`;
   const createCommentIDName = `create-comment-section-${props.recommendation.recommendation_id}`;
   const usersCommentOnPost = comments.filter(
     (comment) => comment.user_id === props.signedInUser.user_id
   );
+
+  const isFaculty = props.users.find(
+    (element) => element.user_id === props.recommendation.user_id
+  )?.is_faculty;
+  if (isFaculty) {
+    recommenderName = recommenderName + " (Faculty)";
+  }
+  console.log({ isFaculty });
 
   return (
     <div className="recommendation">
@@ -197,7 +204,11 @@ export default function Recommendation(
             data-target={`#${viewCommentIDName}`}
             aria-expanded="false"
             aria-controls={viewCommentIDName}
-            onClick={() => setSeeCommentsPressed(!seeCommentsPressed)}
+            onClick={() => {
+              console.log(seeCommentsPressed);
+
+              setSeeCommentsPressed(!seeCommentsPressed);
+            }}
           >
             {seeCommentsPressed ? "Hide comments" : `See more comments`}
           </button>
@@ -241,70 +252,74 @@ export default function Recommendation(
           <p>Sign in to comment</p>
         )}
       </div>
-      <div className="collapse row" id={createCommentIDName}>
-        <div className="card card-body">
-          <textarea
-            id="comment-input"
-            className="form-control"
-            placeholder="Write your comment"
-            value={commentBody}
-            onChange={(e) => setCommentBody(e.target.value)}
-          />
-          {commentPressed && commentBody === "" && (
-            <div
-              className="alert alert-danger"
-              id="comment-body-alert"
-              role="alert"
-            >
-              Cannot post an empty comment
+      {usersCommentOnPost.length === 0 && (
+        <div className="collapse row" id={createCommentIDName}>
+          <div className="card card-body">
+            <textarea
+              id="comment-input"
+              className="form-control"
+              placeholder="Write your comment"
+              value={commentBody}
+              onChange={(e) => setCommentBody(e.target.value)}
+            />
+            {commentPressed && commentBody === "" && (
+              <div
+                className="alert alert-danger"
+                id="comment-body-alert"
+                role="alert"
+              >
+                Cannot post an empty comment
+              </div>
+            )}
+            <div className="row endorse-veto-buttons text-right">
+              <button
+                className="btn btn-custom offset-10 mr-2 mt-2"
+                id="endorse-button"
+                onClick={() => {
+                  setCommentPressed(true);
+                  postComment(
+                    true,
+                    props.recommendation.recommendation_id,
+                    props.signedInUser.user_id,
+                    commentBody,
+                    setCommentBody,
+                    setComments,
+                    setCommentPressed
+                  );
+                }}
+              >
+                Upvote
+              </button>
+              <button
+                className="btn btn-custom mt-2"
+                id="veto-button"
+                onClick={() => {
+                  setCommentPressed(true);
+                  postComment(
+                    false,
+                    props.recommendation.recommendation_id,
+                    props.signedInUser.user_id,
+                    commentBody,
+                    setCommentBody,
+                    setComments,
+                    setCommentPressed
+                  );
+                }}
+              >
+                Downvote
+              </button>
             </div>
-          )}
-          <div className="row endorse-veto-buttons text-right">
-            <button
-              className="btn btn-custom offset-10 mr-2 mt-2"
-              id="endorse-button"
-              onClick={() => {
-                setCommentPressed(true);
-                postComment(
-                  true,
-                  props.recommendation.recommendation_id,
-                  props.signedInUser.user_id,
-                  commentBody,
-                  setCommentBody,
-                  setComments,
-                  setCommentPressed
-                );
-              }}
-            >
-              Upvote
-            </button>
-            <button
-              className="btn btn-custom mt-2"
-              id="veto-button"
-              onClick={() => {
-                setCommentPressed(true);
-                postComment(
-                  false,
-                  props.recommendation.recommendation_id,
-                  props.signedInUser.user_id,
-                  commentBody,
-                  setCommentBody,
-                  setComments,
-                  setCommentPressed
-                );
-              }}
-            >
-              Downvote
-            </button>
           </div>
         </div>
-      </div>
+      )}
+
       <Comments
         signedInUser={props.signedInUser}
         recommendation={props.recommendation}
-        comments={seeCommentsPressed ? comments : comments.slice(0, 1)}
+        comments={comments}
         setComments={setComments}
         setSorciness={setSorciness}
+        seeCommentsPressed={seeCommentsPressed}
       />
     </div>
   );
