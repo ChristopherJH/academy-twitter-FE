@@ -32,6 +32,8 @@ export default function SignIn(props: SignInProps): JSX.Element {
   const [selectedUser, setSelectedUser] = useState<string>("guest");
   const [signUpContent, setSignUpContent] =
     useState<signUpInterface>(defaultSignup);
+  const [signupAttempt, setSignupAttempt] = useState<boolean>(false);
+  const [signupPressed, setSignupPressed] = useState<boolean>(false);
 
   //destructure props (so that any change to props wont cause a rerender) so now: signedInUser = props.signedInUser
   const { signedInUser, setStudyList } = props;
@@ -54,28 +56,30 @@ export default function SignIn(props: SignInProps): JSX.Element {
     localStorage.setItem("signedInUser", JSON.stringify(props.signedInUser));
   }, [props.signedInUser, getStudyList]);
 
-  const handleLogin = () => {
-    console.log("selected user", selectedUser);
-    const user = props.users.filter((user) => user.name === selectedUser)[0];
-    props.setSignedInUser(user);
-    console.log("setSignedInUser done");
-  };
+  const { users, setSignedInUser } = props;
+  const handleLogin = useCallback(() => {
+    if (selectedUser !== "guest") {
+      const user = users.filter((user) => user.name === selectedUser)[0];
+      setSignedInUser(user);
+    }
+  }, [selectedUser, users, setSignedInUser]);
+
+  useEffect(() => {
+    handleLogin();
+  }, [signupAttempt, handleLogin]);
 
   const handleSignup = async () => {
     try {
       await axios.post(`${apiBaseURL}users`, signUpContent);
       const userResponse = await axios.get(`${apiBaseURL}users`);
-      console.log("Get users: ", userResponse.data.data);
       props.setUsers(userResponse.data.data);
-      console.log("setUsers done");
-      console.log("signupcontent name: ", signUpContent.name);
-      setSelectedUser(signUpContent.name); //not setting state
-      console.log({ selectedUser });
-      console.log("setSelectedUser done");
+      setSelectedUser(signUpContent.name);
       setSignUpContent(defaultSignup);
-      console.log("setSignUpContent done");
+      setSignupAttempt(!signupAttempt);
+      setSignupPressed(false);
     } catch (err) {
       console.log(err);
+      setSignupPressed(true);
     }
   };
 
@@ -178,10 +182,22 @@ export default function SignIn(props: SignInProps): JSX.Element {
                           />
                           <button
                             className="btn btn-custom"
+                            data-dismiss="modal"
                             onClick={() => handleSignup()}
                           >
                             Sign-up
                           </button>
+                        </div>
+                        <div className="signup-input-alerts">
+                          {signupPressed && signUpContent.name === "" && (
+                            <div
+                              className="alert alert-danger"
+                              id="description-alert"
+                              role="alert"
+                            >
+                              Name cannot be empty
+                            </div>
+                          )}
                         </div>
                         <div className="form-check form-switch">
                           <input
