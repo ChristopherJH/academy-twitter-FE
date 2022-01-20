@@ -95,6 +95,7 @@ function App(): JSX.Element {
 
           <SignIn
             users={users}
+            setUsers={setUsers}
             setSignedInUser={setSignedInUser}
             signedInUser={signedInUser}
             studyList={studyList}
@@ -137,7 +138,7 @@ function App(): JSX.Element {
       )}
       {/* If user has clicked study list and it is empty */}
       {studyListClicked && userStudyList.length === 0 && (
-        <p>You have no items in your study list</p>
+        <p id="no-sl-items">You have no items in your study list</p>
       )}
     </div>
   );

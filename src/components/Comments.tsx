@@ -17,6 +17,7 @@ interface CommentsProps {
   comments: CommentType[];
   setComments: (input: CommentType[]) => void;
   setSorciness: (input: number) => void;
+  seeCommentsPressed: boolean;
 }
 
 export function Comments(props: CommentsProps): JSX.Element {
@@ -31,11 +32,17 @@ export function Comments(props: CommentsProps): JSX.Element {
     (comment) => comment.is_dislike
   ).length;
   props.setSorciness(upvotes - downvotes);
+  let comments: CommentType[];
+  if (props.seeCommentsPressed) {
+    comments = props.comments;
+  } else {
+    comments = props.comments.slice(0, 1);
+  }
   return (
     <>
-      {props.comments.length > 0 && (
+      {comments.length > 0 && (
         <div className="card card-body">
-          {props.comments?.map((comment, index) => {
+          {comments?.map((comment, index) => {
             return (
               <Comment
                 signedInUser={props.signedInUser}
@@ -43,7 +50,7 @@ export function Comments(props: CommentsProps): JSX.Element {
                 comment={comment}
                 setComments={props.setComments}
                 recommendation={props.recommendation}
-                comments={props.comments}
+                comments={comments}
               />
             );
           })}

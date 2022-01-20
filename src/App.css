@@ -86,6 +86,11 @@ body {
   margin: auto 10px;
 }
 
+#no-sl-items {
+  margin-top: 50px;
+  text-align: center;
+}
+
 .recommended-and-add-to-sl {
   display: flex;
   justify-content: right;
@@ -95,7 +100,8 @@ input {
   margin: 5px auto;
 }
 
-#recommendation-see-comments-button {
+#recommendation-see-comments-button,
+#see-signup-button {
   background: none !important;
   border: none;
   padding: 0 !important;
@@ -165,6 +171,10 @@ fieldset[disabled] .btn-custom.active {
   font-size: small;
 }
 
+.comment-name-rating {
+  display: flex;
+}
+
 .button {
   background-color: #099;
   color: white;
@@ -199,6 +209,11 @@ fieldset[disabled] .btn-custom.active {
 
 #recommendation-author,
 #recommendation-stage,
-#recommendation-content {
+#recommendation-content,
+.comment-date {
   color: grey;
+}
+
+.name-and-signup-button {
+  display: flex;
 }
