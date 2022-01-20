@@ -8,10 +8,9 @@ import { config } from "dotenv";
 import UserType from "./types/UserType";
 import "./App.css";
 import NavigationBar from "./components/NavigationBar";
-import SignIn from "./components/SignIn";
 import StudyListType from "./types/StudyListType";
-import CreateRecommendation from "./components/CreateRecommendation";
 import studyListFilter from "./utils/filters/studyListFilter";
+import { Header } from "./components/Header";
 
 config();
 
@@ -73,45 +72,21 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      <div className="header">
-        {!studyListClicked ? (
-          <h1 id="page-title">
-            <strong>✨ Resorcery ✨</strong>
-          </h1>
-        ) : (
-          <h1 id="study-list-title">✨ Study List ✨</h1>
-        )}
-
-        <div className="user-space">
-          {signedInUser.user_id !== 0 && (
-            <h5 id="users-name">
-              <i
-                className="fas fa-user-alt mr-2"
-                style={{ fontSize: "24px" }}
-              ></i>
-              Hello, {signedInUser.name}
-            </h5>
-          )}
-          <CreateRecommendation
-            signedInUser={signedInUser}
-            tags={tags}
-            stages={stages}
-            setRecommendations={setRecommendations}
-            recommendations={recommendations}
-            setTags={setTags}
-          />
-
-          <SignIn
-            users={users}
-            setUsers={setUsers}
-            setSignedInUser={setSignedInUser}
-            signedInUser={signedInUser}
-            studyList={studyList}
-            setStudyList={setStudyList}
-            setStudyListClicked={setStudyListClicked}
-          />
-        </div>
-      </div>
+      <Header
+        signedInUser={signedInUser}
+        tags={tags}
+        stages={stages}
+        setRecommendations={setRecommendations}
+        recommendations={recommendations}
+        setTags={setTags}
+        users={users}
+        setUsers={setUsers}
+        setSignedInUser={setSignedInUser}
+        studyList={studyList}
+        setStudyList={setStudyList}
+        studyListClicked={studyListClicked}
+        setStudyListClicked={setStudyListClicked}
+      />
       <NavigationBar
         searchText={searchText}
         setSearchText={setSearchText}

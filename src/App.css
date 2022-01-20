@@ -20,6 +20,14 @@ h1 {
   padding: 15px;
 }
 
+.author-and-content {
+  display: flex;
+}
+
+.recommendation-content {
+  margin: auto;
+}
+
 .recommendation-tag {
   background-color: #3f51b5;
   color: #fafafa;

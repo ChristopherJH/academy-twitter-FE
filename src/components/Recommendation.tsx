@@ -112,22 +112,6 @@ export default function Recommendation(
                   +
                 </button>
               )}
-              {/* <a
-                href="#"
-                className="button"
-                id="remove-sl-button"
-                onClick={() =>
-                  handleAddorRemoveToStudyList(
-                    false,
-                    props.signedInUser.user_id,
-                    props.recommendation.recommendation_id,
-                    props.setStudyList
-                  )
-                }
-              > */}
-              {/* <span className="icon">+</span>
-                <span className="text">Add to study list</span>
-              </a> */}
 
               {props.signedInUser.user_id === props.recommendation.user_id && (
                 <button
@@ -148,12 +132,13 @@ export default function Recommendation(
         </div>
       </div>
       <div className="row">
-        <h4 className="col-3 searchbar-test" id="recommendation-author">
-          {props.recommendation.author && props.recommendation.author}
-        </h4>
-        <h5 className="col-2" id="recommendation-content">
-          {props.recommendation.content}
-        </h5>
+        <div className="col-5 author-and-content">
+          <h4 className=" searchbar-test mr-2" id="recommendation-author">
+            {props.recommendation.author && props.recommendation.author}
+          </h4>
+          <h4 id="recommendation-content">({props.recommendation.content})</h4>
+        </div>
+
         <p
           className="offset-4 col-3 text-right mt-2 "
           id="recommendation-stage"
