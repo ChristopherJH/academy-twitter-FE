@@ -132,6 +132,7 @@ export default function Recommendation(
               {props.signedInUser.user_id === props.recommendation.user_id && (
                 <button
                   className="btn btn-danger delete-rec-button"
+                  id="deleteRecButton"
                   onClick={() => {
                     handleDeleteRecommendation(
                       props.recommendation.recommendation_id,

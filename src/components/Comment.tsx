@@ -29,7 +29,7 @@ export default function Comment(props: CommentProps): JSX.Element {
         {props.signedInUser.user_id === props.comment.user_id && (
           <button
             id="deleteComment"
-            className="btn btn-danger delete-rec-button"
+            className="btn btn-danger delete-comment-button"
             onClick={() => {
               handleDeleteComment(
                 props.comment.comment_id,
