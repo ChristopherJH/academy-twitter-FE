@@ -3,6 +3,7 @@ import UserType from "../types/UserType";
 import axios from "axios";
 import StudyListType from "../types/StudyListType";
 import { config } from "dotenv";
+import signupModalCloseCondition from "../utils/signupModalCloseCondition";
 
 config();
 
@@ -16,7 +17,7 @@ interface SignInProps {
   setStudyListClicked: (input: boolean) => void;
 }
 
-interface signUpInterface {
+export interface signUpInterface {
   name: string;
   is_faculty: boolean;
 }
@@ -33,7 +34,8 @@ export default function SignIn(props: SignInProps): JSX.Element {
   const [signUpContent, setSignUpContent] =
     useState<signUpInterface>(defaultSignup);
   const [signupAttempt, setSignupAttempt] = useState<boolean>(false);
-  const [signupPressed, setSignupPressed] = useState<boolean>(false);
+  const [showUniqueAlert, setShowUniqueAlert] = useState<boolean>(false);
+  const [showEmptyAlert, setShowEmptyAlert] = useState<boolean>(false);
 
   //destructure props (so that any change to props wont cause a rerender) so now: signedInUser = props.signedInUser
   const { signedInUser, setStudyList } = props;
@@ -56,30 +58,34 @@ export default function SignIn(props: SignInProps): JSX.Element {
     localStorage.setItem("signedInUser", JSON.stringify(props.signedInUser));
   }, [props.signedInUser, getStudyList]);
 
-  const { users, setSignedInUser } = props;
-  const handleLogin = useCallback(() => {
+  const handleLogin = () => {
     if (selectedUser !== "guest") {
-      const user = users.filter((user) => user.name === selectedUser)[0];
-      setSignedInUser(user);
+      const user = props.users.filter((user) => user.name === selectedUser)[0];
+      props.setSignedInUser(user);
     }
-  }, [selectedUser, users, setSignedInUser]);
+  };
 
   useEffect(() => {
     handleLogin();
-  }, [signupAttempt, handleLogin]);
+    // eslint-disable-next-line
+  }, [signupAttempt]);
 
   const handleSignup = async () => {
     try {
       await axios.post(`${apiBaseURL}users`, signUpContent);
       const userResponse = await axios.get(`${apiBaseURL}users`);
+      console.log("Get users: ", userResponse.data.data);
       props.setUsers(userResponse.data.data);
-      setSelectedUser(signUpContent.name);
+      console.log("setUsers done");
+      console.log("signupcontent name: ", signUpContent.name);
+      setSelectedUser(signUpContent.name); //not setting state
+      console.log({ selectedUser });
+      console.log("setSelectedUser done");
       setSignUpContent(defaultSignup);
+      console.log("setSignUpContent done");
       setSignupAttempt(!signupAttempt);
-      setSignupPressed(false);
     } catch (err) {
       console.log(err);
-      setSignupPressed(true);
     }
   };
 
@@ -180,25 +186,64 @@ export default function SignIn(props: SignInProps): JSX.Element {
                               })
                             }
                           />
-                          <button
-                            className="btn btn-custom"
-                            data-dismiss="modal"
-                            onClick={() => handleSignup()}
-                          >
-                            Sign-up
-                          </button>
-                        </div>
-                        <div className="signup-input-alerts">
-                          {signupPressed && signUpContent.name === "" && (
-                            <div
-                              className="alert alert-danger"
-                              id="description-alert"
-                              role="alert"
+                          {signupModalCloseCondition(
+                            signUpContent,
+                            props.users
+                          ).includes(false) ? (
+                            <button
+                              className="btn btn-custom"
+                              onClick={() => {
+                                setShowEmptyAlert(false);
+                                setShowUniqueAlert(false);
+
+                                !signupModalCloseCondition(
+                                  signUpContent,
+                                  props.users
+                                )[0]
+                                  ? setShowEmptyAlert(true)
+                                  : !signupModalCloseCondition(
+                                      signUpContent,
+                                      props.users
+                                    )[1]
+                                  ? setShowUniqueAlert(true)
+                                  : handleSignup();
+                              }}
                             >
-                              Name cannot be empty
-                            </div>
+                              Sign-up
+                            </button>
+                          ) : (
+                            <button
+                              className="btn btn-custom"
+                              data-dismiss="modal"
+                              onClick={() => {
+                                setShowEmptyAlert(false);
+                                setShowUniqueAlert(false);
+                                handleSignup();
+                              }}
+                            >
+                              Sign-up
+                            </button>
                           )}
                         </div>
+                        {showUniqueAlert && (
+                          <div
+                            className="alert alert-danger"
+                            id="title-alert"
+                            role="alert"
+                          >
+                            User already exists
+                          </div>
+                        )}
+                        {showEmptyAlert && (
+                          <div
+                            className="alert alert-danger"
+                            id="title-alert"
+                            role="alert"
+                          >
+                            User cannot be empty
+                          </div>
+                        )}
+
                         <div className="form-check form-switch">
                           <input
                             className="form-check-input"

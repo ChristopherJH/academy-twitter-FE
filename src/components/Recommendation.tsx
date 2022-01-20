@@ -56,7 +56,6 @@ export default function Recommendation(
   if (isFaculty) {
     recommenderName = recommenderName + " (Faculty)";
   }
-  console.log({ isFaculty });
 
   return (
     <div className="recommendation">
@@ -205,8 +204,6 @@ export default function Recommendation(
             aria-expanded="false"
             aria-controls={viewCommentIDName}
             onClick={() => {
-              console.log(seeCommentsPressed);
-
               setSeeCommentsPressed(!seeCommentsPressed);
             }}
           >
