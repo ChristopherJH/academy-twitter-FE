@@ -17,7 +17,8 @@ export default function Comment(props: CommentProps): JSX.Element {
     <div className="comment-div">
       <div className="comment-header">
         <h5 className="comment-name-rating">
-          👤{props.comment.name}
+          <i className="fas fa-user-alt mr-2" style={{ fontSize: "24px" }}></i>
+          {props.comment.name}
           {props.comment.is_faculty && " (Faculty)"}
           {props.comment.is_like ? (
             <p className="comment-upvoted ml-2">⬆️</p>
@@ -38,11 +39,14 @@ export default function Comment(props: CommentProps): JSX.Element {
               );
             }}
           >
-            <i className="fa fa-trash-o"></i>
+            <i className="fas fa-trash"></i>
           </button>
         )}
       </div>
-      <h6 className="comment-date">{dateFormatter(props.comment.date)}</h6>
+      <h6 className="comment-date">
+        <i className="fa fa-calendar-o mr-2"></i>
+        {dateFormatter(props.comment.date)}
+      </h6>
       <p>{props.comment.body}</p>
       {props.comments.indexOf(props.comment) !== props.comments.length - 1 && (
         <hr

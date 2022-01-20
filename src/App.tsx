@@ -75,11 +75,23 @@ function App(): JSX.Element {
     <div className="main">
       <div className="header">
         {!studyListClicked ? (
-          <h1 id="page-title">✨ Resorcery ✨</h1>
+          <h1 id="page-title">
+            <strong>✨ Resorcery ✨</strong>
+          </h1>
         ) : (
           <h1 id="study-list-title">✨ Study List ✨</h1>
         )}
+
         <div className="user-space">
+          {signedInUser.user_id !== 0 && (
+            <h5 id="users-name">
+              <i
+                className="fas fa-user-alt mr-2"
+                style={{ fontSize: "24px" }}
+              ></i>
+              Hello, {signedInUser.name}
+            </h5>
+          )}
           <CreateRecommendation
             signedInUser={signedInUser}
             tags={tags}
@@ -88,10 +100,6 @@ function App(): JSX.Element {
             recommendations={recommendations}
             setTags={setTags}
           />
-
-          {signedInUser.user_id !== 0 && (
-            <h5 id="users-name">👤{signedInUser.name}</h5>
-          )}
 
           <SignIn
             users={users}

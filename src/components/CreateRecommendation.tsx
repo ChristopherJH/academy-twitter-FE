@@ -50,7 +50,7 @@ export default function CreateRecommendation(
         <>
           <button
             type="button"
-            className="btn btn-outline-light"
+            className="btn btn-outline-light mr-2"
             id="create-button"
             data-toggle="modal"
             data-backdrop="static"
