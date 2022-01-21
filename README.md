@@ -1,5 +1,28 @@
-# Simplified CRA starter
+# Resorcery
+Website that uses a dog API to vote for different breeds of dog.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
+## Table of contents
+1. Technologies
+2. Setup
 
-> This is part of Academy's technical curriculum for **The Mark**. All parts of that curriculum, including this project, are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>
+## Technologies
+Project is created with:
+- React: ^17.0.2
+- Typescript: ^4.1.2
+- Eslint: ^7.28.0
+- Prettier: 2.3.1
+- Axios: ^0.24.0
+
+
+## Setup
+To run this project, fork and copy the SSH (or HTTPS) link to your clipboard. Then run the command
+
+```bash
+$ git clone <link>
+```
+
+in your terminal to clone the repository.
+
+When running the repository for the first time, run `yarn` in the root of the repository to install all dependencies.
+
+To run the file locally, run `yarn:start`.
