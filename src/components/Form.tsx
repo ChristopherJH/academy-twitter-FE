@@ -2,12 +2,12 @@ import StageType from "../types/StageType";
 import TagType from "../types/TagType";
 import UserType from "../types/UserType";
 import RecommendationType from "../types/RecommendationType";
-import { FormType } from "./CreateRecommendation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import listOfContentTypes from "../utils/listOfContentTypes";
 import deleteTag from "../utils/deleteTag";
 import modalCloseCondition from "../utils/modalCloseCondition";
+import { FormType } from "../types/FormType";
 
 const defaultForm = {
   title: "",
@@ -38,13 +38,20 @@ const apiBaseURL = process.env.REACT_APP_API_BASE;
 
 export default function Form(props: FormProps): JSX.Element {
   const tagNamesArray = props.tags.map((tag) => tag.name);
+  // Turning tagNamesArray into a set to remove duplicates
+  // and then transform it back into an array
   const filteredTagNames = Array.from(new Set(tagNamesArray));
+  // States
+  // Has the post successfully been posted
   const [postSubmitted, setPostSubmitted] = useState<boolean>(false);
+  // Array of tags to be added to the post
   const [tagArray, setTagArray] = useState<string[]>([]);
+  // Input field for user typing in a new tag
   const [tagInput, setTagInput] = useState<string>("");
 
   const { recommendations, setTags } = props;
   useEffect(() => {
+    // Adding all the tags from tagArray to our post
     const handleAddTags = async (id: number) => {
       try {
         for (const tag of tagArray) {
@@ -59,13 +66,14 @@ export default function Form(props: FormProps): JSX.Element {
       }
     };
 
+    // Only if a recommendation is posted, add the tags to it
     recommendations.length > 0 &&
       postSubmitted &&
       handleAddTags(recommendations[0].recommendation_id);
   }, [recommendations, setTags, tagArray, postSubmitted]);
 
+  // Posting our filled in form
   const handlePostRecommendation = async () => {
-    // e.preventDefault();
     try {
       const response = await axios.post(
         `${apiBaseURL}recommendations`,
@@ -77,9 +85,12 @@ export default function Form(props: FormProps): JSX.Element {
       );
       props.setRecommendations(recommendationsResponse.data.data);
       props.setFormContent(defaultForm);
+
+      // Remove alerts if post was successfully submitted
       props.setPostPressed(false);
       setPostSubmitted(true);
     } catch (err) {
+      // If there was an error posting the recommendation, display alerts
       props.setPostPressed(true);
     }
   };
@@ -88,6 +99,7 @@ export default function Form(props: FormProps): JSX.Element {
     <form onSubmit={() => handlePostRecommendation}>
       <div className="modal-body">
         <div className="form-group">
+          {/* Title, author, url, description, content type */}
           <h3>Resource Description</h3>
           <input
             type="text"
@@ -102,6 +114,7 @@ export default function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {/* Title alert */}
           {props.postPressed && props.formContent.title === "" && (
             <div className="alert alert-danger" id="title-alert" role="alert">
               Title cannot be empty
@@ -120,6 +133,7 @@ export default function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {/* Author alert */}
           {props.postPressed && props.formContent.author === "" && (
             <div className="alert alert-danger" id="author-alert" role="alert">
               Author name cannot be empty
@@ -138,6 +152,7 @@ export default function Form(props: FormProps): JSX.Element {
               })
             }
           />
+          {/* URL alert */}
           {props.postPressed && props.formContent.url === "" && (
             <div className="alert alert-danger" id="url-alert" role="alert">
               URL cannot be empty
@@ -343,8 +358,10 @@ export default function Form(props: FormProps): JSX.Element {
               Post
             </button>
           )}
-        </div>
-      </div>
+        </div>{" "}
+        {/* Form group */}
+      </div>{" "}
+      {/* Modal body */}
     </form>
   );
 }

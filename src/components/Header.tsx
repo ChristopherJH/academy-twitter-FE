@@ -25,6 +25,7 @@ interface HeaderProps {
 export function Header(props: HeaderProps): JSX.Element {
   return (
     <div className="header">
+      {/* Is the user viewing their study list */}
       {!props.studyListClicked ? (
         <h1 id="page-title">
           <strong>✨ Resorcery ✨</strong>

@@ -1,8 +1,21 @@
+/* General */
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
 }
 
+input {
+  margin: 5px auto;
+}
+
+#recommendation-author,
+#recommendation-stage,
+#recommendation-content,
+.comment-date {
+  color: grey;
+} /* Adding grey font to some elements */
+
+/* Header*/
 h1 {
   font-size: 48px;
   margin-left: 20px;
@@ -10,61 +23,6 @@ h1 {
 
 #users-name {
   font-size: 30px;
-}
-
-.recommendation {
-  border: solid #3f51b5 4px;
-  box-shadow: 5px 5px 10px #888888;
-  border-radius: 10px;
-  margin: 10px 5vw;
-  padding: 15px;
-}
-
-.author-and-content {
-  display: flex;
-}
-
-.recommendation-content {
-  margin: auto;
-}
-
-.recommendation-tag {
-  background-color: #3f51b5;
-  color: #fafafa;
-}
-
-.navbar {
-  position: sticky;
-  top: 0;
-  background-color: white;
-  width: 99vw;
-  z-index: 2;
-}
-
-.add-button {
-  width: 50px;
-}
-
-.add-button-div {
-  text-align: right;
-}
-
-.recommended {
-  background-color: #ffca28;
-  border-radius: 5px;
-  text-align: center;
-  padding: 10px;
-  margin: 0 10px;
-  height: 50px;
-}
-
-#add-sl-button,
-#remove-sl-button,
-.delete-rec-button {
-  min-height: 50px;
-  max-height: 50px;
-  width: 50px;
-  font-size: large;
 }
 
 .header {
@@ -111,18 +69,79 @@ h1 {
   margin: auto 10px;
 }
 
-#no-sl-items {
-  margin-top: 50px;
+/* Sign-in modal */
+
+.name-and-signup-button {
+  display: flex;
+}
+
+/* Navigation bar */
+.navbar {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  width: 99vw;
+  z-index: 2;
+}
+
+.selected-tags {
+  margin: auto 10px;
+}
+
+/* Recommendation */
+
+.recommendation {
+  border: solid #3f51b5 4px;
+  box-shadow: 5px 5px 10px #888888;
+  border-radius: 10px;
+  margin: 10px 5vw;
+  padding: 15px;
+}
+
+.author-and-content {
+  display: flex;
+}
+
+.recommendation-content {
+  margin: auto;
+}
+
+.recommendation-tag {
+  background-color: #3f51b5;
+  color: #fafafa;
+  font-size: large;
+}
+
+.add-button {
+  width: 50px;
+}
+
+.add-button-div {
+  text-align: right;
+}
+
+.recommended {
+  background-color: #ffca28;
+  border-radius: 5px;
   text-align: center;
+  padding: 10px;
+  margin: 0 10px;
+  height: 50px;
+}
+
+#add-sl-button,
+#remove-sl-button,
+.delete-rec-button,
+.delete-comment-button {
+  min-height: 50px;
+  max-height: 50px;
+  width: 50px;
+  font-size: large;
 }
 
 .recommended-and-add-to-sl {
   display: flex;
   justify-content: right;
-}
-
-input {
-  margin: 5px auto;
 }
 
 #recommendation-see-comments-button,
@@ -133,6 +152,28 @@ input {
   color: #3f51b5;
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* Study list */
+#no-sl-items,
+.loading-recommendations-message {
+  margin-top: 50px;
+  text-align: center;
+}
+
+/* Comment */
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-header button {
+  font-size: small;
+}
+
+.comment-name-rating {
+  display: flex;
 }
 
 /* Custom button */
@@ -181,49 +222,6 @@ fieldset[disabled] .btn-custom.active {
 .btn-custom .badge {
   color: #3f51b5;
   background-color: #ffffff;
-}
-
-.selected-tags {
-  margin: auto 10px;
-}
-
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.comment-header button {
-  font-size: small;
-}
-
-.comment-name-rating {
-  display: flex;
-}
-
-.button {
-  background-color: #099;
-  color: white;
-  text-decoration: none;
-  border-radius: 60px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  overflow: hidden;
-  width: auto;
-  max-width: 32px; /** I'm animating max-width because width needs to be auto, and auto can't be animated **/
-  -webkit-transition: max-width 0.5s;
-  transition: max-width 0.5s;
-}
-
-#recommendation-author,
-#recommendation-stage,
-#recommendation-content,
-.comment-date {
-  color: grey;
-}
-
-.name-and-signup-button {
-  display: flex;
 }
 
 /* Checkbox styling */

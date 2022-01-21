@@ -4,6 +4,7 @@ import TagType from "../types/TagType";
 import UserType from "../types/UserType";
 import RecommendationType from "../types/RecommendationType";
 import Form from "./Form";
+import { FormType } from "../types/FormType";
 
 const defaultForm = {
   title: "",
@@ -24,18 +25,6 @@ interface CreateRecommendationProps {
   setRecommendations: (input: RecommendationType[]) => void;
   recommendations: RecommendationType[];
   setTags: (input: TagType[]) => void;
-}
-
-export interface FormType {
-  title: string;
-  author: string;
-  url: string;
-  description: string;
-  content: string;
-  recommended_description: string;
-  recommended: string;
-  stage_id: number;
-  user_id: number;
 }
 
 export default function CreateRecommendation(

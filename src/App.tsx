@@ -17,6 +17,7 @@ config();
 const apiBaseURL = process.env.REACT_APP_API_BASE;
 
 function App(): JSX.Element {
+  // States used
   const [recommendations, setRecommendations] = useState<RecommendationType[]>(
     []
   );
@@ -30,7 +31,7 @@ function App(): JSX.Element {
   const [studyListClicked, setStudyListClicked] = useState(false);
   const [dropDownArray, setDropDownArray] = useState<string[]>([]);
   const [signedInUser, setSignedInUser] = useState(() => {
-    // getting stored value
+    // getting stored value if exists
     const saved = localStorage.getItem("signedInUser");
     if (saved) {
       return JSON.parse(saved);
@@ -43,6 +44,7 @@ function App(): JSX.Element {
     }
   });
 
+  // Once a user signs in, filter a users study list
   useEffect(() => {
     function updateStudyList() {
       setUserStudyList(studyListFilter(studyList, recommendations));
@@ -50,6 +52,7 @@ function App(): JSX.Element {
     updateStudyList();
   }, [studyList, recommendations]);
 
+  // Get tags, users, stages and recommendations
   async function getAllData() {
     if (typeof apiBaseURL === "string") {
       const recommendationsResponse = await axios.get(
@@ -65,6 +68,7 @@ function App(): JSX.Element {
     }
   }
 
+  // Get data on first load
   useEffect(() => {
     console.log("getAllData called");
     getAllData();
@@ -102,8 +106,8 @@ function App(): JSX.Element {
         dropDownArray={dropDownArray}
         setDropDownArray={setDropDownArray}
       />
-      {/* If recommendations has been loaded */}
-      {recommendations.length > 0 && (
+      {/* Has recommendations been loaded */}
+      {recommendations.length > 0 ? (
         <Recommendations
           recommendations={!studyListClicked ? recommendations : userStudyList}
           tags={tags}
@@ -118,6 +122,10 @@ function App(): JSX.Element {
           dropDownArray={dropDownArray}
           setDropDownArray={setDropDownArray}
         />
+      ) : (
+        <p className="loading-recommendations-message">
+          Loading recommendations...
+        </p>
       )}
       {/* If user has clicked study list and it is empty */}
       {studyListClicked && userStudyList.length === 0 && (
