@@ -83,9 +83,9 @@ export default function Recommendation(
                       props.setStudyList
                     )
                   }
-                  className="btn btn-custom add-button mr-2"
+                  className="btn btn-custom remove-button mr-2"
                   type="button"
-                  id="add-sl-button"
+                  id="remove-sl-button"
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Remove from study list"
@@ -104,7 +104,7 @@ export default function Recommendation(
                   }
                   className="btn btn-custom add-button mr-2"
                   type="button"
-                  id="remove-sl-button"
+                  id="add-sl-button"
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Add to study list"
@@ -244,7 +244,10 @@ export default function Recommendation(
         )}
       </div>
       {usersCommentOnPost.length === 0 && props.signedInUser.user_id !== 0 && (
-        <div className="collapse row" id={createCommentIDName}>
+        <div
+          className="collapse row post-comment-section"
+          id={createCommentIDName}
+        >
           <div className="card card-body">
             <textarea
               id="comment-input"

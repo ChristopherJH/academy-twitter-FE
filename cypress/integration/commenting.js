@@ -40,7 +40,7 @@ describe("Comment feature works correctly", () => {
     cy.get(".comment-div").should("have.length", 0);
   });
 
-  it("Can post a veto comment and see it", () => {
+  it("Can post a downvote comment and see it", () => {
     cy.get(".recommendation").get("#add-comment-button").click();
     cy.get("#comment-input")
       .click()
@@ -49,9 +49,10 @@ describe("Comment feature works correctly", () => {
     cy.get(".comment-div")
       .findByText("Lmao google is using your data! bing is better")
       .should("be.visible");
+    cy.get(".post-comment-section").should("not.be.visible");
   });
 
-  it("Posting with veto will decrease endorsement count by 1", () => {
+  it("Posting with downvote will decrease endorsement count by 1", () => {
     cy.get("#recommendation-like-count").should(
       "contain.text",
       `Sorciness: -1`
@@ -61,14 +62,14 @@ describe("Comment feature works correctly", () => {
     cy.get(".comment-header").get("#deleteComment").click();
     cy.get(".comment-header").should("have.length", 0);
   });
-  it("Can post an endorse comment and see it", () => {
+  it("Can post an upvote comment and see it", () => {
     cy.get(".recommendation").get("#add-comment-button").click();
     cy.get("#comment-input").click().type("this is lusho");
     cy.get("#endorse-button").click();
     cy.get(".comment-div").findByText("this is lusho").should("be.visible");
   });
 
-  it("Posting with endorse will increase endorsement count by 1", () => {
+  it("Posting with upvote will increase endorsement count by 1", () => {
     cy.get("#recommendation-like-count").should("contain.text", `Sorciness: 1`);
   });
   it("clicking the trashcan will delete comment", () => {
@@ -84,5 +85,12 @@ describe("Comment feature works correctly", () => {
     cy.get(".recommendation").get("#add-comment-button").click();
     cy.get("#endorse-button").click();
     cy.get("#comment-body-alert").should("be.visible");
+  });
+  it("pressing the comment button and signing out will close the post comment section", () => {
+    cy.get(".recommendation").get("#add-comment-button").click();
+    /* ==== Generated with Cypress Studio ==== */
+    cy.get("#signout-button").click();
+    /* ==== End Cypress Studio ==== */
+    cy.get(".post-comment-section").should("not.exist");
   });
 });

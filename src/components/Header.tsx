@@ -27,9 +27,7 @@ export function Header(props: HeaderProps): JSX.Element {
     <div className="header">
       {/* Is the user viewing their study list */}
       {!props.studyListClicked ? (
-        <h1 id="page-title">
-          <strong>✨ Resorcery ✨</strong>
-        </h1>
+        <h1 id="page-title">✨ Resorcery ✨</h1>
       ) : (
         <h1 id="study-list-title">✨ Study List ✨</h1>
       )}
