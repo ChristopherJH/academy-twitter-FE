@@ -9,6 +9,7 @@ import StudyListType from "../types/StudyListType";
 import { useState } from "react";
 import { Comments, postComment } from "./Comments";
 import CommentType from "../types/CommentType";
+import { FaUserAlt, FaTrashAlt } from "react-icons/fa";
 
 config();
 
@@ -83,9 +84,9 @@ export default function Recommendation(
                       props.setStudyList
                     )
                   }
-                  className="btn btn-custom add-button mr-2"
+                  className="btn btn-custom remove-button mr-2"
                   type="button"
-                  id="add-sl-button"
+                  id="remove-sl-button"
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Remove from study list"
@@ -104,7 +105,7 @@ export default function Recommendation(
                   }
                   className="btn btn-custom add-button mr-2"
                   type="button"
-                  id="remove-sl-button"
+                  id="add-sl-button"
                   data-toggle="tooltip"
                   data-placement="top"
                   title="Add to study list"
@@ -124,7 +125,7 @@ export default function Recommendation(
                     );
                   }}
                 >
-                  <i className="fas fa-trash"></i>
+                  <FaTrashAlt />
                 </button>
               )}
             </div>
@@ -173,13 +174,12 @@ export default function Recommendation(
           ))}
         </div>
         <div className="offset-1 col-2">
-          <h5 id="recommendation-username">
-            <i
-              className="fas fa-user-alt mr-2"
-              style={{ fontSize: "24px" }}
-            ></i>
-            {recommenderName}
-          </h5>
+          <div className="d-flex">
+            <h5 className="mr-2">
+              <FaUserAlt />
+            </h5>
+            <h5 id="recommendation-username">{recommenderName}</h5>
+          </div>
           <p id="recommendation-date">
             <i className="fa fa-calendar-o mr-2"></i>
 
@@ -244,7 +244,10 @@ export default function Recommendation(
         )}
       </div>
       {usersCommentOnPost.length === 0 && props.signedInUser.user_id !== 0 && (
-        <div className="collapse row" id={createCommentIDName}>
+        <div
+          className="collapse row post-comment-section"
+          id={createCommentIDName}
+        >
           <div className="card card-body">
             <textarea
               id="comment-input"
