@@ -112,26 +112,11 @@ export default function Recommendation(
                   +
                 </button>
               )}
-              {/* <a
-                href="#"
-                className="button"
-                id="remove-sl-button"
-                onClick={() =>
-                  handleAddorRemoveToStudyList(
-                    false,
-                    props.signedInUser.user_id,
-                    props.recommendation.recommendation_id,
-                    props.setStudyList
-                  )
-                }
-              > */}
-              {/* <span className="icon">+</span>
-                <span className="text">Add to study list</span>
-              </a> */}
 
               {props.signedInUser.user_id === props.recommendation.user_id && (
                 <button
                   className="btn btn-danger delete-rec-button"
+                  id="deleteRecButton"
                   onClick={() => {
                     handleDeleteRecommendation(
                       props.recommendation.recommendation_id,
@@ -139,7 +124,7 @@ export default function Recommendation(
                     );
                   }}
                 >
-                  <i className="fa fa-trash-o"></i>
+                  <i className="fas fa-trash"></i>
                 </button>
               )}
             </div>
@@ -147,12 +132,13 @@ export default function Recommendation(
         </div>
       </div>
       <div className="row">
-        <h4 className="col-3 searchbar-test" id="recommendation-author">
-          {props.recommendation.author && props.recommendation.author}
-        </h4>
-        <h5 className="col-2" id="recommendation-content">
-          {props.recommendation.content}
-        </h5>
+        <div className="col-5 author-and-content">
+          <h4 className=" searchbar-test mr-2" id="recommendation-author">
+            {props.recommendation.author && props.recommendation.author}
+          </h4>
+          <h4 id="recommendation-content">({props.recommendation.content})</h4>
+        </div>
+
         <p
           className="offset-4 col-3 text-right mt-2 "
           id="recommendation-stage"
@@ -187,13 +173,21 @@ export default function Recommendation(
           ))}
         </div>
         <div className="offset-1 col-2">
-          <h5 id="recommendation-username">👤 {recommenderName}</h5>
+          <h5 id="recommendation-username">
+            <i
+              className="fas fa-user-alt mr-2"
+              style={{ fontSize: "24px" }}
+            ></i>
+            {recommenderName}
+          </h5>
           <p id="recommendation-date">
+            <i className="fa fa-calendar-o mr-2"></i>
+
             {dateFormatter(props.recommendation.time)}
           </p>
         </div>
       </div>
-      <div className="row">
+      <div className="row mr-2">
         {comments.length > 1 ? (
           <button
             className="col-3"
@@ -210,7 +204,7 @@ export default function Recommendation(
             {seeCommentsPressed ? "Hide comments" : `See more comments`}
           </button>
         ) : (
-          <div className="col-3">
+          <div className="col-3 text-left">
             {comments.length === 0 && (
               <p className="ml-5">
                 <strong>No comments</strong>
@@ -220,14 +214,14 @@ export default function Recommendation(
         )}
 
         <h5
-          className="offset-4 col-2 text-right"
+          className="offset-5 col-2 text-right"
           id="recommendation-like-count"
         >
           Sorciness: {sorciness}
         </h5>
         {props.signedInUser.user_id !== 0 ? (
           usersCommentOnPost.length === 0 ? (
-            <div className="offset-1 col-2">
+            <div className="offset-1 col-1">
               <button
                 className="btn btn-custom mb-2"
                 type="button"
@@ -249,7 +243,7 @@ export default function Recommendation(
           <p>Sign in to comment</p>
         )}
       </div>
-      {usersCommentOnPost.length === 0 && (
+      {usersCommentOnPost.length === 0 && props.signedInUser.user_id !== 0 && (
         <div className="collapse row" id={createCommentIDName}>
           <div className="card card-body">
             <textarea

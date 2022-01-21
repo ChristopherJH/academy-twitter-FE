@@ -191,7 +191,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                             props.users
                           ).includes(false) ? (
                             <button
-                              className="btn btn-custom"
+                              className="btn btn-custom signup-button"
                               onClick={() => {
                                 setShowEmptyAlert(false);
                                 setShowUniqueAlert(false);
@@ -213,7 +213,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                             </button>
                           ) : (
                             <button
-                              className="btn btn-custom"
+                              className="btn btn-custom signup-button"
                               data-dismiss="modal"
                               onClick={() => {
                                 setShowEmptyAlert(false);
@@ -244,23 +244,23 @@ export default function SignIn(props: SignInProps): JSX.Element {
                           </div>
                         )}
 
-                        <div className="form-check form-switch">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="facultySwitch"
-                            onChange={(e) =>
-                              setSignUpContent({
-                                ...signUpContent,
-                                is_faculty: !signUpContent.is_faculty,
-                              })
-                            }
-                          />
+                        <div className="faculty-checkbox-div mt-1">
                           <label
-                            className="form-check-label"
+                            className="form-check-label container"
                             htmlFor="facultySwitch"
                           >
                             Faculty
+                            <input
+                              type="checkbox"
+                              id="facultySwitch"
+                              onChange={(e) =>
+                                setSignUpContent({
+                                  ...signUpContent,
+                                  is_faculty: !signUpContent.is_faculty,
+                                })
+                              }
+                            />
+                            <span className="checkmark"></span>
                           </label>
                         </div>
                       </div>

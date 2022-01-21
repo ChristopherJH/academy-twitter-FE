@@ -4,6 +4,7 @@ import TagType from "../types/TagType";
 import UserType from "../types/UserType";
 import RecommendationType from "../types/RecommendationType";
 import Form from "./Form";
+import { FormType } from "../types/FormType";
 
 const defaultForm = {
   title: "",
@@ -26,18 +27,6 @@ interface CreateRecommendationProps {
   setTags: (input: TagType[]) => void;
 }
 
-export interface FormType {
-  title: string;
-  author: string;
-  url: string;
-  description: string;
-  content: string;
-  recommended_description: string;
-  recommended: string;
-  stage_id: number;
-  user_id: number;
-}
-
 export default function CreateRecommendation(
   props: CreateRecommendationProps
 ): JSX.Element {
@@ -50,7 +39,7 @@ export default function CreateRecommendation(
         <>
           <button
             type="button"
-            className="btn btn-outline-light"
+            className="btn btn-outline-light mr-2"
             id="create-button"
             data-toggle="modal"
             data-backdrop="static"

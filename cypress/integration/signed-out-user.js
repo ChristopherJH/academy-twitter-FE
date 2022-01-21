@@ -34,7 +34,7 @@ describe("Signed out user features work", () => {
     cy.get("#searchbar").type("github");
     cy.get(".recommendation").should("have.length", 0);
     cy.get("#view-all-button").click();
-    cy.get(".recommendation").should("have.length", 3);
+    cy.get(".recommendation").should("have.length", 4);
   });
 
   it("renders a tags dropdown which filters recommendations for the selected tag", () => {
@@ -42,15 +42,8 @@ describe("Signed out user features work", () => {
     cy.get("#tag-dropdown-select").select("back-end");
     cy.get(".recommendation").should("have.length", 2);
   });
-
-  it("renders a sign-in button", () => {
-    cy.get("#signin-button").should("exist");
-  });
   it("renders a view all button", () => {
     cy.get("#view-all-button").should("exist");
-  });
-  it("doesn't render sign out button", () => {
-    cy.get("#signout-button").should("not.exist");
   });
   it("doesn't render view study list button", () => {
     cy.get("#view-study-list-button").should("not.exist");

@@ -117,7 +117,7 @@ describe("Create a recommendation modal works", () => {
     cy.get(".modal-body > :nth-child(2) > .tag-dropdown > .form-select").select(
       "website"
     );
-    cy.get("#tag-buttons").find(".tag-button").should("have.length", 2); //not working
+    cy.get("#tag-buttons").find(".tag-button").should("have.length", 2);
     cy.get("#tag-buttons").contains("website");
   });
   it("adding a duplicate tag via the drop down shouldn't add the tag twice", () => {
@@ -158,7 +158,7 @@ describe("Delete a recommendation modal works", () => {
     cy.get("#modal-signin-button").click();
   });
   it("clicking the trashcan will delete the recommendation", () => {
-    cy.get(".btn-danger").click();
-    cy.get(".recommendation").should("have.length", 3); //make sure the 3 permanent recommendations are there
+    cy.get("#deleteRecButton").click();
+    cy.get(".recommendation").should("have.length", 4); //make sure the 4 permanent recommendations are there
   });
 });

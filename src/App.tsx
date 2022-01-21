@@ -8,16 +8,16 @@ import { config } from "dotenv";
 import UserType from "./types/UserType";
 import "./App.css";
 import NavigationBar from "./components/NavigationBar";
-import SignIn from "./components/SignIn";
 import StudyListType from "./types/StudyListType";
-import CreateRecommendation from "./components/CreateRecommendation";
 import studyListFilter from "./utils/filters/studyListFilter";
+import { Header } from "./components/Header";
 
 config();
 
 const apiBaseURL = process.env.REACT_APP_API_BASE;
 
 function App(): JSX.Element {
+  // States used
   const [recommendations, setRecommendations] = useState<RecommendationType[]>(
     []
   );
@@ -31,7 +31,7 @@ function App(): JSX.Element {
   const [studyListClicked, setStudyListClicked] = useState(false);
   const [dropDownArray, setDropDownArray] = useState<string[]>([]);
   const [signedInUser, setSignedInUser] = useState(() => {
-    // getting stored value
+    // getting stored value if exists
     const saved = localStorage.getItem("signedInUser");
     if (saved) {
       return JSON.parse(saved);
@@ -44,6 +44,7 @@ function App(): JSX.Element {
     }
   });
 
+  // Once a user signs in, filter a users study list
   useEffect(() => {
     function updateStudyList() {
       setUserStudyList(studyListFilter(studyList, recommendations));
@@ -51,6 +52,7 @@ function App(): JSX.Element {
     updateStudyList();
   }, [studyList, recommendations]);
 
+  // Get tags, users, stages and recommendations
   async function getAllData() {
     if (typeof apiBaseURL === "string") {
       const recommendationsResponse = await axios.get(
@@ -66,6 +68,7 @@ function App(): JSX.Element {
     }
   }
 
+  // Get data on first load
   useEffect(() => {
     console.log("getAllData called");
     getAllData();
@@ -73,37 +76,21 @@ function App(): JSX.Element {
 
   return (
     <div className="main">
-      <div className="header">
-        {!studyListClicked ? (
-          <h1 id="page-title">✨ Resorcery ✨</h1>
-        ) : (
-          <h1 id="study-list-title">✨ Study List ✨</h1>
-        )}
-        <div className="user-space">
-          <CreateRecommendation
-            signedInUser={signedInUser}
-            tags={tags}
-            stages={stages}
-            setRecommendations={setRecommendations}
-            recommendations={recommendations}
-            setTags={setTags}
-          />
-
-          {signedInUser.user_id !== 0 && (
-            <h5 id="users-name">👤{signedInUser.name}</h5>
-          )}
-
-          <SignIn
-            users={users}
-            setUsers={setUsers}
-            setSignedInUser={setSignedInUser}
-            signedInUser={signedInUser}
-            studyList={studyList}
-            setStudyList={setStudyList}
-            setStudyListClicked={setStudyListClicked}
-          />
-        </div>
-      </div>
+      <Header
+        signedInUser={signedInUser}
+        tags={tags}
+        stages={stages}
+        setRecommendations={setRecommendations}
+        recommendations={recommendations}
+        setTags={setTags}
+        users={users}
+        setUsers={setUsers}
+        setSignedInUser={setSignedInUser}
+        studyList={studyList}
+        setStudyList={setStudyList}
+        studyListClicked={studyListClicked}
+        setStudyListClicked={setStudyListClicked}
+      />
       <NavigationBar
         searchText={searchText}
         setSearchText={setSearchText}
@@ -119,8 +106,8 @@ function App(): JSX.Element {
         dropDownArray={dropDownArray}
         setDropDownArray={setDropDownArray}
       />
-      {/* If recommendations has been loaded */}
-      {recommendations.length > 0 && (
+      {/* Has recommendations been loaded */}
+      {recommendations.length > 0 ? (
         <Recommendations
           recommendations={!studyListClicked ? recommendations : userStudyList}
           tags={tags}
@@ -135,6 +122,10 @@ function App(): JSX.Element {
           dropDownArray={dropDownArray}
           setDropDownArray={setDropDownArray}
         />
+      ) : (
+        <p className="loading-recommendations-message">
+          Loading recommendations...
+        </p>
       )}
       {/* If user has clicked study list and it is empty */}
       {studyListClicked && userStudyList.length === 0 && (

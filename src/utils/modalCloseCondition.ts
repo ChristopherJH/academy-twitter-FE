@@ -1,4 +1,4 @@
-import { FormType } from "../components/CreateRecommendation";
+import { FormType } from "../types/FormType";
 import RecommendationType from "../types/RecommendationType";
 
 export default function modalCloseCondition(
