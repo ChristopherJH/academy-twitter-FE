@@ -1,6 +1,5 @@
 # Resorcery
-Website that uses a dog API to vote for different breeds of dog.
-
+A resource sharing web application for Academy scholars. Users can interact with recommendations posted by other users as well as submit their own.
 ## Table of contents
 1. Technologies
 2. Setup
