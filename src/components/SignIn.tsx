@@ -192,6 +192,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                           ).includes(false) ? (
                             <button
                               className="btn btn-custom signup-button"
+                              id="signup-button-no-dismiss"
                               onClick={() => {
                                 setShowEmptyAlert(false);
                                 setShowUniqueAlert(false);
@@ -214,6 +215,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                           ) : (
                             <button
                               className="btn btn-custom signup-button"
+                              id="signup-button-dismiss"
                               data-dismiss="modal"
                               onClick={() => {
                                 setShowEmptyAlert(false);
@@ -228,7 +230,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                         {showUniqueAlert && (
                           <div
                             className="alert alert-danger"
-                            id="title-alert"
+                            id="unique-name-alert"
                             role="alert"
                           >
                             User already exists
@@ -237,7 +239,7 @@ export default function SignIn(props: SignInProps): JSX.Element {
                         {showEmptyAlert && (
                           <div
                             className="alert alert-danger"
-                            id="title-alert"
+                            id="empty-name-alert"
                             role="alert"
                           >
                             User cannot be empty
