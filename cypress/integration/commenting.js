@@ -7,11 +7,6 @@ describe("Comment feature works correctly", () => {
   });
 
   it("creating a dummy post for testing", () => {
-    // cy.intercept({
-    //   method: "DELETE",
-    //   url: "localhost:4000/comments",
-    // }).as("deleteComments");
-    // cy.wait("@deleteComments");
     cy.get("#create-button").click();
     cy.get("#resource-name").clear();
     cy.get("#resource-name").type("Google");
@@ -35,6 +30,14 @@ describe("Comment feature works correctly", () => {
     cy.get(".stage-dropdown > .form-select").select("8");
     cy.get(".modal-footer > .btn").click();
     cy.wait(1000);
+  });
+
+  it("deleting a comment using cy.request", () => {
+    cy.get(".recommendation").get("#add-comment-button").click();
+    cy.get("#comment-input").click().type("stay away");
+    cy.get("#veto-button").click();
+    cy.request("DELETE", "localhost:4000/comments");
+    cy.get(".comment-div").should("have.length", 0);
   });
 
   it("Can post a veto comment and see it", () => {

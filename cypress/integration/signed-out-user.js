@@ -7,6 +7,13 @@ describe("Signed out user features work", () => {
     cy.get("#page-title").should("exist");
   });
 
+  it("renders a sign-in button", () => {
+    cy.get("#signin-button").should("exist");
+  });
+  it("doesn't render sign out button", () => {
+    cy.get("#signout-button").should("not.exist");
+  });
+
   it("renders a search bar which filters recommendations down to 2 matches", () => {
     cy.get("#searchbar").should("exist");
     cy.get("#searchbar").clear();
