@@ -1,3 +1,4 @@
+import { FaUserAlt, FaTrashAlt } from "react-icons/fa";
 import CommentType from "../types/CommentType";
 import RecommendationType from "../types/RecommendationType";
 import UserType from "../types/UserType";
@@ -16,16 +17,20 @@ export default function Comment(props: CommentProps): JSX.Element {
   return (
     <div className="comment-div">
       <div className="comment-header">
-        <h5 className="comment-name-rating">
-          <i className="fas fa-user-alt mr-2" style={{ fontSize: "24px" }}></i>
-          {props.comment.name}
-          {props.comment.is_faculty && " (Faculty)"}
-          {props.comment.is_like ? (
-            <p className="comment-upvoted ml-2">⬆️</p>
-          ) : (
-            <p className="comment-downvoted ml-2">⬇️</p>
-          )}
-        </h5>
+        <div className="d-flex">
+          <h5 className="mr-2">
+            <FaUserAlt />
+          </h5>
+          <h5 className="comment-name-rating">
+            {props.comment.name}
+            {props.comment.is_faculty && " (Faculty)"}
+            {props.comment.is_like ? (
+              <p className="comment-upvoted ml-2">⬆️</p>
+            ) : (
+              <p className="comment-downvoted ml-2">⬇️</p>
+            )}
+          </h5>
+        </div>
 
         {props.signedInUser.user_id === props.comment.user_id && (
           <button
@@ -39,7 +44,7 @@ export default function Comment(props: CommentProps): JSX.Element {
               );
             }}
           >
-            <i className="fas fa-trash"></i>
+            <FaTrashAlt />
           </button>
         )}
       </div>

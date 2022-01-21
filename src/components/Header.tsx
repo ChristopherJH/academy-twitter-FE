@@ -5,6 +5,7 @@ import TagType from "../types/TagType";
 import StageType from "../types/StageType";
 import RecommendationType from "../types/RecommendationType";
 import StudyListType from "../types/StudyListType";
+import { FaUserAlt } from "react-icons/fa";
 
 interface HeaderProps {
   signedInUser: UserType;
@@ -34,13 +35,12 @@ export function Header(props: HeaderProps): JSX.Element {
 
       <div className="user-space">
         {props.signedInUser.user_id !== 0 && (
-          <h5 id="users-name">
-            <i
-              className="fas fa-user-alt mr-2"
-              style={{ fontSize: "24px" }}
-            ></i>
-            Hello, {props.signedInUser.name}
-          </h5>
+          <div className="d-flex">
+            <h5 className="mr-2" id="user-header-icon">
+              <FaUserAlt />
+            </h5>
+            <h5 id="users-name">Hello, {props.signedInUser.name}</h5>
+          </div>
         )}
         <CreateRecommendation
           signedInUser={props.signedInUser}
